@@ -14,6 +14,7 @@ This prompt is designed to give an AI agent a comprehensive understanding of the
 - **Architecture**: Controller-Service-Repository (CSR) pattern for maintainable, SaaS-grade code.
 - **Security**: JWT-based authentication, Bcrypt password hashing.
 - **Infrastructure**: Dockerized (Multi-stage builds), Nginx Reverse Proxy with SSL termination.
+  - **Ports**: 8080 (HTTP), 8443 (HTTPS), 27018 (MongoDB).
 
 ---
 

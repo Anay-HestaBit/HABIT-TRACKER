@@ -39,8 +39,8 @@ class ProgressService {
 
   async getHeatmapData(userId) {
     logger.info(`Fetching heatmap data for user: ${userId}`);
-    // For heatmap, we usually want more data, say 90 days
-    return ProgressRepository.findStats(userId, 90);
+    // For heatmap, we usually want more data, say 365 days
+    return ProgressRepository.findStats(userId, 365);
   }
 }
 

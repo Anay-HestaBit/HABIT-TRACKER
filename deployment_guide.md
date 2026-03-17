@@ -31,7 +31,10 @@ From the root directory:
 ```bash
 docker-compose up --build
 ```
-The application will be available at [https://localhost](https://localhost).
+The application will be available at:
+- **HTTPS**: [https://localhost:8443](https://localhost:8443)
+- **HTTP**: [http://localhost:8080](http://localhost:8080)
+- **MongoDB**: `localhost:27018` (for Compass)
 
 ---
 

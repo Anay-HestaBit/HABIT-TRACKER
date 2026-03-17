@@ -169,7 +169,7 @@ const Progress = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="glass p-8 rounded-[2.5rem] border border-white/5"
+        className="glass p-8 rounded-[2.5rem] border border-white/5 overflow-x-auto"
       >
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
@@ -180,8 +180,8 @@ const Progress = () => {
           </div>
           <div className="flex items-center gap-2 text-xs font-bold text-muted-foreground uppercase">
             <span>Less</span>
-            <div className="flex gap-1">
-              {[0.1, 0.3, 0.6, 1].map(o => (
+            <div className="flex gap-1 mr-2">
+              {[0.05, 0.3, 0.6, 0.9].map(o => (
                 <div key={o} className="w-3 h-3 rounded-sm bg-primary" style={{ opacity: o }} />
               ))}
             </div>
@@ -189,22 +189,73 @@ const Progress = () => {
           </div>
         </div>
         
-        <div className="grid grid-cols-7 sm:grid-cols-14 md:grid-cols-28 lg:grid-cols-52 gap-2">
-          {[...Array(52 * 7)].map((_, i) => {
-            const dateStr = new Date(new Date().setDate(new Date().getDate() - (52 * 7 - i))).toISOString().split('T')[0];
-            const dataPoint = heatmapData.find(d => d.date.split('T')[0] === dateStr);
-            const intensity = dataPoint ? (dataPoint.habitsCompleted / (dataPoint.totalHabits || 1)) : 0;
-            const opacity = dataPoint ? (0.2 + intensity * 0.8) : 0.05;
-            
-            return (
-              <div 
-                key={i} 
-                className="aspect-square rounded-sm bg-primary transition-all hover:scale-150 cursor-pointer" 
-                style={{ opacity }}
-                title={`${dateStr}: ${dataPoint?.habitsCompleted || 0} habits`}
-              />
-            );
-          })}
+        <div className="min-w-[800px]">
+          {/* Month Labels */}
+          <div className="flex mb-2 text-[10px] font-black uppercase text-muted-foreground tracking-widest ml-10">
+            {(() => {
+              const months = [];
+              const today = new Date();
+              for (let i = 11; i >= 0; i--) {
+                const date = new Date(today.getFullYear(), today.getMonth() - i, 1);
+                months.push(date.toLocaleString('default', { month: 'short' }));
+              }
+              return months.map((m, i) => (
+                <div key={i} className="flex-1 text-center">{m}</div>
+              ));
+            })()}
+          </div>
+
+          <div className="flex gap-4">
+            {/* Day Labels */}
+            <div className="flex flex-col justify-between text-[10px] font-black uppercase text-muted-foreground h-[110px] py-1">
+              <span>Mon</span>
+              <span>Wed</span>
+              <span>Fri</span>
+            </div>
+
+            {/* Heatmap Grid */}
+            <div className="flex-1 grid grid-flow-col grid-rows-7 gap-1">
+              {(() => {
+                const cells = [];
+                const today = new Date();
+                const totalDays = 52 * 7;
+                
+                // Align to Monday
+                const startOffset = (today.getDay() + 6) % 7;
+                const startDate = new Date(today);
+                startDate.setDate(today.getDate() - totalDays + startOffset);
+
+                for (let i = 0; i < totalDays; i++) {
+                  const d = new Date(startDate);
+                  d.setDate(startDate.getDate() + i);
+                  const dateStr = d.toISOString().split('T')[0];
+                  
+                  const dataPoint = heatmapData.find(dp => dp.date.startsWith(dateStr));
+                  const habitsDone = dataPoint?.habitsCompleted || 0;
+                  const total = dataPoint?.totalHabits || 1;
+                  const ratio = habitsDone / total;
+                  
+                  let opacity = 0.05;
+                  if (habitsDone > 0) {
+                    opacity = 0.2 + (Math.min(habitsDone, 4) / 4) * 0.8;
+                  }
+
+                  cells.push(
+                    <div
+                      key={i}
+                      className="w-3 h-3 rounded-sm bg-primary transition-all hover:scale-150 cursor-pointer relative group"
+                      style={{ opacity }}
+                    >
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2 py-1 bg-popover text-popover-foreground text-[10px] rounded opacity-0 group-hover:opacity-100 whitespace-nowrap z-10 pointer-events-none border border-border shadow-xl font-bold">
+                        {habitsDone} habits on {d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                      </div>
+                    </div>
+                  );
+                }
+                return cells;
+              })()}
+            </div>
+          </div>
         </div>
       </motion.div>
     </div>
