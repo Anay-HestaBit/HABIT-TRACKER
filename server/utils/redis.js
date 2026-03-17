@@ -11,15 +11,35 @@ if (redisUrl.includes(' -u ')) {
   redisUrl = parts[parts.length - 1];
 }
 
-const redisConnection = new Redis(redisUrl, {
+const isTLS = redisUrl.startsWith('rediss://');
+
+const redisOptions = {
   maxRetriesPerRequest: null,
-  connectTimeout: 10000,
-  keepAlive: 10000,
+  connectTimeout: 15000,
+  keepAlive: 15000,
+  enableReadyCheck: true,
   retryStrategy: (times) => {
-    const delay = Math.min(times * 50, 2000);
+    // Reconnect more aggressively but with a cap
+    const delay = Math.min(times * 100, 3000);
     return delay;
   },
-});
+  reconnectOnError: (err) => {
+    const targetError = 'READONLY';
+    if (err.message.includes(targetError)) {
+      return true; // Reconnect on READONLY error
+    }
+    return false;
+  },
+};
+
+// Upstash and some cloud providers REQUIRE tls to be set explicitly for rediss://
+if (isTLS) {
+  redisOptions.tls = {
+    rejectUnauthorized: false, // Allows self-signed or specific cloud certs
+  };
+}
+
+const redisConnection = new Redis(redisUrl, redisOptions);
 
 redisConnection.on('connect', () => {
   logger.info('Connected to Redis');
