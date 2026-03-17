@@ -1,0 +1,10 @@
+node_modules
+.env
+dist
+.DS_Store
+*.log
+nginx/certs/*.pem
+client/dist
+server/node_modules
+client/node_modules
+.gemini
