@@ -19,6 +19,11 @@ import Reflections from './pages/Reflections';
 import UserGuide from './pages/UserGuide';
 import Settings from './pages/Settings';
 import Landing from './pages/Landing';
+import VerifyEmail from './pages/VerifyEmail';
+import VerifyOTP from './pages/VerifyOTP';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
+import Profile from './pages/Profile';
 
 function App() {
   const location = useLocation();
@@ -31,6 +36,10 @@ function App() {
         <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Landing />} />
         <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
         <Route path="/signup" element={user ? <Navigate to="/dashboard" /> : <Signup />} />
+        <Route path="/verify-email" element={<VerifyEmail />} />
+        <Route path="/verify-otp" element={<VerifyOTP />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         {/* Private Routes */}
         <Route path="/dashboard" element={
@@ -71,6 +80,11 @@ function App() {
         <Route path="/settings" element={
           <ProtectedRoute>
             <Layout><Settings /></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/profile" element={
+          <ProtectedRoute>
+            <Layout><Profile /></Layout>
           </ProtectedRoute>
         } />
 

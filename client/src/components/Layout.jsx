@@ -86,15 +86,25 @@ const Layout = ({ children }) => {
         </nav>
 
         <div className="mt-auto pt-6 border-t border-secondary/50 space-y-4">
-          <div className="flex items-center gap-3 px-3 py-2 rounded-xl glass-light">
-            <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-primary font-bold">
-              {user?.username?.charAt(0).toUpperCase()}
+          <Link 
+            to="/profile"
+            className="flex items-center gap-3 px-3 py-2 rounded-xl glass-light hover:bg-secondary/20 transition-all cursor-pointer group"
+          >
+            <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-primary font-bold overflow-hidden relative">
+              {user?.profilePicUrl ? (
+                <img src={user.profilePicUrl} alt="Avatar" className="w-full h-full object-cover" />
+              ) : (
+                user?.username?.charAt(0).toUpperCase()
+              )}
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <Settings size={14} className="text-white" />
+              </div>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold truncate">{user?.username}</p>
-              <p className="text-xs text-muted-foreground">LVL {user?.level} Seedling</p>
+              <p className="text-sm font-semibold truncate">{user?.username || 'User'}</p>
+              <p className="text-xs text-muted-foreground">LVL {user?.level || 1} Seedling</p>
             </div>
-          </div>
+          </Link>
           <button 
             onClick={handleLogout}
             className="flex items-center gap-3 w-full px-4 py-3 rounded-xl text-destructive hover:bg-destructive/10 transition-all font-medium"

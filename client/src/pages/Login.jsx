@@ -21,8 +21,12 @@ const Login = () => {
     setIsLoading(true);
 
     try {
-      await login(email, password);
-      navigate(from, { replace: true });
+      const data = await login(email, password);
+      if (data.status === 'otp_required') {
+        navigate('/verify-otp', { state: { email, otp: data.otp } });
+      } else {
+        navigate(from, { replace: true });
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Invalid email or password');
     } finally {
@@ -31,10 +35,10 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col justify-center items-center p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-[#0f172a] flex flex-col justify-center items-center p-6 relative overflow-hidden">
       {/* Background Decor */}
-      <div className="absolute top-[-20%] right-[-10%] w-[60%] h-[60%] bg-primary/10 rounded-full blur-[150px]" />
-      <div className="absolute bottom-[-10%] left-[-20%] w-[50%] h-[50%] bg-accent/10 rounded-full blur-[120px]" />
+      <div className="absolute top-[-20%] right-[-10%] w-[60%] h-[60%] bg-blue-500/10 rounded-full blur-[150px]" />
+      <div className="absolute bottom-[-10%] left-[-20%] w-[50%] h-[50%] bg-indigo-500/10 rounded-full blur-[120px]" />
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -82,7 +86,7 @@ const Login = () => {
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <label className="text-sm font-bold text-muted-foreground ml-1 uppercase letter tracking-wider">Password</label>
-                <button type="button" className="text-xs font-bold text-primary hover:text-accent transition-colors uppercase tracking-wider">Forgot?</button>
+                <Link to="/forgot-password" size="sm" className="text-xs font-bold text-primary hover:text-accent transition-colors uppercase tracking-wider">Forgot?</Link>
               </div>
               <div className="relative group">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" size={20} />

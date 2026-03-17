@@ -37,10 +37,11 @@ class ProgressService {
     return stats.reverse();
   }
 
-  async getHeatmapData(userId) {
-    logger.info(`Fetching heatmap data for user: ${userId}`);
-    // For heatmap, we usually want more data, say 365 days
-    return ProgressRepository.findStats(userId, 365);
+  async getHeatmapData(userId, year) {
+    logger.info(`Fetching heatmap data for user: ${userId} for year: ${year}`);
+    const startDate = new Date(year, 0, 1);
+    const endDate = new Date(year, 11, 31);
+    return ProgressRepository.findByUserAndDateRange(userId, startDate, endDate);
   }
 }
 

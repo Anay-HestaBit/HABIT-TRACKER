@@ -1,90 +1,68 @@
 # 🌍 Daily Habit Journey
 
-A production-ready full-stack gamified habit tracking platform where your consistency visually builds and evolves a digital world.
+A premium, production-ready SaaS platform for gamified habit tracking. Build consistency through a immersive 3D-evolving world, AI-driven guidance, and elite-grade security.
 
-## 🚀 Features
+## 🚀 Key SaaS Features
 
-- **🎮 Gamified Progression**: Earn XP, level up, and unlock 8 unique badges.
-- **🌳 Evolving Visual World**: Procedurally generated SVG tree that grows branches and leaves based on your habits.
-- **🔐 Secure Auth**: JWT-based authentication with HTTP-only cookies and bcrypt hashing.
-- **📊 Advanced Analytics**: Interactive charts (Recharts) and a consistency heatmap.
-- **📔 Reflection Mode**: Daily mindful journaling with mood tracking.
-- **🔥 Streak Logic**: Smart streak calculation with "Streak Shield" protection.
-- **✨ Premium UI**: Dark mode default, glassmorphism, and smooth Framer Motion animations.
+- **🎮 3D World Evolution**: Watch your digital planet grow from a seedling to a lush ecosystem based on your consistency.
+- **🧘 Deep Work Mode**: Integrated precision Pomodoro timer to help you focus on your "Deep Work" habits.
+- **🤖 AI Habit Mentor**: Intelligent habit suggestions and consistency tips tailored to your progress.
+- **🛡️ Streak Shields**: Protect your master streaks during emergencies (Unlocked at Level 5).
+- **📊 Neural Analytics**: Month-by-month consistency boards and yearly archives.
+- **🔐 Elite Security**: Multi-Factor Authentication (OTP), email verification, and CSRF protection.
 
-## 🛠️ Tech Stack
+## 🛠️ Modern Tech Stack
 
-- **Frontend**: React (Vite), Tailwind CSS v4, Framer Motion, Recharts, Lucide Icons.
-- **Backend**: Node.js, Express, MongoDB, JWT, Bcrypt.
-- **Security**: Helmet, Rate Limiting, Input Validation (express-validator), CORS.
+- **Frontend**: React 19, Framer Motion, Recharts, Tailwind CSS v4.
+- **Backend**: Node.js, Express, MongoDB.
+- **Distributed Architecture**: Redis (Broker), BullMQ (Workers), Cloudinary (Stateless Storage).
+- **Monitoring**: Bull-board for background job visibility.
 
 ---
 
-## 💻 Local Setup
+## 💻 Local Setup (Development)
 
 ### 1. Prerequisites
-- Node.js (v18+)
-- MongoDB running locally (port 27017) or a MongoDB Atlas URI.
+- Node.js v20+
+- Docker & Docker Compose
+- Redis (Optional, if not using Docker)
 
-### 2. Clone and Install
-```bash
-# Clone the repository
-git clone <your-repo-url>
-cd Habbit-Tracker
-
-# Install Backend Dependencies
-cd server
-npm install
-
-# Install Frontend Dependencies
-cd ../client
-npm install
-```
-
-### 3. Environment Variables
+### 2. Configure Environment
 Create a `.env` file in the `server` directory:
 ```env
-MONGODB_URI=mongodb://localhost:27017/daily-habit-journey
-JWT_SECRET=your_super_secret_key
-PORT=5000
-CLIENT_URL=http://localhost:5173
+MONGODB_URI=mongodb://localhost:27018/habitjourney
+JWT_SECRET=your_secret
+REDIS_URL=redis://localhost:6379
+CLOUDINARY_CLOUD_NAME=your_name
+CLOUDINARY_API_KEY=your_key
+CLOUDINARY_API_SECRET=your_secret
+SMTP_HOST=...
+SMTP_USER=...
+SMTP_PASS=...
 ```
 
-### 4. Run the Application
-Start both the backend and frontend in separate terminals:
-
-**Backend:**
+### 3. Run with Docker (Recommended)
 ```bash
-cd server
-npm run dev
+docker-compose up --build
 ```
-
-**Frontend:**
-```bash
-cd client
-npm run dev
-```
-
-The app will be available at `http://localhost:5173`.
+The app will be available at `https://localhost:8443` (HTTPS) or `http://localhost:8080`.
 
 ---
 
-## 🧭 MongoDB Compass Connection
+## 📦 Deployment & Scaling
 
-1. Open **MongoDB Compass**.
-2. Paste the connection string: `mongodb://localhost:27017`
-3. Click **Connect**.
-4. You will see the `daily-habit-journey` database once you start creating habits or users.
+### Statless Horizontal Scaling
+The application is designed to be **Stateless**. You can spin up multiple server instances behind a load balancer. 
+- All async tasks (Emails, Reminders) are processed by background workers.
+- Session-less (JWT) Authentication.
+- All uploads go to Cloudinary (No local disk dependency).
+
+### Production Checklist
+1. Set `NODE_ENV=production`.
+2. Configure `RedisStore` for distributed rate limiting (Enabled by default).
+3. Access queue metrics at `/admin/queues`.
 
 ---
 
-## 📦 Deployment Instructions
-
-### Backend (Render / Heroku)
-1. Add `NODE_ENV=production` to environment variables.
-2. Set `MONGODB_URI` to your Atlas connection string.
-3. The server is configured to serve static frontend files if `NODE_ENV` is `production`.
-
-### Frontend (Vercel)
-1. Set `VITE_API_URL` to your backend URL.
-2. Run `npm run build` to generate the `dist` folder.
+## 🧭 Support
+Built with ❤️ by the Anay Gupta.

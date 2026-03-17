@@ -1,65 +1,68 @@
-# 🚀 Deployment & Setup Guide: Daily Habit Journey
+# 🚀 Professional Deployment Guide
 
-This guide will help you set up the application locally using Docker and Nginx with SSL, as well as prepare for production deployment on Vercel and Render.
+This guide details how to deploy the **Daily Habit Journey** in a production-ready, distributed environment.
 
 ---
 
-## 🛠️ Local Setup (Docker + SSL)
+## 🏗️ Distributed Architecture Overview
+The application uses a **Producer-Worker** model to ensure high availability and responsiveness.
+- **API Server**: Handles requests, generates JWTs, and producers jobs.
+- **Workers**: Process background tasks like OTP emails and daily reminders.
+- **Redis**: Acts as the central message broker and rate-limiter store.
+- **Cloudinary**: Serves as the stateless storage for all user media.
 
-### 1. Requirements
-- Docker & Docker Compose
-- [mkcert](https://github.com/FiloSottile/mkcert) (for local SSL)
+---
 
-### 2. Generate SSL Certificates
-We use `mkcert` to create trusted certificates for `localhost`.
-```bash
-# Install mkcert (if not already)
-# On Ubuntu: sudo apt install mkcert
-# On Mac: brew install mkcert
+## ☁️ Cloud Infrastructure Requirements
 
-# Initialize mkcert (one-time setup)
-mkcert -install
+### 1. Database (MongoDB)
+Use **MongoDB Atlas** or a managed Mongo service. 
+- Ensure you have the `MONGODB_URI` connection string.
+- Enable IP allow-listing for your server instances.
 
-# Generate certificates in the project folder
-cd Habbit-Tracker/nginx/certs
-mkcert localhost
-# This will create 'localhost.pem' and 'localhost-key.pem'
+### 2. Cache & Broker (Redis)
+Use **Redis Cloud**, **AWS ElastiCache**, or a dedicated Redis container.
+- `REDIS_URL` is required for BullMQ and Rate Limiting.
+
+### 3. Media Storage (Cloudinary)
+Sign up for a free/pro account at [Cloudinary](https://cloudinary.com/).
+- Populate `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET`.
+
+---
+
+## 🐳 Docker Deployment (The "Gold Standard")
+
+### Configuration
+Update your `docker-compose.yml` environment section:
+```yaml
+server:
+  environment:
+    - NODE_ENV=production
+    - MONGODB_URI=mongodb://...
+    - REDIS_URL=redis://...
+    - CLOUDINARY_URL=cloudinary://...
 ```
 
-### 3. Run the Application
-From the root directory:
+### Deployment Commands
 ```bash
-docker-compose up --build
+# Build and start the production stack
+docker-compose -f docker-compose.yml up -d --build
+
+# Scale the API server (if needed)
+docker-compose up -d --scale server=3
 ```
-The application will be available at:
-- **HTTPS**: [https://localhost:8443](https://localhost:8443)
-- **HTTP**: [http://localhost:8080](http://localhost:8080)
-- **MongoDB**: `localhost:27018` (for Compass)
 
 ---
 
-## ☁️ Production Deployment
-
-### 1. Backend (Render / Heroku)
-- **Service Type**: Web Service (Node.js)
-- **Environment Variables**:
-  - `MONGODB_URI`: Your MongoDB Atlas connection string.
-  - `JWT_SECRET`: A long, secure random string.
-  - `NODE_ENV`: `production`
-- **Build Command**: `cd server && npm install`
-- **Start Command**: `cd server && node server.js`
-
-### 2. Frontend (Vercel / Netlify)
-- **Build Command**: `npm run build`
-- **Output Directory**: `dist`
-- **Environment Variables**:
-  - `VITE_API_BASE_URL`: The URL of your deployed backend (e.g., `https://api.yourdomain.com`).
-- **Configuration**: Ensure you add a `vercel.json` (or similar) to handle SPA routing if not using a framework like Next.js. Vercel automatically detects Vite apps.
+## 🛡️ Security Posture
+1. **SSL/TLS**: The provided Nginx config supports SSL. Ensure you provide valid certificates in `nginx/certs`.
+2. **CSRF**: Automatic protection is enabled. Ensure `CLIENT_URL` is set to your production domain.
+3. **MFA**: Email-based OTP is mandatory for all logins.
+4. **Queue Monitoring**: Accessible at `yourdomain.com/admin/queues`. Note: In production, you should add OIDC or Basic Auth to this route.
 
 ---
 
-## 🛑 Security & Vulnerability Check
-1. **JWT Security**: Currently using HTTP-only cookies (if configured) or Bearer tokens. For production, ensure `Secure=true` is set on cookies.
-2. **CORS**: Ensure `CLIENT_URL` is set to your final frontend domain in the server's `.env`.
-3. **Database**: Always use MongoDB Atlas with IP allow-listing and strong passwords.
-4. **Secrets**: Never commit `.env` files to git. Use a `.gitignore`.
+## 📊 Health Checks
+- **API Health**: `GET /api/health` returns `status: ok`.
+- **Database**: Pinged every 10s by Docker healthcheck.
+- **Redis**: Pinged every 10s by Docker healthcheck.

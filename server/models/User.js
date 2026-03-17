@@ -59,7 +59,16 @@ const userSchema = new mongoose.Schema({
     season: { type: String, default: 'spring' },
     particles: { type: Boolean, default: false },
     glowIntensity: { type: Number, default: 0.2 }
-  }
+  },
+  isVerified: { type: Boolean, default: false },
+  verificationToken: String,
+  verificationTokenExpire: Date,
+  resetPasswordToken: String,
+  resetPasswordExpire: Date,
+  otpCode: String,
+  otpExpire: Date,
+  bio: { type: String, maxlength: [200, 'Bio cannot exceed 200 characters'] },
+  profilePicUrl: { type: String, default: null }
 }, { timestamps: true });
 
 // Hash password before saving
@@ -73,6 +82,14 @@ userSchema.pre('save', async function(next) {
 // Compare password method
 userSchema.methods.comparePassword = async function(candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
+};
+
+// Generate verification token
+userSchema.methods.generateVerificationToken = function() {
+  const token = require('crypto').randomBytes(32).toString('hex');
+  this.verificationToken = require('crypto').createHash('sha256').update(token).digest('hex');
+  this.verificationTokenExpire = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
+  return token;
 };
 
 // Remove password from JSON output

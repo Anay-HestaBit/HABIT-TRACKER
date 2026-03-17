@@ -24,7 +24,8 @@ class ProgressController {
 
   async getHeatmapData(req, res, next) {
     try {
-      const data = await ProgressService.getHeatmapData(req.user._id);
+      const year = req.query.year || new Date().getFullYear();
+      const data = await ProgressService.getHeatmapData(req.user._id, parseInt(year));
       res.json(data);
     } catch (error) {
       logger.error('Error fetching heatmap data:', error);

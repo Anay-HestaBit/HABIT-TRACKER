@@ -14,6 +14,7 @@ import {
 import { useAuth } from '../context/AuthContext';
 import api from '../api/axios';
 import { Link } from 'react-router-dom';
+import ConsistencyBoard from '../components/ConsistencyBoard';
 
 const StatsCard = ({ icon: Icon, label, value, subtext, color, delay }) => (
   <motion.div
@@ -27,10 +28,6 @@ const StatsCard = ({ icon: Icon, label, value, subtext, color, delay }) => (
     <div className="flex items-start justify-between mb-4">
       <div className={`p-3 rounded-2xl ${color} bg-opacity-10 text-opacity-100`}>
         <Icon size={24} className={color.replace('bg-', 'text-')} />
-      </div>
-      <div className="flex items-center gap-1 text-emerald-500 font-bold text-sm bg-emerald-500/10 px-2 py-1 rounded-lg">
-        <TrendingUp size={14} />
-        <span>+12%</span>
       </div>
     </div>
     
@@ -122,6 +119,14 @@ const Dashboard = () => {
           delay={0.4}
         />
       </div>
+      
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+      >
+        <ConsistencyBoard />
+      </motion.div>
 
       <div className="grid lg:grid-cols-3 gap-8">
         {/* World Preview Card */}

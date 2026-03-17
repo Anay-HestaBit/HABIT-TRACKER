@@ -11,7 +11,22 @@ class HabitService {
 
   async createHabit(userId, habitData) {
     logger.info(`Creating habit for user ${userId}: ${habitData.name}`);
-    return HabitRepository.create({ ...habitData, userId });
+    const habit = await HabitRepository.create({ ...habitData, userId });
+
+    // Unlock "Creator" Achievement
+    const user = await UserRepository.findById(userId);
+    const hasCreator = user.badges.some(b => b.name === 'Creator');
+    if (!hasCreator) {
+      user.badges.push({
+        name: 'Creator',
+        description: 'Created your first habit!',
+        icon: 'PlusCircle'
+      });
+      await user.save();
+      logger.info(`Achievement Unlocked: Creator for user ${userId}`);
+    }
+    
+    return habit;
   }
 
   async updateHabit(habitId, userId, habitData) {
@@ -64,6 +79,18 @@ class HabitService {
       logger.info(`User ${userId} leveled up to ${newLevel}`);
     }
     await user.save();
+
+    // Unlock Achievements
+    const hasDayOne = user.badges.some(b => b.name === 'Day One');
+    if (!hasDayOne) {
+      user.badges.push({
+        name: 'Day One',
+        description: 'Completed your first habit!',
+        icon: 'Zap'
+      });
+      await user.save();
+      logger.info(`Achievement Unlocked: Day One for user ${userId}`);
+    }
 
     let progress = await ProgressRepository.findByUserAndDate(userId, today);
     if (!progress) {

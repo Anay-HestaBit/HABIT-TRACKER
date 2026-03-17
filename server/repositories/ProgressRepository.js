@@ -10,6 +10,13 @@ class ProgressRepository extends BaseRepository {
     return this.model.findOne({ userId, date });
   }
 
+  async findByUserAndDateRange(userId, startDate, endDate) {
+    return this.model.find({
+      userId,
+      date: { $gte: startDate, $lte: endDate }
+    }).sort('date');
+  }
+
   async findStats(userId, limit = 7) {
     return this.model.find({ userId }).sort('-date').limit(limit);
   }

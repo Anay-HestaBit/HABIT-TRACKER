@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Award, Star, Zap, Flame, Trophy, Shield, Moon, Sun, Filter } from 'lucide-react';
+import { Award, Star, Zap, Flame, Trophy, Shield, Moon, Sun, Filter, PlusCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 const BadgeCard = ({ badge, isUnlocked, delay }) => (
@@ -36,13 +36,13 @@ const Achievements = () => {
   
   const allBadges = [
     { id: 1, name: 'Day One', description: 'Complete your first habit.', icon: <Zap />, requirement: 1 },
-    { id: 2, name: 'Consistency Pro', description: 'Maintain a 7-day streak.', icon: <Flame />, requirement: 7 },
-    { id: 3, name: 'Habit Master', description: 'Complete 100 total habits.', icon: <Trophy />, requirement: 100 },
-    { id: 4, name: 'Early Bird', description: 'Complete a habit before 8 AM.', icon: <Sun />, requirement: 0 },
-    { id: 5, name: 'Night Owl', description: 'Complete a habit after 10 PM.', icon: <Moon />, requirement: 0 },
-    { id: 6, name: 'World Builder', description: 'Reach World Level 5.', icon: <Star />, requirement: 5 },
-    { id: 7, name: 'Streak Shield', description: 'Use your first streak shield.', icon: <Shield />, requirement: 1 },
-    { id: 8, name: 'Perfect Week', description: 'All habits done for 7 days.', icon: <Filter />, requirement: 1 },
+    { id: 2, name: 'Creator', description: 'Create your first habit.', icon: <PlusCircle />, requirement: 1 },
+    { id: 3, name: 'Consistency Pro', description: 'Maintain a 7-day streak.', icon: <Flame />, requirement: 7 },
+    { id: 4, name: 'Habit Master', description: 'Complete 100 total habits.', icon: <Trophy />, requirement: 100 },
+    { id: 5, name: 'Early Bird', description: 'Complete a habit before 8 AM.', icon: <Sun />, requirement: 0 },
+    { id: 6, name: 'Night Owl', description: 'Complete a habit after 10 PM.', icon: <Moon />, requirement: 0 },
+    { id: 7, name: 'World Builder', description: 'Reach World Level 5.', icon: <Star />, requirement: 5 },
+    { id: 8, name: 'Streak Shield', description: 'Use your first streak shield.', icon: <Shield />, requirement: 1 },
   ];
 
   // Logic to determine if unlocked
