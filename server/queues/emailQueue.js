@@ -1,8 +1,8 @@
 const { Queue } = require('bullmq');
-const redisConnection = require('../utils/redis');
+const { createClient } = require('../utils/redis');
 
 const emailQueue = new Queue('email-queue', {
-  connection: redisConnection,
+  connection: createClient(true),
   defaultJobOptions: {
     attempts: 3,
     backoff: {

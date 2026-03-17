@@ -1,6 +1,6 @@
 const { Worker } = require('bullmq');
 const sendEmail = require('../utils/sendEmail');
-const redisConnection = require('../utils/redis');
+const { createClient } = require('../utils/redis');
 const logger = require('../utils/logger');
 
 const emailWorker = new Worker(
@@ -17,7 +17,7 @@ const emailWorker = new Worker(
       throw error; // BullMQ will retry based on queue settings
     }
   },
-  { connection: redisConnection }
+  { connection: createClient(true) }
 );
 
 emailWorker.on('completed', (job) => {

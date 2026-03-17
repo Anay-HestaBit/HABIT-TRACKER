@@ -13,40 +13,56 @@ if (redisUrl.includes(' -u ')) {
 
 const isTLS = redisUrl.startsWith('rediss://');
 
-const redisOptions = {
-  maxRetriesPerRequest: null,
-  connectTimeout: 15000,
-  keepAlive: 15000,
-  enableReadyCheck: true,
-  retryStrategy: (times) => {
-    // Reconnect more aggressively but with a cap
-    const delay = Math.min(times * 100, 3000);
-    return delay;
-  },
-  reconnectOnError: (err) => {
-    const targetError = 'READONLY';
-    if (err.message.includes(targetError)) {
-      return true; // Reconnect on READONLY error
+/**
+ * Creates a new Redis client instance
+ * @param {boolean} isBlocking - If true, optimized for BullMQ blocking commands
+ */
+const createClient = (isBlocking = false) => {
+  const options = {
+    maxRetriesPerRequest: isBlocking ? null : 20,
+    connectTimeout: 20000,
+    keepAlive: 10000,
+    family: 4, // Force IPv4 to avoid handshake resets
+    maxLoadingRetryTime: 10000,
+    retryStrategy: (times) => {
+      const delay = Math.min(times * 100, 3000);
+      return delay;
+    },
+    reconnectOnError: (err) => {
+      const targetError = 'READONLY';
+      if (err.message.includes(targetError)) {
+        return true;
+      }
+      return false;
+    },
+  };
+
+  if (isTLS) {
+    options.tls = {
+      rejectUnauthorized: false,
+    };
+  }
+
+  const client = new Redis(redisUrl, options);
+
+  client.on('error', (error) => {
+    // Only log if not a standard disconnect
+    if (error.code !== 'ECONNRESET') {
+      logger.error('Redis Error:', error);
     }
-    return false;
-  },
+  });
+
+  return client;
 };
 
-// Upstash and some cloud providers REQUIRE tls to be set explicitly for rediss://
-if (isTLS) {
-  redisOptions.tls = {
-    rejectUnauthorized: false, // Allows self-signed or specific cloud certs
-  };
-}
+// Shared connection for non-blocking commands (Rate limiting, simple GET/SET)
+const sharedConnection = createClient(false);
 
-const redisConnection = new Redis(redisUrl, redisOptions);
-
-redisConnection.on('connect', () => {
-  logger.info('Connected to Redis');
+sharedConnection.on('connect', () => {
+  logger.info('Connected to Redis (Shared)');
 });
 
-redisConnection.on('error', (error) => {
-  logger.error('Redis connection error:', error);
-});
-
-module.exports = redisConnection;
+module.exports = {
+  sharedConnection,
+  createClient
+};
