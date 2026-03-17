@@ -16,8 +16,8 @@ const errorHandler = require('./middleware/errorHandler');
 
 const app = express();
 
-// Trust proxy for production behind Nginx
-if (process.env.NODE_ENV === 'production') {
+// Trust proxy for cloud deployments (Render, Heroku, etc.)
+if (process.env.NODE_ENV === 'production' || process.env.RENDER) {
   app.set('trust proxy', 1);
 }
 

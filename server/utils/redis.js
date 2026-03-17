@@ -13,6 +13,8 @@ if (redisUrl.includes(' -u ')) {
 
 const redisConnection = new Redis(redisUrl, {
   maxRetriesPerRequest: null,
+  connectTimeout: 10000,
+  keepAlive: 10000,
   retryStrategy: (times) => {
     const delay = Math.min(times * 50, 2000);
     return delay;
