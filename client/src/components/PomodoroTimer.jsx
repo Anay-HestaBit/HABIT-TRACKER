@@ -57,7 +57,7 @@ const PomodoroTimer = ({ onComplete }) => {
   const formatTime = (m, s) => `${m}:${s < 10 ? `0${s}` : s}`;
 
   return (
-    <div className="bg-slate-800/50 backdrop-blur-xl p-6 rounded-3xl border border-slate-700/50 shadow-2xl relative overflow-hidden group">
+    <div className="bg-card/50 backdrop-blur-xl p-6 rounded-3xl border border-secondary/60 shadow-2xl relative overflow-hidden group">
       <div className="relative z-10">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
@@ -66,13 +66,13 @@ const PomodoroTimer = ({ onComplete }) => {
             ) : (
               <Coffee className="w-5 h-5 text-emerald-500 animate-bounce" />
             )}
-            <span className="text-sm font-bold uppercase tracking-wider text-slate-400">
+            <span className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
               {mode === 'work' ? 'Deep Work' : 'Break Time'}
             </span>
           </div>
           <button 
             onClick={() => setMuted(!muted)}
-            className="p-2 hover:bg-slate-700/50 rounded-xl transition-all text-slate-500"
+            className="p-2 hover:bg-secondary/50 rounded-xl transition-all text-muted-foreground"
           >
             {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
           </button>
@@ -83,7 +83,7 @@ const PomodoroTimer = ({ onComplete }) => {
             key={minutes + seconds}
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="text-6xl font-black text-white font-mono tracking-tighter"
+            className="text-6xl font-black text-foreground font-mono tracking-tighter"
           >
             {formatTime(minutes, seconds)}
           </motion.h2>
@@ -94,8 +94,8 @@ const PomodoroTimer = ({ onComplete }) => {
             onClick={toggleTimer}
             className={`flex-1 py-3 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all shadow-lg ${
               isActive 
-                ? 'bg-slate-700 text-white hover:bg-slate-600' 
-                : 'bg-blue-600 text-white hover:bg-blue-500 shadow-blue-500/20'
+                ? 'bg-secondary text-foreground hover:bg-secondary/80' 
+                : 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-primary/20'
             }`}
           >
             {isActive ? <Pause size={20} /> : <Play size={20} />}
@@ -104,7 +104,7 @@ const PomodoroTimer = ({ onComplete }) => {
           
           <button
             onClick={resetTimer}
-            className="p-3 bg-slate-700/50 text-slate-400 hover:text-white rounded-2xl transition-all hover:bg-slate-700"
+            className="p-3 bg-secondary/50 text-muted-foreground hover:text-foreground rounded-2xl transition-all hover:bg-secondary"
           >
             <RotateCcw size={20} />
           </button>

@@ -45,7 +45,23 @@ SMTP_PASS=...
 ```bash
 docker-compose up --build
 ```
-The app will be available at `https://localhost:8443` (HTTPS) or `http://localhost:8080`.
+The app will be available at `https://habittracker:8443` (mkcert) and `http://habittracker:8080` (redirects to HTTPS).
+
+mkcert setup (one time):
+```bash
+mkcert -install
+mkcert -cert-file ./nginx/certs/habittracker.pem -key-file ./nginx/certs/habittracker-key.pem habittracker
+```
+
+Add this to your hosts file:
+```
+127.0.0.1 habittracker
+```
+
+Notes:
+- Redis runs as a Docker container in the compose file.
+- MongoDB runs as a Docker container in the compose file (`mongodb://mongodb:27017/habitjourney`).
+- `CLIENT_URL` should match the public frontend URL in production.
 
 ---
 

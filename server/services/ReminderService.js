@@ -3,6 +3,7 @@ const UserRepository = require('../repositories/UserRepository');
 const HabitRepository = require('../repositories/HabitRepository');
 const emailQueue = require('../queues/emailQueue');
 const logger = require('../utils/logger');
+const { maskEmail } = require('../utils/sanitize');
 
 class ReminderService {
   init() {
@@ -11,6 +12,18 @@ class ReminderService {
       this.sendDailyReminders();
     });
     logger.info('Reminder service initialized (Daily at 8 PM)');
+  }
+
+  getUTCMidnight() {
+    const d = new Date();
+    d.setUTCHours(0, 0, 0, 0);
+    return d;
+  }
+
+  isCompletedOnDate(completionDate, targetDate) {
+    const d = new Date(completionDate);
+    d.setUTCHours(0, 0, 0, 0);
+    return d.getTime() === targetDate.getTime();
   }
 
   async sendDailyReminders() {
@@ -22,10 +35,10 @@ class ReminderService {
         if (!user.isVerified) continue;
         
         const habits = await HabitRepository.findActiveByUserId(user._id);
-        const today = new Date().toISOString().split('T')[0];
+        const today = this.getUTCMidnight();
         
         const uncompletedHabits = habits.filter(habit => {
-          return !habit.completions?.some(c => c.date.startsWith(today));
+          return !habit.completions?.some(c => this.isCompletedOnDate(c.date, today));
         });
 
         if (uncompletedHabits.length > 0) {
@@ -60,9 +73,9 @@ class ReminderService {
         subject: '🚀 Don\'t break your streak! Daily Habit Reminder',
         message
       });
-      logger.info(`Reminder email job queued for ${user.email}`);
+      logger.info(`Reminder email job queued for ${maskEmail(user.email)}`);
     } catch (err) {
-      logger.error(`Failed to queue reminder for ${user.email}:`, err);
+      logger.error(`Failed to queue reminder for ${maskEmail(user.email)}:`, err);
     }
   }
 }

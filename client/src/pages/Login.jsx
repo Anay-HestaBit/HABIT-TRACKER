@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Globe2, Mail, Lock, AlertCircle, ArrowRight, Loader2 } from 'lucide-react';
+import { Globe2, Mail, Lock, AlertCircle, ArrowRight, Loader2, Eye, EyeOff } from 'lucide-react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   
@@ -35,7 +36,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f172a] flex flex-col justify-center items-center p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-background text-foreground flex flex-col justify-center items-center p-6 relative overflow-hidden">
       {/* Background Decor */}
       <div className="absolute top-[-20%] right-[-10%] w-[60%] h-[60%] bg-blue-500/10 rounded-full blur-[150px]" />
       <div className="absolute bottom-[-10%] left-[-20%] w-[50%] h-[50%] bg-indigo-500/10 rounded-full blur-[120px]" />
@@ -47,7 +48,7 @@ const Login = () => {
       >
         <div className="flex flex-col items-center mb-10">
           <Link to="/" className="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center shadow-2xl shadow-primary/40 mb-6 group transition-transform hover:scale-105 active:scale-95">
-            <Globe2 className="text-white" size={32} />
+            <Globe2 className="text-primary-foreground" size={32} />
           </Link>
           <h1 className="text-3xl font-black text-foreground mb-2">Welcome Back</h1>
           <p className="text-muted-foreground font-medium text-center">
@@ -91,13 +92,20 @@ const Login = () => {
               <div className="relative group">
                 <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" size={20} />
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full bg-secondary/50 border border-white/5 rounded-2xl py-4 pl-12 pr-4 text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all font-medium"
+                  className="w-full bg-secondary/50 border border-white/5 rounded-2xl py-4 pl-12 pr-12 text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all font-medium"
                   placeholder="••••••••"
                   required
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(prev => !prev)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
               </div>
             </div>
 

@@ -1,23 +1,25 @@
 @import "tailwindcss";
 
+/* ─────────────────────────────────────────────────────────────────
+   DESIGN TOKENS  (semantic vars used by bg-background, text-foreground etc.)
+   ───────────────────────────────────────────────────────────────── */
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
-  --card: #f8fafc;
-  --card-foreground: #0f172a;
+  --background: #0f172a;
+  --foreground: #f8fafc;
+  --card: #1e293b;
+  --card-foreground: #f8fafc;
   --primary: #8b5cf6;
   --primary-foreground: #ffffff;
-  --secondary: #f1f5f9;
-  --secondary-foreground: #475569;
+  --secondary: #334155;
+  --secondary-foreground: #f8fafc;
   --accent: #d8b4fe;
   --accent-foreground: #1e1b4b;
   --destructive: #ef4444;
   --destructive-foreground: #f8fafc;
-  --muted: #e2e8f0;
-  --muted-foreground: #64748b;
-  --radius: 1rem;
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(0, 0, 0, 0.05);
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --glass-bg: rgba(30, 41, 59, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.1);
 }
 
 .dark {
@@ -33,6 +35,64 @@
   --glass-border: rgba(255, 255, 255, 0.1);
 }
 
+/* ─────────────────────────────────────────────────────────────────
+   LIGHT MODE
+   Tailwind v4 exposes every colour as a CSS variable (--color-slate-800 etc.).
+   By remapping dark slate shades to light equivalents here, every component
+   using hardcoded bg-slate-800, text-slate-400 etc. gets light colours
+   automatically — no JSX changes needed.
+   ───────────────────────────────────────────────────────────────── */
+.light-mode {
+  /* Semantic tokens */
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --primary: #7c3aed;
+  --primary-foreground: #ffffff;
+  --secondary: #e2e8f0;
+  --secondary-foreground: #0f172a;
+  --accent: #7c3aed;
+  --accent-foreground: #ffffff;
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+  --muted: #f1f5f9;
+  --muted-foreground: #475569;
+  --glass-bg: rgba(255, 255, 255, 0.80);
+  --glass-border: rgba(0, 0, 0, 0.08);
+
+  /* Tailwind v4 slate palette — dark shades swap to light equivalents */
+  --color-slate-950: #f8fafc;
+  --color-slate-900: #f1f5f9;
+  --color-slate-800: #e2e8f0;
+  --color-slate-700: #cbd5e1;
+  --color-slate-600: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-400: #475569;
+  --color-slate-300: #334155;
+  --color-slate-200: #1e293b;
+  --color-slate-100: #0f172a;
+  --color-slate-50:  #020617;
+
+  /* Swap white/black to invert hardcoded text-white/bg-white styles in light mode */
+  --color-white: #0f172a;
+  --color-black: #f8fafc;
+
+  /* Lighter glass in light mode */
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Override hardcoded hex bg colours that can't be reached via slate vars */
+.light-mode [class*="bg-\\[\\#0f172a\\]"],
+.light-mode [class*="bg-\\[\\#1e1b4b\\]"],
+.light-mode [class*="bg-\\[\\#0a0f1e\\]"],
+.light-mode [class*="bg-\\[\\#12102b\\]"] {
+  background-color: #f0f4ff !important;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   TAILWIND v4 THEME BRIDGE
+   ───────────────────────────────────────────────────────────────── */
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -50,6 +110,9 @@
   --color-muted-foreground: var(--muted-foreground);
 }
 
+/* ─────────────────────────────────────────────────────────────────
+   BASE
+   ───────────────────────────────────────────────────────────────── */
 body {
   background-color: var(--background);
   color: var(--foreground);
@@ -59,7 +122,6 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Glassmorphism utility */
 .glass {
   background: var(--glass-bg);
   backdrop-filter: blur(12px);
@@ -67,20 +129,7 @@ body {
   border: 1px solid var(--glass-border);
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--background);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--secondary);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--muted);
-}
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); }

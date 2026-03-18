@@ -37,7 +37,12 @@ router.post('/logout', authController.logout.bind(authController));
 router.post('/forgot-password', authController.forgotPassword.bind(authController));
 
 // @route   POST /api/auth/reset-password
-router.post('/reset-password', authController.resetPassword.bind(authController));
+router.post('/reset-password', [
+  body('token').notEmpty().withMessage('Reset token is required'),
+  body('password').isLength({ min: 8 }).withMessage('Password must be at least 8 characters')
+    .matches(/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/)
+    .withMessage('Password must contain uppercase, lowercase, number and special character'),
+], authController.resetPassword.bind(authController));
 
 // @route   PUT /api/auth/profile
 router.put('/profile', protect, authController.updateProfile.bind(authController));

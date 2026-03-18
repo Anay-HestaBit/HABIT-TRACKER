@@ -2,7 +2,6 @@ const AuthService = require('../services/AuthService');
 const logger = require('../utils/logger');
 const { validationResult } = require('express-validator');
 const { uploadToCloudinary } = require('../utils/cloudinary');
-const fs = require('fs').promises;
 
 class AuthController {
   async signup(req, res, next) {
@@ -10,7 +9,6 @@ class AuthController {
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
-
     try {
       const { user, message } = await AuthService.signup(req.body);
       res.status(201).json({ message, user: { id: user._id, email: user.email } });
@@ -27,7 +25,10 @@ class AuthController {
     try {
       const { token } = req.body;
       const user = await AuthService.verifyEmail(token);
-      res.status(200).json({ message: 'Email verified successfully. You can now log in.', user: { id: user._id, email: user.email } });
+      res.status(200).json({
+        message: 'Email verified successfully. You can now log in.',
+        user: { id: user._id, email: user.email },
+      });
     } catch (error) {
       logger.error('Email verification error:', error);
       res.status(400).json({ message: error.message });
@@ -38,16 +39,14 @@ class AuthController {
     try {
       const { email, password } = req.body;
       const result = await AuthService.login(email, password);
-      
       if (result.requiresOtp) {
-        return res.status(200).json({ 
-          status: 'otp_required', 
-          message: 'OTP sent to your email', 
+        return res.status(200).json({
+          status: 'otp_required',
+          message: 'OTP sent to your email',
           email: result.email,
-          otp: result.otp // Only present in dev
+          otp: result.otp, // undefined in production
         });
       }
-
       this.sendToken(result.user, result.token, 200, res);
     } catch (error) {
       logger.error('Login error:', error);
@@ -67,9 +66,13 @@ class AuthController {
   }
 
   async logout(req, res) {
+    const isProduction = process.env.NODE_ENV === 'production';
     res.cookie('token', 'none', {
       expires: new Date(Date.now() + 10 * 1000),
       httpOnly: true,
+      secure: isProduction,
+      // FIX: 'none' required for cross-domain (Vercel + Render)
+      sameSite: isProduction ? 'none' : 'lax',
     });
     res.status(200).json({ status: 'success' });
   }
@@ -86,11 +89,9 @@ class AuthController {
   async forgotPassword(req, res, next) {
     try {
       const { email } = req.body;
-      const result = await AuthService.forgotPassword(email);
-      res.status(200).json({ 
-        message: 'Password reset email sent',
-        token: process.env.NODE_ENV !== 'production' ? result : undefined 
-      });
+      await AuthService.forgotPassword(email);
+      // Always return same message — prevents user enumeration
+      res.status(200).json({ message: 'If that email is registered, a reset link has been sent.' });
     } catch (error) {
       logger.error('Forgot password error:', error);
       res.status(400).json({ message: error.message });
@@ -98,6 +99,10 @@ class AuthController {
   }
 
   async resetPassword(req, res, next) {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
     try {
       const { token, password } = req.body;
       await AuthService.resetPassword(token, password);
@@ -123,41 +128,29 @@ class AuthController {
       if (!req.file) {
         return res.status(400).json({ message: 'Please upload a file' });
       }
-
-      // Upload to Cloudinary
-      const profilePicUrl = await uploadToCloudinary(req.file.path);
-
-      // Delete local file (async)
-      fs.unlink(req.file.path).catch(err => logger.error('Local file deletion failed:', err));
-
+      // FIX: Pass buffer directly — memoryStorage gives us req.file.buffer
+      const profilePicUrl = await uploadToCloudinary(req.file.buffer);
       const user = await AuthService.updateProfile(req.user._id, { profilePicUrl });
-
-      res.status(200).json({
-        message: 'Image uploaded successfully',
-        profilePicUrl,
-        user
-      });
+      res.status(200).json({ message: 'Image uploaded successfully', profilePicUrl, user });
     } catch (error) {
       logger.error('Image upload error:', error);
-      // Try to cleanup local file if upload failed
-      if (req.file) {
-        fs.unlink(req.file.path).catch(() => {});
-      }
       next(error);
     }
   }
 
   sendToken(user, token, statusCode, res) {
+    const isProduction = process.env.NODE_ENV === 'production';
     const cookieOptions = {
-      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
+      expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      // FIX: Cross-domain cookies (Vercel ↔ Render) require sameSite:'none' + secure:true
+      // Without this, the browser silently drops the cookie and auth breaks in production
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
     };
-
     res.cookie('token', token, cookieOptions);
     user.password = undefined;
-    res.status(statusCode).json({ user, token });
+    res.status(statusCode).json({ user });
   }
 }
 

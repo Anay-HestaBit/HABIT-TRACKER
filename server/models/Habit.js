@@ -30,54 +30,62 @@ const habitSchema = new mongoose.Schema({
     date: { type: Date, required: true },
     completedAt: { type: Date, default: Date.now }
   }],
-  color: {
-    type: String,
-    default: '#8B5CF6'
-  },
-  icon: {
-    type: String,
-    default: 'star'
-  },
+  color: { type: String, default: '#8B5CF6' },
+  icon: { type: String, default: 'star' },
   isActive: { type: Boolean, default: true }
 }, { timestamps: true });
 
-// Prevent duplicate completions on the same day
-habitSchema.methods.isCompletedToday = function() {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
+/**
+ * Get today's UTC midnight as a Date.
+ * FIX: Was using setHours() which uses the SERVER's local timezone.
+ * If the server is in IST (+5:30), setHours(0,0,0,0) gives
+ * 2026-03-17T18:30:00.000Z — yesterday in UTC!
+ * The client compares using toISOString() which is always UTC,
+ * so the dates never matched and the complete button never turned green.
+ * Using setUTCHours() ensures both server and client use the same UTC day.
+ */
+const getUTCMidnight = () => {
+  const d = new Date();
+  d.setUTCHours(0, 0, 0, 0);
+  return d;
+};
+
+// Prevent duplicate completions on the same UTC day
+habitSchema.methods.isCompletedToday = function () {
+  const todayUTC = getUTCMidnight().getTime();
   return this.completions.some(c => {
-    const completionDate = new Date(c.date);
-    completionDate.setHours(0, 0, 0, 0);
-    return completionDate.getTime() === today.getTime();
+    const d = new Date(c.date);
+    d.setUTCHours(0, 0, 0, 0);
+    return d.getTime() === todayUTC;
   });
 };
 
-// Calculate streak
-habitSchema.methods.calculateStreak = function() {
+// Calculate streak using UTC days
+habitSchema.methods.calculateStreak = function () {
   if (this.completions.length === 0) return 0;
 
   const sorted = [...this.completions]
     .sort((a, b) => new Date(b.date) - new Date(a.date));
 
   let streak = 0;
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  let checkDate = new Date(today);
+  const todayUTC = getUTCMidnight();
+  let checkDate = new Date(todayUTC);
 
   for (let i = 0; i < sorted.length; i++) {
     const completionDate = new Date(sorted[i].date);
-    completionDate.setHours(0, 0, 0, 0);
+    completionDate.setUTCHours(0, 0, 0, 0);
 
-    const diffDays = Math.floor((checkDate - completionDate) / (1000 * 60 * 60 * 24));
+    const diffDays = Math.floor(
+      (checkDate.getTime() - completionDate.getTime()) / (1000 * 60 * 60 * 24)
+    );
 
     if (diffDays === 0) {
       streak++;
-      checkDate.setDate(checkDate.getDate() - 1);
+      checkDate.setUTCDate(checkDate.getUTCDate() - 1);
     } else if (diffDays === 1) {
       streak++;
       checkDate = new Date(completionDate);
-      checkDate.setDate(checkDate.getDate() - 1);
+      checkDate.setUTCDate(checkDate.getUTCDate() - 1);
     } else {
       break;
     }

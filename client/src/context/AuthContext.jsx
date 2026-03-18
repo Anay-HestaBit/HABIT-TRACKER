@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext, useCallback } from 'react';
 import api from '../api/axios';
 
 const AuthContext = createContext();
@@ -21,34 +21,39 @@ export const AuthProvider = ({ children }) => {
     checkLoggedIn();
   }, []);
 
-  const login = async (email, password) => {
+  const login = useCallback(async (email, password) => {
     const { data } = await api.post('/auth/login', { email, password });
     if (!data.status || data.status !== 'otp_required') {
       setUser(data.user);
     }
     return data;
-  };
+  }, []);
 
-  const verifyOtp = async (email, otp) => {
+  const verifyOtp = useCallback(async (email, otp) => {
     const { data } = await api.post('/auth/verify-otp', { email, otp });
     setUser(data.user);
     return data;
-  };
+  }, []);
 
-  const signup = async (userData) => {
+  const signup = useCallback(async (userData) => {
     const { data } = await api.post('/auth/signup', userData);
     return data;
-  };
+  }, []);
 
-  const verifyEmail = async (token) => {
+  // FIX: useCallback gives verifyEmail a stable reference.
+  // Without this, AuthProvider re-renders (e.g. after checkLoggedIn sets user)
+  // create a NEW verifyEmail function reference each time → the useEffect in
+  // VerifyEmail.jsx sees a changed dependency → fires AGAIN → token already
+  // consumed → "Invalid or expired verification token" even on a fresh token.
+  const verifyEmail = useCallback(async (token) => {
     const { data } = await api.post('/auth/verify-email', { token });
     return data;
-  };
+  }, []);
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     await api.post('/auth/logout');
     setUser(null);
-  };
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, loading, login, signup, logout, setUser, verifyOtp, verifyEmail }}>

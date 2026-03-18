@@ -1,5 +1,6 @@
 services:
-  # 1. API Server & Background Workers (Node.js) - FREE TIER
+  # API Server (Node.js) — deployed on Render
+  # Frontend goes to Vercel separately
   - type: web
     name: habit-tracker-api
     plan: free
@@ -14,12 +15,15 @@ services:
         value: 10000
       - key: JWT_SECRET
         generateValue: true
+      - key: ADMIN_SECRET
+        generateValue: true
+      # Set these manually in Render dashboard after first deploy:
       - key: CLIENT_URL
-        sync: false # The static site URL
+        sync: false   # e.g. https://your-app.vercel.app  (NO trailing slash)
       - key: MONGODB_URI
-        sync: false
+        sync: false   # Your MongoDB Atlas connection string
       - key: REDIS_URL
-        sync: false
+        sync: false   # MUST use rediss:// (TLS) for Upstash, NOT redis://
       - key: SMTP_HOST
         sync: false
       - key: SMTP_PORT
@@ -38,14 +42,3 @@ services:
         sync: false
       - key: CLOUDINARY_API_SECRET
         sync: false
-
-  # 2. Frontend Static Site - FREE TIER
-  - type: web
-    name: habit-tracker-client
-    runtime: static
-    rootDir: client
-    buildCommand: npm install && npm run build
-    staticPublishPath: dist
-    envVars:
-      - key: VITE_API_URL
-        value: https://habit-tracker-api.onrender.com/api # Update after first deployment

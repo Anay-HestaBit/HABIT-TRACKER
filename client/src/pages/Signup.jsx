@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { Globe2, Mail, Lock, User as UserIcon, AlertCircle, ArrowRight, Loader2, Check, X } from 'lucide-react';
+import { Globe2, Mail, Lock, User as UserIcon, AlertCircle, ArrowRight, Loader2, Check, X, Eye, EyeOff } from 'lucide-react';
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +17,7 @@ const Signup = () => {
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   
   const { signup } = useAuth();
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ const Signup = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#0f172a] flex flex-col justify-center items-center p-6 relative overflow-hidden">
+    <div className="min-h-screen bg-background text-foreground flex flex-col justify-center items-center p-6 relative overflow-hidden">
       {/* Background Decor */}
       <div className="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-blue-500/10 rounded-full blur-[150px]" />
       <div className="absolute bottom-[-10%] right-[-20%] w-[50%] h-[50%] bg-indigo-500/10 rounded-full blur-[120px]" />
@@ -71,9 +72,9 @@ const Signup = () => {
       >
         <div className="flex flex-col items-center mb-10 text-center">
           <Link to="/" className="w-14 h-14 rounded-2xl bg-primary flex items-center justify-center shadow-2xl shadow-primary/40 mb-6 group transition-transform hover:scale-105 active:scale-95">
-            <Globe2 className="text-white" size={32} />
+            <Globe2 className="text-primary-foreground" size={32} />
           </Link>
-          <h1 className="text-3xl font-black text-white mb-2">
+          <h1 className="text-3xl font-black text-foreground mb-2">
             {registrationSuccess ? 'Check Your Inbox' : 'Create Your World'}
           </h1>
           <p className="text-muted-foreground font-medium">
@@ -165,13 +166,20 @@ const Signup = () => {
                 <div className="relative group">
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors" size={18} />
                   <input
-                    type="password"
+                    type={showPassword ? 'text' : 'password'}
                     value={formData.password}
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                    className="w-full bg-secondary/50 border border-white/5 rounded-2xl py-3 pl-11 pr-4 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all font-medium"
+                    className="w-full bg-secondary/50 border border-white/5 rounded-2xl py-3 pl-11 pr-12 text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all font-medium"
                     placeholder="••••••••"
                     required
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(prev => !prev)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
                 </div>
                 
                 <div className="grid grid-cols-2 gap-y-2 gap-x-4 pt-2 px-1">

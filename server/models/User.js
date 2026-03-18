@@ -68,7 +68,11 @@ const userSchema = new mongoose.Schema({
   otpCode: String,
   otpExpire: Date,
   bio: { type: String, maxlength: [200, 'Bio cannot exceed 200 characters'] },
-  profilePicUrl: { type: String, default: null }
+  profilePicUrl: { type: String, default: null },
+  journalPasswordHash: { type: String, default: null },
+  journalPasswordSetAt: { type: Date, default: null },
+  isDeleted: { type: Boolean, default: false },
+  deletedAt: { type: Date, default: null }
 }, { timestamps: true });
 
 // Hash password before saving

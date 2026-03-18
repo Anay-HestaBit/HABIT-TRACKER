@@ -7,7 +7,6 @@ const helmet = require('helmet');
 const ReminderService = require('./services/ReminderService');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
-const csrf = require('csurf');
 const RedisStore = require('rate-limit-redis').default;
 const { getSharedConnection } = require('./utils/redis');
 const logger = require('./utils/logger');
@@ -24,44 +23,58 @@ if (process.env.NODE_ENV === 'production' || process.env.RENDER) {
   app.set('trust proxy', 1);
 }
 
-// Rate Limiting (Redis-backed for scalability)
+// Allowed origins — CLIENT_URL must be set to your Vercel URL in production
+const allowedOrigins = [
+  process.env.CLIENT_URL,
+  'http://localhost:5173',
+  'https://localhost:5173',
+  'http://localhost:8080',
+  'https://habittracker:8443',
+  'http://habittracker:8080',
+  'http://localhost:3000',
+].filter(Boolean);
+
+// CORS — must come before all routes
+app.use(cors({
+  origin: (origin, callback) => {
+    // Allow requests with no origin (curl, Postman, server-to-server)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) return callback(null, true);
+    callback(new Error(`CORS: origin ${origin} not allowed`));
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+}));
+
+// Rate Limiting (Redis-backed)
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100,
   message: 'Too many requests from this IP, please try again after 15 minutes',
+  standardHeaders: true,
+  legacyHeaders: false,
   store: new RedisStore({
     sendCommand: (...args) => getSharedConnection().call(...args),
   }),
 });
 
-// Middleware
+// Security & parsing middleware
 app.use(helmet({
-  contentSecurityPolicy: false, 
+  contentSecurityPolicy: false,
+  crossOriginResourcePolicy: { policy: 'cross-origin' },
 }));
 app.use(limiter);
-app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
-  credentials: true
-}));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
-// CSRF Protection
-const csrfProtection = csrf({ cookie: true });
-app.use(csrfProtection);
-
-// CSRF Token route
-app.get('/api/csrf-token', (req, res) => {
-  res.json({ csrfToken: req.csrfToken() });
-});
-
 // Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI)
-  .then(() => logger.info('✅ MongoDB Connected'))
+  .then(() => logger.info(' MongoDB Connected'))
   .catch(err => {
-    logger.error('❌ MongoDB Connection Error:', err);
+    logger.error(' MongoDB Connection Error:', err);
     process.exit(1);
   });
 
@@ -69,28 +82,21 @@ mongoose.connect(process.env.MONGODB_URI)
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/habits', require('./routes/habits'));
 app.use('/api/progress', require('./routes/progress'));
+app.use('/api/reflections', require('./routes/reflections'));
 app.use('/api/users', require('./routes/users'));
 app.use('/admin/queues', require('./routes/admin'));
 
-// Base route for health check
+// Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', message: 'Daily Habit Journey API is running' });
 });
 
-// static files for production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../client/dist')));
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '../client', 'dist', 'index.html'));
-  });
-}
-
-// Global Error Handler
+// Global Error Handler — must be last
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, '0.0.0.0', () => {
-  logger.info(`🚀 Server running on port ${PORT} (0.0.0.0)`);
+  logger.info(` Server running on port ${PORT} (0.0.0.0)`);
   logger.info(`Environment: ${process.env.NODE_ENV}`);
   initWorkers();
   ReminderService.init();

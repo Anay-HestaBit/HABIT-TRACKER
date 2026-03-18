@@ -1,110 +1,524 @@
-{"level":"info","message":"Fetching dashboard data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:49:56"}
-{"level":"info","message":"Fetching dashboard data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:49:56"}
-{"level":"info","message":"User logged in: testuser","service":"habit-tracker-api","timestamp":"2026-03-17 17:50:28"}
-{"level":"info","message":"Fetching dashboard data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:50:28"}
-{"level":"info","message":"Fetching dashboard data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:50:28"}
-{"level":"info","message":"Fetching chart data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:51:11"}
-{"level":"error","message":"Error fetching chart data: ProgressRepository.findstats is not a function","service":"habit-tracker-api","stack":"TypeError: ProgressRepository.findstats is not a function\n    at ProgressService.getChartData (/home/anaygupta/Desktop/Habbit-Tracker/server/services/ProgressService.js:36:44)\n    at ProgressController.getChartData (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/progressController.js:17:42)\n    at Layer.handle [as handle_request] (/home/anaygupta/Desktop/Habbit-Tracker/server/node_modules/express/lib/router/layer.js:95:5)\n    at next (/home/anaygupta/Desktop/Habbit-Tracker/server/node_modules/express/lib/router/route.js:149:13)\n    at protect (/home/anaygupta/Desktop/Habbit-Tracker/server/middleware/auth.js:26:5)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2026-03-17 17:51:11"}
-{"level":"info","message":"Fetching heatmap data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:51:11"}
-{"level":"error","message":"Error fetching heatmap data: ProgressRepository.findstats is not a function","service":"habit-tracker-api","stack":"TypeError: ProgressRepository.findstats is not a function\n    at ProgressService.getHeatmapData (/home/anaygupta/Desktop/Habbit-Tracker/server/services/ProgressService.js:43:31)\n    at ProgressController.getHeatmapData (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/progressController.js:27:42)\n    at Layer.handle [as handle_request] (/home/anaygupta/Desktop/Habbit-Tracker/server/node_modules/express/lib/router/layer.js:95:5)\n    at next (/home/anaygupta/Desktop/Habbit-Tracker/server/node_modules/express/lib/router/route.js:149:13)\n    at protect (/home/anaygupta/Desktop/Habbit-Tracker/server/middleware/auth.js:26:5)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2026-03-17 17:51:11"}
-{"level":"info","message":"Fetching chart data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:51:11"}
-{"level":"error","message":"Error fetching chart data: ProgressRepository.findstats is not a function","service":"habit-tracker-api","stack":"TypeError: ProgressRepository.findstats is not a function\n    at ProgressService.getChartData (/home/anaygupta/Desktop/Habbit-Tracker/server/services/ProgressService.js:36:44)\n    at ProgressController.getChartData (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/progressController.js:17:42)\n    at Layer.handle [as handle_request] (/home/anaygupta/Desktop/Habbit-Tracker/server/node_modules/express/lib/router/layer.js:95:5)\n    at next (/home/anaygupta/Desktop/Habbit-Tracker/server/node_modules/express/lib/router/route.js:149:13)\n    at protect (/home/anaygupta/Desktop/Habbit-Tracker/server/middleware/auth.js:26:5)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2026-03-17 17:51:11"}
-{"level":"info","message":"Fetching heatmap data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:51:11"}
-{"level":"error","message":"Error fetching heatmap data: ProgressRepository.findstats is not a function","service":"habit-tracker-api","stack":"TypeError: ProgressRepository.findstats is not a function\n    at ProgressService.getHeatmapData (/home/anaygupta/Desktop/Habbit-Tracker/server/services/ProgressService.js:43:31)\n    at ProgressController.getHeatmapData (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/progressController.js:27:42)\n    at Layer.handle [as handle_request] (/home/anaygupta/Desktop/Habbit-Tracker/server/node_modules/express/lib/router/layer.js:95:5)\n    at next (/home/anaygupta/Desktop/Habbit-Tracker/server/node_modules/express/lib/router/route.js:149:13)\n    at protect (/home/anaygupta/Desktop/Habbit-Tracker/server/middleware/auth.js:26:5)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","timestamp":"2026-03-17 17:51:11"}
-{"level":"info","message":"Fetching habits for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:51:51"}
-{"level":"info","message":"Fetching habits for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:51:51"}
-{"level":"info","message":"User logged in: testuser","service":"habit-tracker-api","timestamp":"2026-03-17 17:53:05"}
-{"level":"info","message":"Fetching dashboard data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:53:05"}
-{"level":"info","message":"Fetching dashboard data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:53:05"}
-{"level":"info","message":"Fetching chart data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:53:19"}
-{"level":"info","message":"Fetching heatmap data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:53:19"}
-{"level":"info","message":"Fetching chart data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:53:19"}
-{"level":"info","message":"Fetching heatmap data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:53:19"}
-{"level":"info","message":"Fetching dashboard data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:53:56"}
-{"level":"info","message":"Fetching dashboard data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:53:56"}
-{"level":"info","message":"Fetching habits for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:54:18"}
-{"level":"info","message":"Fetching habits for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:54:18"}
-{"level":"info","message":"Fetching habits for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:55:02"}
-{"level":"info","message":"Fetching habits for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:55:02"}
-{"level":"info","message":"Creating habit for user 69b944b59495dd7a562a1789: Meditate","service":"habit-tracker-api","timestamp":"2026-03-17 17:55:23"}
-{"level":"info","message":"Fetching habits for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:55:23"}
-{"level":"info","message":"Completing habit 69b94833f84562d439439452 for user 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:55:34"}
-{"level":"info","message":"Fetching chart data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:55:44"}
-{"level":"info","message":"Fetching heatmap data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:55:44"}
-{"level":"info","message":"Fetching chart data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:55:44"}
-{"level":"info","message":"Fetching heatmap data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:55:44"}
-{"level":"info","message":"Fetching dashboard data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:56:08"}
-{"level":"info","message":"Fetching dashboard data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:56:08"}
-{"level":"info","message":"Fetching dashboard data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:57:28"}
-{"level":"info","message":"Fetching dashboard data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:57:28"}
-{"level":"info","message":"User logged in: testuser","service":"habit-tracker-api","timestamp":"2026-03-17 17:58:01"}
-{"level":"info","message":"Fetching dashboard data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:58:01"}
-{"level":"info","message":"Fetching dashboard data for user: 69b944b59495dd7a562a1789","service":"habit-tracker-api","timestamp":"2026-03-17 17:58:01"}
-{"level":"info","message":"New user registered: Celina_Sharma (celinasharma@gmail.com)","service":"habit-tracker-api","timestamp":"2026-03-17 18:04:21"}
-{"level":"info","message":"Fetching dashboard data for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:04:21"}
-{"level":"info","message":"Fetching dashboard data for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:04:21"}
-{"level":"info","message":"Fetching habits for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:04:31"}
-{"level":"info","message":"Fetching habits for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:04:31"}
-{"level":"info","message":"Fetching chart data for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:04:42"}
-{"level":"info","message":"Fetching heatmap data for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:04:42"}
-{"level":"info","message":"Fetching chart data for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:04:42"}
-{"level":"info","message":"Fetching heatmap data for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:04:42"}
-{"level":"info","message":"Fetching dashboard data for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:05:15"}
-{"level":"info","message":"Fetching dashboard data for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:05:15"}
-{"level":"info","message":"Fetching habits for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:05:16"}
-{"level":"info","message":"Fetching habits for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:05:16"}
-{"level":"info","message":"Creating habit for user 69b94a4df1d3697d4ed3a850: Read new book","service":"habit-tracker-api","timestamp":"2026-03-17 18:05:40"}
-{"level":"info","message":"Fetching habits for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:05:40"}
-{"level":"info","message":"Completing habit 69b94a9cf1d3697d4ed3a873 for user 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:05:43"}
-{"level":"info","message":"Completing habit 69b94a9cf1d3697d4ed3a873 for user 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:05:45"}
-{"level":"error","message":"Error completing habit: Habit already completed today","service":"habit-tracker-api","stack":"Error: Habit already completed today\n    at HabitService.completeHabit (/home/anaygupta/Desktop/Habbit-Tracker/server/services/HabitService.js:39:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async HabitController.completeHabit (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/habitController.js:47:22)","timestamp":"2026-03-17 18:05:45"}
-{"level":"info","message":"Completing habit 69b94a9cf1d3697d4ed3a873 for user 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:05:47"}
-{"level":"error","message":"Error completing habit: Habit already completed today","service":"habit-tracker-api","stack":"Error: Habit already completed today\n    at HabitService.completeHabit (/home/anaygupta/Desktop/Habbit-Tracker/server/services/HabitService.js:39:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async HabitController.completeHabit (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/habitController.js:47:22)","timestamp":"2026-03-17 18:05:47"}
-{"level":"info","message":"Completing habit 69b94a9cf1d3697d4ed3a873 for user 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:05:47"}
-{"level":"error","message":"Error completing habit: Habit already completed today","service":"habit-tracker-api","stack":"Error: Habit already completed today\n    at HabitService.completeHabit (/home/anaygupta/Desktop/Habbit-Tracker/server/services/HabitService.js:39:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async HabitController.completeHabit (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/habitController.js:47:22)","timestamp":"2026-03-17 18:05:47"}
-{"level":"info","message":"Fetching dashboard data for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:05:57"}
-{"level":"info","message":"Fetching dashboard data for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:05:57"}
-{"level":"info","message":"Fetching dashboard data for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:07:21"}
-{"level":"info","message":"Fetching dashboard data for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:07:21"}
-{"level":"info","message":"Fetching habits for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:08:22"}
-{"level":"info","message":"Fetching habits for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:08:22"}
-{"level":"info","message":"Completing habit 69b94a9cf1d3697d4ed3a873 for user 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:08:25"}
-{"level":"error","message":"Error completing habit: Habit already completed today","service":"habit-tracker-api","stack":"Error: Habit already completed today\n    at HabitService.completeHabit (/home/anaygupta/Desktop/Habbit-Tracker/server/services/HabitService.js:39:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async HabitController.completeHabit (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/habitController.js:47:22)","timestamp":"2026-03-17 18:08:25"}
-{"level":"info","message":"Fetching chart data for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:09:06"}
-{"level":"info","message":"Fetching heatmap data for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:09:06"}
-{"level":"info","message":"Fetching chart data for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:09:06"}
-{"level":"info","message":"Fetching heatmap data for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:09:06"}
-{"level":"info","message":"Fetching dashboard data for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:09:35"}
-{"level":"info","message":"Fetching dashboard data for user: 69b94a4df1d3697d4ed3a850","service":"habit-tracker-api","timestamp":"2026-03-17 18:09:35"}
-{"level":"info","message":"New user registered: testuser1 (testuser1@example.com)","service":"habit-tracker-api","timestamp":"2026-03-17 18:23:40"}
-{"level":"info","message":"Fetching dashboard data for user: 69b94ed46e6e81fb6fde7a15","service":"habit-tracker-api","timestamp":"2026-03-17 18:23:40"}
-{"level":"info","message":"Fetching dashboard data for user: 69b94ed46e6e81fb6fde7a15","service":"habit-tracker-api","timestamp":"2026-03-17 18:23:40"}
-{"level":"info","message":"Fetching chart data for user: 69b94ed46e6e81fb6fde7a15","service":"habit-tracker-api","timestamp":"2026-03-17 18:24:19"}
-{"level":"info","message":"Fetching heatmap data for user: 69b94ed46e6e81fb6fde7a15","service":"habit-tracker-api","timestamp":"2026-03-17 18:24:19"}
-{"level":"info","message":"Fetching chart data for user: 69b94ed46e6e81fb6fde7a15","service":"habit-tracker-api","timestamp":"2026-03-17 18:24:19"}
-{"level":"info","message":"Fetching heatmap data for user: 69b94ed46e6e81fb6fde7a15","service":"habit-tracker-api","timestamp":"2026-03-17 18:24:19"}
-{"level":"info","message":"Deleting user account: 69b94ed46e6e81fb6fde7a15","service":"habit-tracker-api","timestamp":"2026-03-17 18:24:54"}
-{"level":"error","message":"Error deleting account: UserRepository.delete is not a function","service":"habit-tracker-api","timestamp":"2026-03-17 18:24:54"}
-{"level":"info","message":"User logged in: testuser1","service":"habit-tracker-api","timestamp":"2026-03-17 18:28:10"}
-{"level":"info","message":"Fetching dashboard data for user: 69b94ed46e6e81fb6fde7a15","service":"habit-tracker-api","timestamp":"2026-03-17 18:28:10"}
-{"level":"info","message":"Fetching dashboard data for user: 69b94ed46e6e81fb6fde7a15","service":"habit-tracker-api","timestamp":"2026-03-17 18:28:10"}
-{"level":"info","message":"Fetching dashboard data for user: 69b94ed46e6e81fb6fde7a15","service":"habit-tracker-api","timestamp":"2026-03-17 18:30:03"}
-{"level":"info","message":"Fetching dashboard data for user: 69b94ed46e6e81fb6fde7a15","service":"habit-tracker-api","timestamp":"2026-03-17 18:30:03"}
-{"level":"info","message":"New user registered: tester_123tester_123 (tester123@example.com)","service":"habit-tracker-api","timestamp":"2026-03-17 18:33:20"}
-{"level":"info","message":"Fetching dashboard data for user: 69b95117741a20716ded221b","service":"habit-tracker-api","timestamp":"2026-03-17 18:33:21"}
-{"level":"info","message":"Fetching dashboard data for user: 69b95117741a20716ded221b","service":"habit-tracker-api","timestamp":"2026-03-17 18:33:21"}
-{"level":"info","message":"Deleting user account: 69b95117741a20716ded221b","service":"habit-tracker-api","timestamp":"2026-03-17 18:34:21"}
-{"level":"info","message":"User tester_123tester_123 deleted their account","service":"habit-tracker-api","timestamp":"2026-03-17 18:34:21"}
-{"level":"error","message":"Login error: Invalid credentials","service":"habit-tracker-api","stack":"Error: Invalid credentials\n    at AuthService.login (/home/anaygupta/Desktop/Habbit-Tracker/server/services/AuthService.js:31:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async AuthController.login (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/authController.js:21:31)","timestamp":"2026-03-17 18:37:35"}
-{"level":"info","message":"New user registered: Anay_45 (anaygupta173@gmail.com)","service":"habit-tracker-api","timestamp":"2026-03-17 18:57:24"}
-{"level":"info","message":"Fetching dashboard data for user: 69b956bc87bf44e099cd334f","service":"habit-tracker-api","timestamp":"2026-03-17 18:57:24"}
-{"level":"info","message":"Fetching dashboard data for user: 69b956bc87bf44e099cd334f","service":"habit-tracker-api","timestamp":"2026-03-17 18:57:24"}
-{"level":"info","message":"Fetching habits for user: 69b956bc87bf44e099cd334f","service":"habit-tracker-api","timestamp":"2026-03-17 18:57:45"}
-{"level":"info","message":"Fetching habits for user: 69b956bc87bf44e099cd334f","service":"habit-tracker-api","timestamp":"2026-03-17 18:57:45"}
-{"level":"info","message":"New user registered: testuser_heatmap (testuser_heatmap@example.com)","service":"habit-tracker-api","timestamp":"2026-03-17 19:04:26"}
-{"level":"info","message":"Fetching dashboard data for user: 69b95861d02fbd6c5a1646aa","service":"habit-tracker-api","timestamp":"2026-03-17 19:04:26"}
-{"level":"info","message":"Fetching dashboard data for user: 69b95861d02fbd6c5a1646aa","service":"habit-tracker-api","timestamp":"2026-03-17 19:04:26"}
-{"level":"info","message":"Fetching chart data for user: 69b95861d02fbd6c5a1646aa","service":"habit-tracker-api","timestamp":"2026-03-17 19:04:42"}
-{"level":"info","message":"Fetching heatmap data for user: 69b95861d02fbd6c5a1646aa","service":"habit-tracker-api","timestamp":"2026-03-17 19:04:42"}
-{"level":"info","message":"Fetching chart data for user: 69b95861d02fbd6c5a1646aa","service":"habit-tracker-api","timestamp":"2026-03-17 19:04:42"}
-{"level":"info","message":"Fetching heatmap data for user: 69b95861d02fbd6c5a1646aa","service":"habit-tracker-api","timestamp":"2026-03-17 19:04:42"}
+{"level":"info","message":"🚀 Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 13:38:44"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 13:38:44"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 13:38:44"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 13:38:44"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 13:38:44"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 13:38:45"}
+{"level":"info","message":"✅ MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 13:38:50"}
+{"level":"info","message":"New user registered: celina01","service":"habit-tracker-api","timestamp":"2026-03-18 13:39:39"}
+{"level":"info","message":"Processing email job: 1 (verification-email) for sharmacelina31@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 13:39:40"}
+{"level":"info","message":"Email sent: <c43fc616-9437-bae6-18d8-c98409a395da@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 13:39:45"}
+{"level":"info","message":"Successfully sent email to sharmacelina31@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 13:39:45"}
+{"level":"info","message":"Email job 1 completed","service":"habit-tracker-api","timestamp":"2026-03-18 13:39:45"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 13:44:36"}
+{"level":"info","message":"🚀 Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 14:09:24"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 14:09:25"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 14:09:25"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 14:09:25"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 14:09:25"}
+{"level":"info","message":"✅ MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 14:09:25"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 14:09:25"}
+{"level":"info","message":"🚀 Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 14:12:07"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 14:12:07"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 14:12:07"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 14:12:07"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 14:12:07"}
+{"level":"info","message":"✅ MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 14:12:07"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 14:12:07"}
+{"level":"info","message":"🚀 Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 14:12:13"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 14:12:13"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 14:12:13"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 14:12:13"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 14:12:13"}
+{"level":"info","message":"✅ MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 14:12:13"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 14:12:13"}
+{"level":"info","message":"New user registered: Anay45","service":"habit-tracker-api","timestamp":"2026-03-18 14:12:20"}
+{"level":"info","message":"Processing email job: 1 (verification-email) for anaygupta173@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 14:12:20"}
+{"level":"info","message":"Email sent: <2e659656-84d5-801e-d6a5-26974086c81e@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 14:12:24"}
+{"level":"info","message":"Successfully sent email to anaygupta173@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 14:12:24"}
+{"level":"info","message":"Email job 1 completed","service":"habit-tracker-api","timestamp":"2026-03-18 14:12:24"}
+{"level":"info","message":"🚀 Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 14:14:12"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 14:14:12"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 14:14:12"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 14:14:12"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 14:14:12"}
+{"level":"info","message":"✅ MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 14:14:13"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 14:14:13"}
+{"level":"error","message":"Signup error: User already exists","service":"habit-tracker-api","stack":"Error: User already exists\n    at AuthService.signup (/home/anaygupta/Desktop/Habbit-Tracker/server/services/AuthService.js:13:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async AuthController.signup (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/authController.js:13:33)","timestamp":"2026-03-18 14:14:43"}
+{"level":"error","message":"Login error: Please verify your email first","service":"habit-tracker-api","stack":"Error: Please verify your email first\n    at AuthService.login (/home/anaygupta/Desktop/Habbit-Tracker/server/services/AuthService.js:76:33)\n    at async AuthController.login (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/authController.js:41:22)","timestamp":"2026-03-18 14:14:56"}
+{"level":"info","message":"🚀 Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 14:15:50"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 14:15:50"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 14:15:50"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 14:15:50"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 14:15:50"}
+{"level":"info","message":"✅ MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 14:15:50"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 14:15:50"}
+{"level":"info","message":"New user registered: Anay45","service":"habit-tracker-api","timestamp":"2026-03-18 14:16:35"}
+{"level":"info","message":"Processing email job: 2 (verification-email) for anaygupta173@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 14:16:35"}
+{"level":"info","message":"Email sent: <90494eac-c7f0-945e-d613-206948817ee5@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 14:16:43"}
+{"level":"info","message":"Successfully sent email to anaygupta173@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 14:16:43"}
+{"level":"info","message":"Email job 2 completed","service":"habit-tracker-api","timestamp":"2026-03-18 14:16:43"}
+{"level":"error","message":"Email verification error: Invalid or expired verification token","service":"habit-tracker-api","stack":"Error: Invalid or expired verification token\n    at AuthService.verifyEmail (/home/anaygupta/Desktop/Habbit-Tracker/server/services/AuthService.js:61:22)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async AuthController.verifyEmail (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/authController.js:27:20)","timestamp":"2026-03-18 14:16:48"}
+{"level":"error","message":"Email verification error: Invalid or expired verification token","service":"habit-tracker-api","stack":"Error: Invalid or expired verification token\n    at AuthService.verifyEmail (/home/anaygupta/Desktop/Habbit-Tracker/server/services/AuthService.js:61:22)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async AuthController.verifyEmail (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/authController.js:27:20)","timestamp":"2026-03-18 14:16:48"}
+{"level":"info","message":"OTP generated for user: Anay45","service":"habit-tracker-api","timestamp":"2026-03-18 14:17:04"}
+{"level":"info","message":"Processing email job: 3 (otp-email) for anaygupta173@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 14:17:04"}
+{"level":"info","message":"Email sent: <d853df52-31c6-b755-82ea-3326654fd585@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 14:17:07"}
+{"level":"info","message":"Successfully sent email to anaygupta173@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 14:17:07"}
+{"level":"info","message":"Email job 3 completed","service":"habit-tracker-api","timestamp":"2026-03-18 14:17:07"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:17:31"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:17:31"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba666a6f05d1dbc5f4b069 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 14:17:31"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba666a6f05d1dbc5f4b069 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 14:17:31"}
+{"level":"info","message":"Fetching habits for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:17:39"}
+{"level":"info","message":"Fetching habits for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:17:39"}
+{"level":"info","message":"Fetching chart data for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:17:43"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba666a6f05d1dbc5f4b069 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 14:17:43"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba666a6f05d1dbc5f4b069 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 14:17:43"}
+{"level":"info","message":"Fetching chart data for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:17:43"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:18:37"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:18:37"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba666a6f05d1dbc5f4b069 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 14:18:37"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba666a6f05d1dbc5f4b069 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 14:18:37"}
+{"level":"info","message":"Fetching habits for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:18:50"}
+{"level":"info","message":"Fetching habits for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:18:50"}
+{"level":"info","message":"Creating habit for user 69ba666a6f05d1dbc5f4b069: Solve one Question","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:10"}
+{"level":"info","message":"Achievement Unlocked: Creator for user 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:10"}
+{"level":"info","message":"Fetching habits for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:10"}
+{"level":"info","message":"Completing habit 69ba67066f05d1dbc5f4b0a1 for user 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:13"}
+{"level":"info","message":"Achievement Unlocked: Day One for user 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:13"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:15"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:15"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba666a6f05d1dbc5f4b069 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:15"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba666a6f05d1dbc5f4b069 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:15"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:38"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:38"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba666a6f05d1dbc5f4b069 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:38"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba666a6f05d1dbc5f4b069 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:38"}
+{"level":"info","message":"Fetching habits for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:42"}
+{"level":"info","message":"Fetching habits for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:42"}
+{"level":"info","message":"Fetching habits for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:47"}
+{"level":"info","message":"Fetching habits for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:47"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:50"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:50"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba666a6f05d1dbc5f4b069 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:50"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba666a6f05d1dbc5f4b069 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 14:19:50"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:20:47"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:20:47"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba666a6f05d1dbc5f4b069 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 14:20:48"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba666a6f05d1dbc5f4b069 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 14:20:48"}
+{"level":"info","message":"Fetching chart data for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:20:55"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba666a6f05d1dbc5f4b069 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 14:20:55"}
+{"level":"info","message":"Fetching chart data for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:20:55"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba666a6f05d1dbc5f4b069 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 14:20:55"}
+{"level":"info","message":"Fetching habits for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:20:56"}
+{"level":"info","message":"Fetching habits for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:20:56"}
+{"level":"info","message":"Completing habit 69ba67066f05d1dbc5f4b0a1 for user 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:20:57"}
+{"level":"error","message":"Error completing habit: Habit already completed today","service":"habit-tracker-api","stack":"Error: Habit already completed today\n    at HabitService.completeHabit (/home/anaygupta/Desktop/Habbit-Tracker/server/services/HabitService.js:54:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async HabitController.completeHabit (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/habitController.js:47:22)","timestamp":"2026-03-18 14:20:57"}
+{"level":"info","message":"Completing habit 69ba67066f05d1dbc5f4b0a1 for user 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:20:58"}
+{"level":"error","message":"Error completing habit: Habit already completed today","service":"habit-tracker-api","stack":"Error: Habit already completed today\n    at HabitService.completeHabit (/home/anaygupta/Desktop/Habbit-Tracker/server/services/HabitService.js:54:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async HabitController.completeHabit (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/habitController.js:47:22)","timestamp":"2026-03-18 14:20:58"}
+{"level":"info","message":"Completing habit 69ba67066f05d1dbc5f4b0a1 for user 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:20:59"}
+{"level":"error","message":"Error completing habit: Habit already completed today","service":"habit-tracker-api","stack":"Error: Habit already completed today\n    at HabitService.completeHabit (/home/anaygupta/Desktop/Habbit-Tracker/server/services/HabitService.js:54:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async HabitController.completeHabit (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/habitController.js:47:22)","timestamp":"2026-03-18 14:20:59"}
+{"level":"info","message":"Completing habit 69ba67066f05d1dbc5f4b0a1 for user 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:21:00"}
+{"level":"error","message":"Error completing habit: Habit already completed today","service":"habit-tracker-api","stack":"Error: Habit already completed today\n    at HabitService.completeHabit (/home/anaygupta/Desktop/Habbit-Tracker/server/services/HabitService.js:54:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async HabitController.completeHabit (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/habitController.js:47:22)","timestamp":"2026-03-18 14:21:00"}
+{"level":"info","message":"Completing habit 69ba67066f05d1dbc5f4b0a1 for user 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:21:02"}
+{"level":"error","message":"Error completing habit: Habit already completed today","service":"habit-tracker-api","stack":"Error: Habit already completed today\n    at HabitService.completeHabit (/home/anaygupta/Desktop/Habbit-Tracker/server/services/HabitService.js:54:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async HabitController.completeHabit (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/habitController.js:47:22)","timestamp":"2026-03-18 14:21:02"}
+{"level":"info","message":"Completing habit 69ba67066f05d1dbc5f4b0a1 for user 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:21:05"}
+{"level":"error","message":"Error completing habit: Habit already completed today","service":"habit-tracker-api","stack":"Error: Habit already completed today\n    at HabitService.completeHabit (/home/anaygupta/Desktop/Habbit-Tracker/server/services/HabitService.js:54:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async HabitController.completeHabit (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/habitController.js:47:22)","timestamp":"2026-03-18 14:21:05"}
+{"level":"info","message":"Fetching chart data for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:21:14"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba666a6f05d1dbc5f4b069 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 14:21:14"}
+{"level":"info","message":"Fetching chart data for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 14:21:14"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba666a6f05d1dbc5f4b069 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 14:21:14"}
+{"level":"info","message":"🚀 Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 15:15:35"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 15:15:35"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 15:15:35"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 15:15:35"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 15:15:35"}
+{"level":"info","message":"✅ MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 15:15:35"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 15:15:35"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba666a6f05d1dbc5f4b069","service":"habit-tracker-api","timestamp":"2026-03-18 15:15:39"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba666a6f05d1dbc5f4b069 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 15:15:39"}
+{"level":"info","message":"New user registered: Anay","service":"habit-tracker-api","timestamp":"2026-03-18 15:16:48"}
+{"level":"info","message":"Processing email job: 4 (verification-email) for anayg.hestabit@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 15:16:48"}
+{"level":"info","message":"Email sent: <e2b54223-1664-ab9f-5a23-7275366ee697@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 15:16:53"}
+{"level":"info","message":"Successfully sent email to anayg.hestabit@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 15:16:53"}
+{"level":"info","message":"Email job 4 completed","service":"habit-tracker-api","timestamp":"2026-03-18 15:16:53"}
+{"level":"error","message":"Email verification error: Invalid or expired verification token","service":"habit-tracker-api","stack":"Error: Invalid or expired verification token\n    at AuthService.verifyEmail (/home/anaygupta/Desktop/Habbit-Tracker/server/services/AuthService.js:61:22)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async AuthController.verifyEmail (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/authController.js:27:20)","timestamp":"2026-03-18 15:17:07"}
+{"level":"info","message":"OTP generated for user: Anay","service":"habit-tracker-api","timestamp":"2026-03-18 15:17:26"}
+{"level":"info","message":"Processing email job: 5 (otp-email) for anayg.hestabit@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 15:17:26"}
+{"level":"info","message":"Email sent: <a0d53302-919c-6348-d220-4df2ac4a3e9a@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 15:17:29"}
+{"level":"info","message":"Successfully sent email to anayg.hestabit@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 15:17:29"}
+{"level":"info","message":"Email job 5 completed","service":"habit-tracker-api","timestamp":"2026-03-18 15:17:29"}
+{"level":"error","message":"OTP verification error: Invalid or expired OTP","service":"habit-tracker-api","stack":"Error: Invalid or expired OTP\n    at AuthService.verifyOtp (/home/anaygupta/Desktop/Habbit-Tracker/server/services/AuthService.js:125:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async AuthController.verifyOtp (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/authController.js:60:31)","timestamp":"2026-03-18 15:17:41"}
+{"level":"error","message":"OTP verification error: Invalid or expired OTP","service":"habit-tracker-api","stack":"Error: Invalid or expired OTP\n    at AuthService.verifyOtp (/home/anaygupta/Desktop/Habbit-Tracker/server/services/AuthService.js:125:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async AuthController.verifyOtp (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/authController.js:60:31)","timestamp":"2026-03-18 15:17:57"}
+{"level":"info","message":"OTP generated for user: Anay","service":"habit-tracker-api","timestamp":"2026-03-18 15:18:05"}
+{"level":"info","message":"Processing email job: 6 (otp-email) for anayg.hestabit@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 15:18:05"}
+{"level":"info","message":"Email sent: <87cf337b-938a-365a-b75a-cd0d074b7d13@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 15:18:09"}
+{"level":"info","message":"Successfully sent email to anayg.hestabit@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 15:18:09"}
+{"level":"info","message":"Email job 6 completed","service":"habit-tracker-api","timestamp":"2026-03-18 15:18:09"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba7488d3995e8c439dae35","service":"habit-tracker-api","timestamp":"2026-03-18 15:18:21"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba7488d3995e8c439dae35 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 15:18:21"}
+{"level":"info","message":"Fetching habits for user: 69ba7488d3995e8c439dae35","service":"habit-tracker-api","timestamp":"2026-03-18 15:18:38"}
+{"level":"info","message":"Fetching chart data for user: 69ba7488d3995e8c439dae35","service":"habit-tracker-api","timestamp":"2026-03-18 15:18:57"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba7488d3995e8c439dae35 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 15:18:57"}
+{"level":"info","message":"Fetching habits for user: 69ba7488d3995e8c439dae35","service":"habit-tracker-api","timestamp":"2026-03-18 15:18:57"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba7488d3995e8c439dae35","service":"habit-tracker-api","timestamp":"2026-03-18 15:18:59"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba7488d3995e8c439dae35 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 15:18:59"}
+{"level":"info","message":"Fetching chart data for user: 69ba7488d3995e8c439dae35","service":"habit-tracker-api","timestamp":"2026-03-18 15:19:03"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba7488d3995e8c439dae35 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 15:19:03"}
+{"level":"info","message":"OTP generated for user: Anay","service":"habit-tracker-api","timestamp":"2026-03-18 15:19:45"}
+{"level":"info","message":"Processing email job: 7 (otp-email) for anayg.hestabit@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 15:19:45"}
+{"level":"info","message":"Email sent: <69c9fc85-5421-7e33-5431-0bfa7cc7d1eb@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 15:19:48"}
+{"level":"info","message":"Successfully sent email to anayg.hestabit@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 15:19:48"}
+{"level":"info","message":"Email job 7 completed","service":"habit-tracker-api","timestamp":"2026-03-18 15:19:48"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba7488d3995e8c439dae35","service":"habit-tracker-api","timestamp":"2026-03-18 15:20:08"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba7488d3995e8c439dae35 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 15:20:08"}
+{"level":"info","message":"🚀 Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 15:37:24"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 15:37:24"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 15:37:24"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 15:37:24"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 15:37:24"}
+{"level":"info","message":"✅ MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 15:37:24"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 15:37:24"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba7488d3995e8c439dae35 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 15:37:32"}
+{"level":"info","message":"Fetching habits for user: 69ba7488d3995e8c439dae35","service":"habit-tracker-api","timestamp":"2026-03-18 15:38:04"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba7488d3995e8c439dae35 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 15:38:05"}
+{"level":"info","message":"Fetching chart data for user: 69ba7488d3995e8c439dae35","service":"habit-tracker-api","timestamp":"2026-03-18 15:38:07"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba7488d3995e8c439dae35 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 15:38:07"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba7488d3995e8c439dae35 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 15:38:16"}
+{"level":"info","message":"Fetching chart data for user: 69ba7488d3995e8c439dae35","service":"habit-tracker-api","timestamp":"2026-03-18 15:38:18"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba7488d3995e8c439dae35 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 15:38:18"}
+{"level":"info","message":"Fetching chart data for user: 69ba7488d3995e8c439dae35","service":"habit-tracker-api","timestamp":"2026-03-18 15:38:20"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba7488d3995e8c439dae35 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 15:38:20"}
+{"level":"info","message":"🚀 Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 15:47:56"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 15:47:56"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 15:47:56"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 15:47:56"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 15:47:56"}
+{"level":"info","message":"✅ MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 15:47:56"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 15:47:56"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba7488d3995e8c439dae35","service":"habit-tracker-api","timestamp":"2026-03-18 15:48:00"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba7488d3995e8c439dae35 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 15:48:00"}
+{"level":"info","message":"Fetching habits for user: 69ba7488d3995e8c439dae35","service":"habit-tracker-api","timestamp":"2026-03-18 15:48:10"}
+{"level":"info","message":"Fetching chart data for user: 69ba7488d3995e8c439dae35","service":"habit-tracker-api","timestamp":"2026-03-18 15:48:18"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba7488d3995e8c439dae35 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 15:48:18"}
+{"level":"info","message":"🚀 Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 15:56:55"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 15:56:55"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 15:56:55"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 15:56:55"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 15:56:55"}
+{"level":"info","message":"✅ MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 15:56:55"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 15:56:55"}
+{"level":"info","message":"🚀 Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:04"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:04"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:04"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:04"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:04"}
+{"level":"info","message":"✅ MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:04"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:04"}
+{"level":"info","message":"🚀 Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:11"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:11"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:11"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:11"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:11"}
+{"level":"info","message":"✅ MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:11"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:11"}
+{"level":"info","message":"🚀 Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:17"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:17"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:17"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:17"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:17"}
+{"level":"info","message":"✅ MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:17"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:17"}
+{"level":"info","message":"🚀 Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:23"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:23"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:23"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:23"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:23"}
+{"level":"info","message":"✅ MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:23"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:23"}
+{"level":"info","message":"🚀 Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:28"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:28"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:28"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:28"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:28"}
+{"level":"info","message":"✅ MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:28"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:28"}
+{"level":"info","message":"🚀 Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:35"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:35"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:35"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:35"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:35"}
+{"level":"info","message":"✅ MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:35"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 15:57:35"}
+{"level":"info","message":"🚀 Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 16:01:23"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 16:01:23"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 16:01:23"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 16:01:23"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 16:01:23"}
+{"level":"info","message":"✅ MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 16:01:23"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 16:01:23"}
+{"level":"info","message":"🚀 Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 16:04:05"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 16:04:05"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 16:04:05"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 16:04:05"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 16:04:05"}
+{"level":"info","message":"✅ MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 16:04:05"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 16:04:05"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba7488d3995e8c439dae35","service":"habit-tracker-api","timestamp":"2026-03-18 16:04:09"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba7488d3995e8c439dae35 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 16:04:09"}
+{"level":"info","message":" Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 16:12:02"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 16:12:02"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 16:12:02"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 16:12:02"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 16:12:02"}
+{"level":"info","message":" MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 16:12:02"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 16:12:02"}
+{"level":"info","message":" Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 16:17:32"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 16:17:32"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 16:17:32"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 16:17:32"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 16:17:32"}
+{"level":"info","message":" MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 16:17:32"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 16:17:32"}
+{"level":"info","message":"New user registered: vivek","service":"habit-tracker-api","timestamp":"2026-03-18 16:18:21"}
+{"level":"info","message":"Processing email job: 8 (verification-email) for viveksingh09102003@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:18:21"}
+{"level":"info","message":"Email sent: <0c915a9a-71dd-166b-07c8-9204e20fd4ec@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 16:18:25"}
+{"level":"info","message":"Successfully sent email to viveksingh09102003@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:18:25"}
+{"level":"info","message":"Email job 8 completed","service":"habit-tracker-api","timestamp":"2026-03-18 16:18:25"}
+{"level":"info","message":" Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 16:21:39"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 16:21:39"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 16:21:39"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 16:21:39"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 16:21:39"}
+{"level":"info","message":" MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 16:21:39"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 16:21:39"}
+{"level":"error","message":"Signup error: User already exists","service":"habit-tracker-api","stack":"Error: User already exists\n    at AuthService.signup (/home/anaygupta/Desktop/Habbit-Tracker/server/services/AuthService.js:13:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async AuthController.signup (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/authController.js:13:33)","timestamp":"2026-03-18 16:22:23"}
+{"level":"error","message":"Signup error: User already exists","service":"habit-tracker-api","stack":"Error: User already exists\n    at AuthService.signup (/home/anaygupta/Desktop/Habbit-Tracker/server/services/AuthService.js:13:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async AuthController.signup (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/authController.js:13:33)","timestamp":"2026-03-18 16:23:08"}
+{"level":"info","message":"New user registered: Vivek01","service":"habit-tracker-api","timestamp":"2026-03-18 16:23:49"}
+{"level":"info","message":"Processing email job: 9 (verification-email) for viveks.hestabit@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:23:49"}
+{"level":"info","message":"Email sent: <8e782765-541c-7249-da6d-08a88f5d5f80@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 16:23:53"}
+{"level":"info","message":"Successfully sent email to viveks.hestabit@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:23:53"}
+{"level":"info","message":"Email job 9 completed","service":"habit-tracker-api","timestamp":"2026-03-18 16:23:53"}
+{"level":"error","message":"Login error: Invalid credentials","service":"habit-tracker-api","stack":"Error: Invalid credentials\n    at AuthService.login (/home/anaygupta/Desktop/Habbit-Tracker/server/services/AuthService.js:74:13)\n    at async AuthController.login (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/authController.js:41:22)","timestamp":"2026-03-18 16:24:31"}
+{"level":"info","message":"OTP generated for user: Vivek01","service":"habit-tracker-api","timestamp":"2026-03-18 16:24:45"}
+{"level":"info","message":"Processing email job: 10 (otp-email) for viveks.hestabit@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:24:45"}
+{"level":"info","message":"Email sent: <e598ac9b-b74c-3226-caf9-62649270e7d0@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 16:24:50"}
+{"level":"info","message":"Successfully sent email to viveks.hestabit@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:24:50"}
+{"level":"info","message":"Email job 10 completed","service":"habit-tracker-api","timestamp":"2026-03-18 16:24:50"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba843d62aef3d9304e823d","service":"habit-tracker-api","timestamp":"2026-03-18 16:25:02"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba843d62aef3d9304e823d for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 16:25:02"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba843d62aef3d9304e823d","service":"habit-tracker-api","timestamp":"2026-03-18 16:25:12"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba843d62aef3d9304e823d for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 16:25:12"}
+{"level":"info","message":"Fetching habits for user: 69ba843d62aef3d9304e823d","service":"habit-tracker-api","timestamp":"2026-03-18 16:25:20"}
+{"level":"info","message":"Creating habit for user 69ba843d62aef3d9304e823d: Workout 1 hour ","service":"habit-tracker-api","timestamp":"2026-03-18 16:25:46"}
+{"level":"info","message":"Achievement Unlocked: Creator for user 69ba843d62aef3d9304e823d","service":"habit-tracker-api","timestamp":"2026-03-18 16:25:46"}
+{"level":"info","message":"Fetching habits for user: 69ba843d62aef3d9304e823d","service":"habit-tracker-api","timestamp":"2026-03-18 16:25:46"}
+{"level":"info","message":"Fetching habits for user: 69ba843d62aef3d9304e823d","service":"habit-tracker-api","timestamp":"2026-03-18 16:26:14"}
+{"level":"info","message":"Completing habit 69ba84b262aef3d9304e8256 for user 69ba843d62aef3d9304e823d","service":"habit-tracker-api","timestamp":"2026-03-18 16:26:15"}
+{"level":"info","message":"Achievement Unlocked: Day One for user 69ba843d62aef3d9304e823d","service":"habit-tracker-api","timestamp":"2026-03-18 16:26:15"}
+{"level":"info","message":"Deleting user account: 69ba843d62aef3d9304e823d","service":"habit-tracker-api","timestamp":"2026-03-18 16:26:58"}
+{"level":"info","message":"User Vivek01 deleted their account","service":"habit-tracker-api","timestamp":"2026-03-18 16:26:58"}
+{"level":"info","message":"New user registered: Celina","service":"habit-tracker-api","timestamp":"2026-03-18 16:30:32"}
+{"level":"info","message":"Processing email job: 11 (verification-email) for sharmacelina31@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:30:32"}
+{"level":"info","message":"Email sent: <cc021f98-8118-2e11-8346-c09d2e197d08@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 16:30:35"}
+{"level":"info","message":"Successfully sent email to sharmacelina31@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:30:35"}
+{"level":"info","message":"Email job 11 completed","service":"habit-tracker-api","timestamp":"2026-03-18 16:30:35"}
+{"level":"info","message":"OTP generated for user: Celina","service":"habit-tracker-api","timestamp":"2026-03-18 16:31:04"}
+{"level":"info","message":"Processing email job: 12 (otp-email) for sharmacelina31@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:31:04"}
+{"level":"info","message":"Email sent: <6277587f-19c1-3f1a-b31b-d20773a2f657@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 16:31:08"}
+{"level":"info","message":"Successfully sent email to sharmacelina31@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:31:08"}
+{"level":"info","message":"Email job 12 completed","service":"habit-tracker-api","timestamp":"2026-03-18 16:31:08"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba85cf62aef3d9304e8285","service":"habit-tracker-api","timestamp":"2026-03-18 16:31:25"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba85cf62aef3d9304e8285 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 16:31:25"}
+{"level":"info","message":"New user registered: sakshijha123","service":"habit-tracker-api","timestamp":"2026-03-18 16:31:27"}
+{"level":"info","message":"Processing email job: 13 (verification-email) for jhasakshi177@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:31:27"}
+{"level":"info","message":"Email sent: <034e6bc7-c3c9-61a2-82f0-1c971fca5fc0@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 16:31:31"}
+{"level":"info","message":"Successfully sent email to jhasakshi177@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:31:31"}
+{"level":"info","message":"Email job 13 completed","service":"habit-tracker-api","timestamp":"2026-03-18 16:31:31"}
+{"level":"info","message":"Fetching habits for user: 69ba85cf62aef3d9304e8285","service":"habit-tracker-api","timestamp":"2026-03-18 16:31:56"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba85cf62aef3d9304e8285","service":"habit-tracker-api","timestamp":"2026-03-18 16:32:20"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba85cf62aef3d9304e8285 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 16:32:20"}
+{"level":"info","message":"Fetching habits for user: 69ba85cf62aef3d9304e8285","service":"habit-tracker-api","timestamp":"2026-03-18 16:32:21"}
+{"level":"error","message":"Login error: Invalid credentials","service":"habit-tracker-api","stack":"Error: Invalid credentials\n    at AuthService.login (/home/anaygupta/Desktop/Habbit-Tracker/server/services/AuthService.js:74:13)\n    at async AuthController.login (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/authController.js:41:22)","timestamp":"2026-03-18 16:32:26"}
+{"level":"error","message":"Login error: Invalid credentials","service":"habit-tracker-api","stack":"Error: Invalid credentials\n    at AuthService.login (/home/anaygupta/Desktop/Habbit-Tracker/server/services/AuthService.js:74:13)\n    at async AuthController.login (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/authController.js:41:22)","timestamp":"2026-03-18 16:32:35"}
+{"level":"info","message":"OTP generated for user: sakshijha123","service":"habit-tracker-api","timestamp":"2026-03-18 16:32:44"}
+{"level":"info","message":"Processing email job: 14 (otp-email) for jhasakshi177@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:32:44"}
+{"level":"info","message":"Email sent: <e2df8052-8c8f-a6dd-0b7e-91317aaeafd3@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 16:32:48"}
+{"level":"info","message":"Successfully sent email to jhasakshi177@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:32:48"}
+{"level":"info","message":"Email job 14 completed","service":"habit-tracker-api","timestamp":"2026-03-18 16:32:48"}
+{"level":"info","message":"Creating habit for user 69ba85cf62aef3d9304e8285: Reading books in leisure time","service":"habit-tracker-api","timestamp":"2026-03-18 16:33:03"}
+{"level":"info","message":"Achievement Unlocked: Creator for user 69ba85cf62aef3d9304e8285","service":"habit-tracker-api","timestamp":"2026-03-18 16:33:03"}
+{"level":"info","message":"Fetching habits for user: 69ba85cf62aef3d9304e8285","service":"habit-tracker-api","timestamp":"2026-03-18 16:33:03"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba860762aef3d9304e8295","service":"habit-tracker-api","timestamp":"2026-03-18 16:33:07"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba860762aef3d9304e8295 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 16:33:07"}
+{"level":"info","message":"Fetching habits for user: 69ba85cf62aef3d9304e8285","service":"habit-tracker-api","timestamp":"2026-03-18 16:33:19"}
+{"level":"info","message":"Completing habit 69ba866762aef3d9304e82a9 for user 69ba85cf62aef3d9304e8285","service":"habit-tracker-api","timestamp":"2026-03-18 16:33:23"}
+{"level":"info","message":"Achievement Unlocked: Day One for user 69ba85cf62aef3d9304e8285","service":"habit-tracker-api","timestamp":"2026-03-18 16:33:23"}
+{"level":"info","message":"Fetching habits for user: 69ba860762aef3d9304e8295","service":"habit-tracker-api","timestamp":"2026-03-18 16:33:25"}
+{"level":"info","message":"Fetching habits for user: 69ba85cf62aef3d9304e8285","service":"habit-tracker-api","timestamp":"2026-03-18 16:33:31"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba85cf62aef3d9304e8285 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 16:33:54"}
+{"level":"info","message":"Fetching chart data for user: 69ba85cf62aef3d9304e8285","service":"habit-tracker-api","timestamp":"2026-03-18 16:33:54"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba860762aef3d9304e8295","service":"habit-tracker-api","timestamp":"2026-03-18 16:34:25"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba860762aef3d9304e8295 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 16:34:25"}
+{"level":"info","message":"Fetching habits for user: 69ba85cf62aef3d9304e8285","service":"habit-tracker-api","timestamp":"2026-03-18 16:34:43"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba860762aef3d9304e8295","service":"habit-tracker-api","timestamp":"2026-03-18 16:34:48"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba860762aef3d9304e8295 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 16:34:48"}
+{"level":"info","message":"Fetching habits for user: 69ba860762aef3d9304e8295","service":"habit-tracker-api","timestamp":"2026-03-18 16:34:51"}
+{"level":"info","message":"Creating habit for user 69ba860762aef3d9304e8295: meditation","service":"habit-tracker-api","timestamp":"2026-03-18 16:35:03"}
+{"level":"info","message":"Achievement Unlocked: Creator for user 69ba860762aef3d9304e8295","service":"habit-tracker-api","timestamp":"2026-03-18 16:35:03"}
+{"level":"info","message":"Fetching habits for user: 69ba860762aef3d9304e8295","service":"habit-tracker-api","timestamp":"2026-03-18 16:35:03"}
+{"level":"info","message":"Completing habit 69ba86df62aef3d9304e82ec for user 69ba860762aef3d9304e8295","service":"habit-tracker-api","timestamp":"2026-03-18 16:35:10"}
+{"level":"info","message":"Achievement Unlocked: Day One for user 69ba860762aef3d9304e8295","service":"habit-tracker-api","timestamp":"2026-03-18 16:35:10"}
+{"level":"info","message":"Fetching habits for user: 69ba860762aef3d9304e8295","service":"habit-tracker-api","timestamp":"2026-03-18 16:35:17"}
+{"level":"info","message":"Deleting user account: 69ba85cf62aef3d9304e8285","service":"habit-tracker-api","timestamp":"2026-03-18 16:36:22"}
+{"level":"info","message":"User Celina deleted their account","service":"habit-tracker-api","timestamp":"2026-03-18 16:36:22"}
+{"level":"info","message":"Fetching chart data for user: 69ba860762aef3d9304e8295","service":"habit-tracker-api","timestamp":"2026-03-18 16:36:34"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba860762aef3d9304e8295 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 16:36:34"}
+{"level":"error","message":"Login error: Invalid credentials","service":"habit-tracker-api","stack":"Error: Invalid credentials\n    at AuthService.login (/home/anaygupta/Desktop/Habbit-Tracker/server/services/AuthService.js:74:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async AuthController.login (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/authController.js:41:22)","timestamp":"2026-03-18 16:36:38"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba860762aef3d9304e8295","service":"habit-tracker-api","timestamp":"2026-03-18 16:36:49"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba860762aef3d9304e8295 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 16:36:49"}
+{"level":"error","message":"Login error: Invalid credentials","service":"habit-tracker-api","stack":"Error: Invalid credentials\n    at AuthService.login (/home/anaygupta/Desktop/Habbit-Tracker/server/services/AuthService.js:74:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async AuthController.login (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/authController.js:41:22)","timestamp":"2026-03-18 16:36:54"}
+{"level":"info","message":"New user registered: Aryan257","service":"habit-tracker-api","timestamp":"2026-03-18 16:39:22"}
+{"level":"info","message":"Processing email job: 15 (verification-email) for priyanshurajchauhan5765@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:39:22"}
+{"level":"info","message":"Email sent: <d60db92b-01dc-31ea-7f13-d4e093cb92e1@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 16:39:25"}
+{"level":"info","message":"Successfully sent email to priyanshurajchauhan5765@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:39:25"}
+{"level":"info","message":"Email job 15 completed","service":"habit-tracker-api","timestamp":"2026-03-18 16:39:25"}
+{"level":"info","message":"OTP generated for user: Aryan257","service":"habit-tracker-api","timestamp":"2026-03-18 16:40:11"}
+{"level":"info","message":"Processing email job: 16 (otp-email) for priyanshurajchauhan5765@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:40:11"}
+{"level":"info","message":"Email sent: <e11f8758-3a99-9e9f-a1db-fb8d146b3492@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 16:40:14"}
+{"level":"info","message":"Successfully sent email to priyanshurajchauhan5765@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:40:14"}
+{"level":"info","message":"Email job 16 completed","service":"habit-tracker-api","timestamp":"2026-03-18 16:40:14"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba87e162aef3d9304e8334","service":"habit-tracker-api","timestamp":"2026-03-18 16:40:35"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba87e162aef3d9304e8334 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 16:40:35"}
+{"level":"info","message":"Fetching habits for user: 69ba87e162aef3d9304e8334","service":"habit-tracker-api","timestamp":"2026-03-18 16:40:42"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba87e162aef3d9304e8334 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 16:40:46"}
+{"level":"info","message":"Fetching chart data for user: 69ba87e162aef3d9304e8334","service":"habit-tracker-api","timestamp":"2026-03-18 16:40:46"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba87e162aef3d9304e8334","service":"habit-tracker-api","timestamp":"2026-03-18 16:41:01"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba87e162aef3d9304e8334 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 16:41:02"}
+{"level":"info","message":"Deleting user account: 69ba87e162aef3d9304e8334","service":"habit-tracker-api","timestamp":"2026-03-18 16:42:41"}
+{"level":"info","message":"User Aryan257 deleted their account","service":"habit-tracker-api","timestamp":"2026-03-18 16:42:41"}
+{"level":"info","message":"New user registered: Saloni","service":"habit-tracker-api","timestamp":"2026-03-18 16:43:32"}
+{"level":"info","message":"Processing email job: 17 (verification-email) for sharmacelina31@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:43:32"}
+{"level":"info","message":"Email sent: <265adbf7-373f-1b4a-2eba-b9edd0a51d28@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 16:43:36"}
+{"level":"info","message":"Successfully sent email to sharmacelina31@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:43:36"}
+{"level":"info","message":"Email job 17 completed","service":"habit-tracker-api","timestamp":"2026-03-18 16:43:36"}
+{"level":"info","message":"Processing email job: 18 (reset-password-email) for sharmacelina31@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:45:25"}
+{"level":"info","message":"Email sent: <97331368-8e11-f233-7cd6-5fbd57db6628@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 16:45:29"}
+{"level":"info","message":"Successfully sent email to sharmacelina31@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:45:29"}
+{"level":"info","message":"Email job 18 completed","service":"habit-tracker-api","timestamp":"2026-03-18 16:45:29"}
+{"level":"info","message":"OTP generated for user: Saloni","service":"habit-tracker-api","timestamp":"2026-03-18 16:46:14"}
+{"level":"info","message":"Processing email job: 19 (otp-email) for sharmacelina31@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:46:14"}
+{"level":"info","message":"Email sent: <15fb603e-ddd4-2087-61f9-a35bbf318cae@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 16:46:18"}
+{"level":"info","message":"Successfully sent email to sharmacelina31@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 16:46:18"}
+{"level":"info","message":"Email job 19 completed","service":"habit-tracker-api","timestamp":"2026-03-18 16:46:18"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba88dc62aef3d9304e8356","service":"habit-tracker-api","timestamp":"2026-03-18 16:46:33"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba88dc62aef3d9304e8356 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 16:46:33"}
+{"level":"info","message":" Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 17:02:22"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 17:02:22"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 17:02:22"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 17:02:22"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 17:02:22"}
+{"level":"info","message":" MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 17:02:22"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 17:02:22"}
+{"level":"info","message":" Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 17:03:15"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 17:03:15"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 17:03:15"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 17:03:15"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 17:03:15"}
+{"level":"info","message":" MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 17:03:15"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 17:03:15"}
+{"level":"info","message":"New user registered: Anay ","service":"habit-tracker-api","timestamp":"2026-03-18 17:04:01"}
+{"level":"info","message":"Processing email job: 20 (verification-email) for anaygupta173@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 17:04:01"}
+{"level":"info","message":"Email sent: <290dff93-c9a1-1f3b-0cf3-acd2a1fdce74@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 17:04:05"}
+{"level":"info","message":"Successfully sent email to anaygupta173@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 17:04:05"}
+{"level":"info","message":"Email job 20 completed","service":"habit-tracker-api","timestamp":"2026-03-18 17:04:05"}
+{"level":"info","message":"OTP generated for user: Anay","service":"habit-tracker-api","timestamp":"2026-03-18 17:04:28"}
+{"level":"info","message":"Processing email job: 21 (otp-email) for anaygupta173@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 17:04:28"}
+{"level":"info","message":"Email sent: <69917eab-44e8-67de-4ea7-d161a2142ea7@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 17:04:32"}
+{"level":"info","message":"Successfully sent email to anaygupta173@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 17:04:32"}
+{"level":"info","message":"Email job 21 completed","service":"habit-tracker-api","timestamp":"2026-03-18 17:04:32"}
+{"level":"error","message":"OTP verification error: Invalid or expired OTP","service":"habit-tracker-api","stack":"Error: Invalid or expired OTP\n    at AuthService.verifyOtp (/home/anaygupta/Desktop/Habbit-Tracker/server/services/AuthService.js:130:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async AuthController.verifyOtp (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/authController.js:60:31)","timestamp":"2026-03-18 17:04:45"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba8da8354fe9c7120dc538","service":"habit-tracker-api","timestamp":"2026-03-18 17:04:57"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba8da8354fe9c7120dc538 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 17:04:57"}
+{"level":"info","message":"Fetching reflections for user: 69ba8da8354fe9c7120dc538","service":"habit-tracker-api","timestamp":"2026-03-18 17:05:30"}
+{"http_code":499,"level":"error","message":"Request Timeout","name":"TimeoutError","service":"habit-tracker-api","timestamp":"2026-03-18 17:06:19"}
+{"level":"error","message":"Image upload error: Failed to upload image to Cloudinary","service":"habit-tracker-api","stack":"Error: Failed to upload image to Cloudinary\n    at /home/anaygupta/Desktop/Habbit-Tracker/server/utils/cloudinary.js:32:25\n    at /home/anaygupta/Desktop/Habbit-Tracker/server/node_modules/cloudinary/lib/utils/index.js:1388:14\n    at handle_response (/home/anaygupta/Desktop/Habbit-Tracker/server/node_modules/cloudinary/lib/uploader.js:504:7)\n    at ClientRequest.<anonymous> (/home/anaygupta/Desktop/Habbit-Tracker/server/node_modules/cloudinary/lib/uploader.js:633:12)\n    at ClientRequest.emit (node:events:536:35)\n    at emitErrorEvent (node:_http_client:101:11)\n    at TLSSocket.socketCloseListener (node:_http_client:477:7)\n    at TLSSocket.emit (node:events:536:35)\n    at node:net:343:12\n    at TCP.done (node:_tls_wrap:665:7)","timestamp":"2026-03-18 17:06:19"}
+{"level":"info","message":"Deleting user account: 69ba8da8354fe9c7120dc538","service":"habit-tracker-api","timestamp":"2026-03-18 17:06:42"}
+{"level":"info","message":"User Anay deleted their account","service":"habit-tracker-api","timestamp":"2026-03-18 17:06:42"}
+{"level":"error","message":"Signup error: User already exists","service":"habit-tracker-api","stack":"Error: User already exists\n    at AuthService.signup (/home/anaygupta/Desktop/Habbit-Tracker/server/services/AuthService.js:13:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async AuthController.signup (/home/anaygupta/Desktop/Habbit-Tracker/server/controllers/authController.js:13:33)","timestamp":"2026-03-18 17:07:37"}
+{"level":"info","message":" Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 17:17:33"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 17:17:33"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 17:17:33"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 17:17:33"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 17:17:33"}
+{"level":"info","message":" MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 17:17:34"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 17:17:34"}
+{"level":"info","message":" Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 17:18:05"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 17:18:05"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 17:18:05"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 17:18:05"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 17:18:05"}
+{"level":"info","message":" MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 17:18:05"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 17:18:05"}
+{"level":"info","message":" Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 17:29:29"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 17:29:29"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 17:29:29"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 17:29:29"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 17:29:29"}
+{"level":"info","message":" MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 17:29:29"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 17:29:29"}
+{"level":"info","message":" Server running on port 5000 (0.0.0.0)","service":"habit-tracker-api","timestamp":"2026-03-18 17:30:55"}
+{"level":"info","message":"Environment: development","service":"habit-tracker-api","timestamp":"2026-03-18 17:30:55"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-03-18 17:30:55"}
+{"level":"info","message":"Reminder service initialized (Daily at 8 PM)","service":"habit-tracker-api","timestamp":"2026-03-18 17:30:55"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-03-18 17:30:55"}
+{"level":"info","message":" MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-03-18 17:30:55"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-03-18 17:30:55"}
+{"level":"info","message":"New user registered: Anay45","service":"habit-tracker-api","timestamp":"2026-03-18 17:31:40"}
+{"level":"info","message":"Processing email job: 22 (verification-email) for a***@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 17:31:40"}
+{"level":"info","message":"Email sent: <656425a5-6d0a-74df-d187-fd7f65015eef@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 17:31:43"}
+{"level":"info","message":"Successfully sent email to a***@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 17:31:43"}
+{"level":"info","message":"Email job 22 completed","service":"habit-tracker-api","timestamp":"2026-03-18 17:31:43"}
+{"level":"info","message":"OTP generated for user: Anay45","service":"habit-tracker-api","timestamp":"2026-03-18 17:32:04"}
+{"level":"info","message":"Processing email job: 23 (otp-email) for a***@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 17:32:04"}
+{"level":"info","message":"Email sent: <378dafe0-d6c0-0d4d-d6a9-f7c862adc6c5@gmail.com>","service":"habit-tracker-api","timestamp":"2026-03-18 17:32:08"}
+{"level":"info","message":"Successfully sent email to a***@gmail.com","service":"habit-tracker-api","timestamp":"2026-03-18 17:32:08"}
+{"level":"info","message":"Email job 23 completed","service":"habit-tracker-api","timestamp":"2026-03-18 17:32:08"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:32:18"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba94230effd4143aa86872 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 17:32:18"}
+{"level":"info","message":"Fetching chart data for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:32:37"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba94230effd4143aa86872 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 17:32:37"}
+{"level":"info","message":"Fetching habits for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:32:50"}
+{"level":"info","message":"Fetching reflections for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:33:33"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:33:57"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba94230effd4143aa86872 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 17:33:57"}
+{"level":"info","message":"Fetching reflections for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:34:07"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:34:16"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba94230effd4143aa86872 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 17:34:16"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:35:10"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba94230effd4143aa86872 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 17:35:10"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:35:15"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba94230effd4143aa86872 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 17:35:15"}
+{"level":"info","message":"Fetching habits for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:35:16"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:35:27"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba94230effd4143aa86872 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 17:35:27"}
+{"level":"info","message":"Fetching habits for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:35:50"}
+{"level":"info","message":"Creating habit for user 69ba94230effd4143aa86872: Daily Leetcode","service":"habit-tracker-api","timestamp":"2026-03-18 17:36:07"}
+{"level":"info","message":"Achievement Unlocked: Creator for user 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:36:07"}
+{"level":"info","message":"Fetching habits for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:36:07"}
+{"level":"info","message":"Fetching habits for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:36:14"}
+{"level":"info","message":"Completing habit 69ba952f0effd4143aa868c1 for user 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:36:18"}
+{"level":"info","message":"Fetching habits for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:36:22"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:36:30"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba94230effd4143aa86872 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 17:36:30"}
+{"level":"info","message":"Fetching dashboard data for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:38:45"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba94230effd4143aa86872 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 17:38:45"}
+{"level":"info","message":"Fetching habits for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:38:47"}
+{"level":"info","message":"Creating habit for user 69ba94230effd4143aa86872: Meditation","service":"habit-tracker-api","timestamp":"2026-03-18 17:38:55"}
+{"level":"info","message":"Fetching habits for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:38:55"}
+{"level":"info","message":"Creating habit for user 69ba94230effd4143aa86872: vfjsnd","service":"habit-tracker-api","timestamp":"2026-03-18 17:39:05"}
+{"level":"info","message":"Fetching habits for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:39:05"}
+{"level":"info","message":"Completing habit 69ba95e10effd4143aa8691e for user 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:39:10"}
+{"level":"info","message":"Completing habit 69ba95d70effd4143aa86911 for user 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:39:11"}
+{"level":"info","message":"Fetching chart data for user: 69ba94230effd4143aa86872","service":"habit-tracker-api","timestamp":"2026-03-18 17:39:13"}
+{"level":"info","message":"Fetching heatmap data for user: 69ba94230effd4143aa86872 for year: 2026","service":"habit-tracker-api","timestamp":"2026-03-18 17:39:13"}

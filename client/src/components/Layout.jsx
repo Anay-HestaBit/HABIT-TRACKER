@@ -24,7 +24,7 @@ const SidebarLink = ({ to, icon: Icon, label, active, onClick }) => (
     onClick={onClick}
     className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 ${
       active 
-        ? 'bg-primary text-white shadow-lg shadow-primary/20' 
+        ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' 
         : 'text-muted-foreground hover:bg-secondary hover:text-foreground'
     }`}
   >
@@ -62,7 +62,7 @@ const Layout = ({ children }) => {
       <aside className="hidden lg:flex flex-col w-64 border-r border-secondary/50 p-6 glass sticky top-0 h-screen">
         <div className="flex items-center gap-3 mb-10 px-2">
           <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/30">
-            <Globe2 className="text-white" size={24} />
+            <Globe2 className="text-primary-foreground" size={24} />
           </div>
           <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
             HabitJourney
@@ -97,7 +97,7 @@ const Layout = ({ children }) => {
                 user?.username?.charAt(0).toUpperCase()
               )}
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <Settings size={14} className="text-white" />
+                <Settings size={14} className="text-primary-foreground" />
               </div>
             </div>
             <div className="flex-1 min-w-0">

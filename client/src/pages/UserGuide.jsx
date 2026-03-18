@@ -1,104 +1,112 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Globe2, 
-  Zap, 
-  Flame, 
-  Trophy, 
-  BookOpen, 
-  ChevronRight, 
-  Star,
-  Shield,
-  Target
-} from 'lucide-react';
-
-const GuideSection = ({ icon: Icon, title, description, delay }) => (
-  <motion.div
-    initial={{ opacity: 0, x: -20 }}
-    animate={{ opacity: 1, x: 0 }}
-    transition={{ delay }}
-    className="flex gap-6 p-6 rounded-3xl hover:bg-secondary/30 transition-all group"
-  >
-    <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shrink-0 group-hover:scale-110 transition-transform">
-      <Icon size={24} />
-    </div>
-    <div>
-      <h3 className="text-xl font-bold mb-2">{title}</h3>
-      <p className="text-muted-foreground leading-relaxed">{description}</p>
-    </div>
-  </motion.div>
-);
+import { BookOpen, CheckCircle2, Sparkles, Shield, HelpCircle } from 'lucide-react';
 
 const UserGuide = () => {
-  const steps = [
+  const quickStart = [
     {
-      icon: Target,
-      title: "1. Create Your Habits",
-      description: "Stat by adding habits you want to build. Choose between daily or weekly frequencies. Give them a name and a color that motivates you.",
-      delay: 0.1
+      title: 'Create your first habit',
+      detail: 'Go to Habits → Create New. Pick daily or weekly and choose a color you like.'
     },
     {
-      icon: Zap,
-      title: "2. Track Completion",
-      description: "Mark your habits as complete every day. Each completion earns you XP and contributes to your digital world's growth.",
-      delay: 0.2
+      title: 'Complete it daily',
+      detail: 'Tap Complete to earn XP and build your streak.'
     },
     {
-      icon: Flame,
-      title: "3. Maintain Streaks",
-      description: "Consistency is key. Building streaks unlocks bonuses and accelerates your level progression. Level up from a Seedling to a Majestic Oak!",
-      delay: 0.3
+      title: 'Watch your world evolve',
+      detail: 'Each level grows your tree — branches, leaves, flowers, and fruits.'
     },
     {
-      icon: Globe2,
-      title: "4. Evolve Your World",
-      description: "Visit the 'Visual World' to see your progress manifest. Your tree grows new branches and leaves based on your habits and streaks.",
-      delay: 0.4
+      title: 'Use streak shields wisely',
+      detail: 'Shields protect your streak on a busy day (once you unlock them).'
+    },
+  ];
+
+  const faqs = [
+    {
+      q: 'How do streaks work?'
+    , a: 'Complete a habit each day to keep the streak alive. Missing a day breaks it unless you use a shield.'
     },
     {
-      icon: Shield,
-      title: "5. Use Streak Shields",
-      description: "Life happens. Use your monthly Streak Shield to protect your progress if you miss a day. It resets every 30 days.",
-      delay: 0.5
-    }
+      q: 'Why did my XP increase?'
+    , a: 'XP is earned per completion and increases with streak length. More streak = more XP.'
+    },
+    {
+      q: 'What counts as “done today”?'
+    , a: 'Habits reset at UTC midnight so your progress is consistent across devices.'
+    },
+    {
+      q: 'How do I unlock achievements?'
+    , a: 'Complete habits, build streaks, and level up your world. New achievements appear automatically.'
+    },
+    {
+      q: 'Can I delete a habit?'
+    , a: 'Yes. Use the trash icon in Habits. You will be asked to confirm twice.'
+    },
+    {
+      q: 'How is the Journal protected?'
+    , a: 'Your Journal uses a separate password that is not recoverable. You must enter it to view past reflections.'
+    },
   ];
 
   return (
-    <div className="max-w-4xl space-y-12 pb-20">
+    <div className="max-w-4xl space-y-10 pb-20">
       <header className="text-center space-y-4">
         <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
+          initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          className="inline-block p-4 rounded-3xl bg-primary/20 text-primary mb-4"
+          className="inline-block p-4 rounded-3xl bg-primary/20 text-primary"
         >
           <BookOpen size={32} />
         </motion.div>
-        <h1 className="text-5xl font-black">Explorer's Guide</h1>
-        <p className="text-xl text-muted-foreground">Master the art of consistency and build your digital empire.</p>
+        <h1 className="text-4xl md:text-5xl font-black">User Guide</h1>
+        <p className="text-lg text-muted-foreground">Simple steps to build your streaks and grow your world.</p>
       </header>
 
-      <div className="grid gap-4">
-        {steps.map((step, i) => (
-          <GuideSection key={i} {...step} />
-        ))}
-      </div>
-
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
-        className="glass p-10 rounded-[3rem] border border-primary/20 bg-primary/5 text-center space-y-6"
-      >
-        <div className="flex justify-center gap-2">
-          {[...Array(5)].map((_, i) => (
-            <Star key={i} className="text-primary fill-primary" size={20} />
+      <section className="glass p-8 rounded-[2.5rem] border border-white/10">
+        <div className="flex items-center gap-3 mb-6">
+          <Sparkles className="text-primary" />
+          <h2 className="text-2xl font-black">Quick Start</h2>
+        </div>
+        <div className="grid gap-5">
+          {quickStart.map((step) => (
+            <div key={step.title} className="flex gap-4">
+              <div className="w-10 h-10 rounded-2xl bg-primary/10 text-primary flex items-center justify-center">
+                <CheckCircle2 size={20} />
+              </div>
+              <div>
+                <p className="font-bold">{step.title}</p>
+                <p className="text-muted-foreground text-sm">{step.detail}</p>
+              </div>
+            </div>
           ))}
         </div>
-        <h2 className="text-2xl font-bold">Ready to start your journey?</h2>
-        <p className="text-muted-foreground max-w-lg mx-auto">
-          Remember, the best time to start was yesterday. The second best time is right now. Good luck, Explorer!
+      </section>
+
+      <section className="glass p-8 rounded-[2.5rem] border border-white/10">
+        <div className="flex items-center gap-3 mb-6">
+          <Shield className="text-primary" />
+          <h2 className="text-2xl font-black">Streak Shields</h2>
+        </div>
+        <p className="text-muted-foreground">
+          Shields protect your streak once you unlock them. Use them on a day you miss to keep your progress intact.
         </p>
-      </motion.div>
+      </section>
+
+      <section className="glass p-8 rounded-[2.5rem] border border-white/10">
+        <div className="flex items-center gap-3 mb-6">
+          <HelpCircle className="text-primary" />
+          <h2 className="text-2xl font-black">FAQs</h2>
+        </div>
+        <div className="space-y-4">
+          {faqs.map((item) => (
+            <div key={item.q} className="p-4 rounded-2xl bg-secondary/40 border border-white/5">
+              <p className="font-bold mb-1">{item.q}</p>
+              <p className="text-sm text-muted-foreground">{item.a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 };

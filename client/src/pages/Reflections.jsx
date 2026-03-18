@@ -7,8 +7,10 @@ import {
   Frown, 
   Sunrise, 
   Save,
+  CheckCircle2,
   Loader2,
-  Calendar as CalendarIcon
+  Calendar as CalendarIcon,
+  Shield
 } from 'lucide-react';
 import api from '../api/axios';
 
@@ -44,25 +46,82 @@ const Reflections = () => {
   const [loading, setLoading] = useState(false);
   const [entries, setEntries] = useState([]);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [hasJournalPassword, setHasJournalPassword] = useState(false);
+  const [journalPassword, setJournalPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isUnlocked, setIsUnlocked] = useState(false);
+  const [authError, setAuthError] = useState('');
+  const [isSettingPassword, setIsSettingPassword] = useState(false);
 
   useEffect(() => {
-    // fetchData();
-    // Simplified entries for demo
-    setEntries([
-      { id: 1, date: '2026-03-16', content: 'Feeling great today! Completed all my habits and the tree is looking bigger.', mood: 'amazing' },
-      { id: 2, date: '2026-03-15', content: 'Struggled a bit with reading, but got it done eventually. Need to sleep more.', mood: 'okay' }
-    ]);
+    const fetchStatus = async () => {
+      try {
+        const { data } = await api.get('/reflections/status');
+        setHasJournalPassword(Boolean(data?.hasPassword));
+      } catch (err) {
+        console.error('Error loading journal status');
+      }
+    };
+    fetchStatus();
   }, []);
+
+  useEffect(() => {
+    const fetchReflections = async () => {
+      try {
+        const { data } = await api.get('/reflections', {
+          headers: { 'x-journal-password': journalPassword }
+        });
+        setEntries(data);
+      } catch (err) {
+        console.error('Error loading reflections');
+      }
+    };
+    if (isUnlocked) fetchReflections();
+  }, [isUnlocked, journalPassword]);
+
+  const handleSetPassword = async () => {
+    if (journalPassword.length < 8) {
+      setAuthError('Password must be at least 8 characters');
+      return;
+    }
+    if (journalPassword !== confirmPassword) {
+      setAuthError('Passwords do not match');
+      return;
+    }
+    setIsSettingPassword(true);
+    setAuthError('');
+    try {
+      await api.post('/reflections/set-password', { password: journalPassword });
+      setHasJournalPassword(true);
+      setIsUnlocked(true);
+    } catch (err) {
+      setAuthError(err.response?.data?.message || 'Failed to set journal password');
+    } finally {
+      setIsSettingPassword(false);
+    }
+  };
+
+  const handleUnlock = async () => {
+    setAuthError('');
+    try {
+      await api.post('/reflections/verify', { password: journalPassword });
+      setIsUnlocked(true);
+    } catch (err) {
+      setAuthError(err.response?.data?.message || 'Invalid journal password');
+    }
+  };
 
   const handleSave = async () => {
     if (!content) return;
     setLoading(true);
     try {
-      // await api.post('/reflections', { content, mood, date: new Date() });
+      const { data } = await api.post('/reflections', { content, mood, date: new Date() }, {
+        headers: { 'x-journal-password': journalPassword }
+      });
       setIsSuccess(true);
       setTimeout(() => setIsSuccess(false), 3000);
       setEntries([
-        { id: Date.now(), date: new Date().toISOString().split('T')[0], content, mood },
+        data,
         ...entries
       ]);
       setContent('');
@@ -80,6 +139,67 @@ const Reflections = () => {
         <p className="text-muted-foreground font-medium">Reflect on your progress and mindful moments.</p>
       </header>
 
+      {!isUnlocked && (
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="glass p-8 rounded-[2.5rem] border border-white/10 max-w-2xl"
+        >
+          <div className="flex items-center gap-3 mb-4">
+            <Shield className="text-primary" />
+            <h2 className="text-2xl font-black">Private Journal Lock</h2>
+          </div>
+          <p className="text-muted-foreground mb-6">
+            Your journal is protected by a separate password. This password cannot be recovered if forgotten.
+          </p>
+
+          {!hasJournalPassword ? (
+            <div className="space-y-4">
+              <input
+                type="password"
+                placeholder="Set journal password"
+                value={journalPassword}
+                onChange={(e) => setJournalPassword(e.target.value)}
+                className="w-full bg-secondary/50 border border-white/5 rounded-2xl px-5 py-3 text-foreground"
+              />
+              <input
+                type="password"
+                placeholder="Confirm journal password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="w-full bg-secondary/50 border border-white/5 rounded-2xl px-5 py-3 text-foreground"
+              />
+              {authError && <p className="text-sm text-destructive">{authError}</p>}
+              <button
+                onClick={handleSetPassword}
+                disabled={isSettingPassword}
+                className="px-6 py-3 rounded-2xl bg-primary text-primary-foreground font-bold"
+              >
+                {isSettingPassword ? 'Setting...' : 'Set Journal Password'}
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              <input
+                type="password"
+                placeholder="Enter journal password"
+                value={journalPassword}
+                onChange={(e) => setJournalPassword(e.target.value)}
+                className="w-full bg-secondary/50 border border-white/5 rounded-2xl px-5 py-3 text-foreground"
+              />
+              {authError && <p className="text-sm text-destructive">{authError}</p>}
+              <button
+                onClick={handleUnlock}
+                className="px-6 py-3 rounded-2xl bg-primary text-primary-foreground font-bold"
+              >
+                Unlock Journal
+              </button>
+            </div>
+          )}
+        </motion.div>
+      )}
+
+      {isUnlocked && (
       <div className="grid lg:grid-cols-2 gap-10">
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -116,8 +236,8 @@ const Reflections = () => {
               disabled={loading || !content}
               className={`w-full py-4 rounded-2xl flex items-center justify-center gap-3 font-black text-lg transition-all ${
                 isSuccess 
-                  ? 'bg-emerald-500 text-white shadow-xl shadow-emerald-500/20' 
-                  : 'bg-primary text-white shadow-xl shadow-primary/20 hover:translate-y-[-2px]'
+                  ? 'bg-emerald-500 text-primary-foreground shadow-xl shadow-emerald-500/20' 
+                  : 'bg-primary text-primary-foreground shadow-xl shadow-primary/20 hover:translate-y-[-2px]'
               } disabled:opacity-50`}
             >
               {loading ? <Loader2 className="animate-spin" /> : isSuccess ? <CheckCircle2 /> : <Save size={20} />}
@@ -135,7 +255,7 @@ const Reflections = () => {
           <AnimatePresence>
             {entries.map((entry, i) => (
               <motion.div
-                key={entry.id}
+                key={entry._id || entry.id}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
@@ -162,6 +282,7 @@ const Reflections = () => {
           </AnimatePresence>
         </div>
       </div>
+      )}
     </div>
   );
 };

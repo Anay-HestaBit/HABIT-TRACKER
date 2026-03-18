@@ -3,7 +3,34 @@ const UserRepository = require('../repositories/UserRepository');
 const ProgressRepository = require('../repositories/ProgressRepository');
 const logger = require('../utils/logger');
 
+// FIX: Consistent UTC midnight helper — same logic as Habit model
+// Prevents timezone mismatch between server (local time) and client (UTC)
+const getUTCMidnight = () => {
+  const d = new Date();
+  d.setUTCHours(0, 0, 0, 0);
+  return d;
+};
+
 class HabitService {
+  addBadgeIfMissing(user, badge, newlyUnlocked) {
+    const exists = user.badges.some(b => b.name === badge.name);
+    if (!exists) {
+      user.badges.push(badge);
+      newlyUnlocked.push(badge);
+      return true;
+    }
+    return false;
+  }
+
+  async getTotalCompletions(userId) {
+    const result = await HabitRepository.model.aggregate([
+      { $match: { userId } },
+      { $project: { count: { $size: '$completions' } } },
+      { $group: { _id: null, total: { $sum: '$count' } } },
+    ]);
+    return result[0]?.total || 0;
+  }
+
   async getUserHabits(userId) {
     logger.info(`Fetching habits for user: ${userId}`);
     return HabitRepository.findActiveByUserId(userId);
@@ -13,26 +40,24 @@ class HabitService {
     logger.info(`Creating habit for user ${userId}: ${habitData.name}`);
     const habit = await HabitRepository.create({ ...habitData, userId });
 
-    // Unlock "Creator" Achievement
     const user = await UserRepository.findById(userId);
-    const hasCreator = user.badges.some(b => b.name === 'Creator');
-    if (!hasCreator) {
-      user.badges.push({
-        name: 'Creator',
-        description: 'Created your first habit!',
-        icon: 'PlusCircle'
-      });
+    const newlyUnlocked = [];
+    this.addBadgeIfMissing(user, {
+      name: 'Creator',
+      description: 'Created your first habit!',
+      icon: 'PlusCircle'
+    }, newlyUnlocked);
+    if (newlyUnlocked.length > 0) {
       await user.save();
       logger.info(`Achievement Unlocked: Creator for user ${userId}`);
     }
-    
-    return habit;
+
+    return { habit, newlyUnlockedBadges: newlyUnlocked };
   }
 
   async updateHabit(habitId, userId, habitData) {
     const habit = await HabitRepository.findOneWithUser(habitId, userId);
     if (!habit) throw new Error('Habit not found');
-    
     Object.assign(habit, habitData);
     return habit.save();
   }
@@ -40,7 +65,6 @@ class HabitService {
   async deleteHabit(habitId, userId) {
     const habit = await HabitRepository.findOneWithUser(habitId, userId);
     if (!habit) throw new Error('Habit not found');
-    
     habit.isActive = false;
     return habit.save();
   }
@@ -54,10 +78,12 @@ class HabitService {
       throw new Error('Habit already completed today');
     }
 
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    
-    habit.completions.push({ date: today });
+    // FIX: Use UTC midnight so the stored date matches what the client checks.
+    // Old code: new Date().setHours(0,0,0,0) → local midnight → wrong UTC date in non-UTC timezones
+    const today = getUTCMidnight();
+    const completionTime = new Date();
+
+    habit.completions.push({ date: today, completedAt: completionTime });
     habit.streak = habit.calculateStreak();
     if (habit.streak > habit.longestStreak) {
       habit.longestStreak = habit.streak;
@@ -67,8 +93,8 @@ class HabitService {
     const xpReward = 10 + (habit.streak * 2);
     const user = await UserRepository.findById(userId);
     user.xp += xpReward;
-    
-    const newLevel = Math.floor(user.xp / 100) + 1;
+
+    const newLevel = Math.floor(user.xp / 1000) + 1;
     let leveledUp = false;
     if (newLevel > user.level) {
       user.level = newLevel;
@@ -78,20 +104,61 @@ class HabitService {
       leveledUp = true;
       logger.info(`User ${userId} leveled up to ${newLevel}`);
     }
-    await user.save();
 
-    // Unlock Achievements
-    const hasDayOne = user.badges.some(b => b.name === 'Day One');
-    if (!hasDayOne) {
-      user.badges.push({
-        name: 'Day One',
-        description: 'Completed your first habit!',
-        icon: 'Zap'
-      });
-      await user.save();
-      logger.info(`Achievement Unlocked: Day One for user ${userId}`);
+    const newlyUnlockedBadges = [];
+
+    // Unlock Day One achievement
+    this.addBadgeIfMissing(user, {
+      name: 'Day One',
+      description: 'Completed your first habit!',
+      icon: 'Zap'
+    }, newlyUnlockedBadges);
+
+    // Unlock Consistency Pro (7-day streak)
+    if (habit.streak >= 7) {
+      this.addBadgeIfMissing(user, {
+        name: 'Consistency Pro',
+        description: 'Maintained a 7-day streak!',
+        icon: 'Flame'
+      }, newlyUnlockedBadges);
     }
 
+    if (newLevel >= 5) {
+      this.addBadgeIfMissing(user, {
+        name: 'World Builder',
+        description: 'Reach World Level 5.',
+        icon: 'Star'
+      }, newlyUnlockedBadges);
+    }
+
+    const hour = completionTime.getHours();
+    if (hour < 8) {
+      this.addBadgeIfMissing(user, {
+        name: 'Early Bird',
+        description: 'Complete a habit before 8 AM.',
+        icon: 'Sun'
+      }, newlyUnlockedBadges);
+    }
+    if (hour >= 22) {
+      this.addBadgeIfMissing(user, {
+        name: 'Night Owl',
+        description: 'Complete a habit after 10 PM.',
+        icon: 'Moon'
+      }, newlyUnlockedBadges);
+    }
+
+    const totalCompletions = await this.getTotalCompletions(userId);
+    if (totalCompletions >= 30) {
+      this.addBadgeIfMissing(user, {
+        name: 'Habit Master',
+        description: 'Complete 30 total habits.',
+        icon: 'Trophy'
+      }, newlyUnlockedBadges);
+    }
+
+    await user.save();
+
+    // Update or create daily progress record
     let progress = await ProgressRepository.findByUserAndDate(userId, today);
     if (!progress) {
       const activeHabitsCount = await HabitRepository.countActive(userId);
@@ -114,7 +181,8 @@ class HabitService {
       leveledUp,
       newLevel: user.level,
       newXP: user.xp,
-      worldState: user.worldState
+      worldState: user.worldState,
+      newlyUnlockedBadges
     };
   }
 }

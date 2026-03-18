@@ -1,18 +1,14 @@
 const UserRepository = require('../repositories/UserRepository');
-const HabitRepository = require('../repositories/HabitRepository');
-const ProgressRepository = require('../repositories/ProgressRepository');
 const logger = require('../utils/logger');
 
 class UserService {
   async deleteUserAccount(userId) {
     logger.info(`Deleting user account: ${userId}`);
-    
-    // Delete all related data
-    await HabitRepository.model.deleteMany({ userId });
-    await ProgressRepository.model.deleteMany({ userId });
-    
-    // Delete the user
-    return await UserRepository.deleteById(userId);
+
+    return UserRepository.update(userId, {
+      isDeleted: true,
+      deletedAt: new Date(),
+    });
   }
 
   async updateProfile(userId, updateData) {

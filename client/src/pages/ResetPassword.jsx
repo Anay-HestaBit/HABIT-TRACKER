@@ -23,6 +23,9 @@ const ResetPassword = () => {
     if (password.length < 8) {
         return setError('Password must be at least 8 characters');
     }
+    if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/.test(password)) {
+        return setError('Password must include uppercase, lowercase, number, and special character');
+    }
 
     setLoading(true);
     setError('');
@@ -40,10 +43,10 @@ const ResetPassword = () => {
 
   if (!token) {
     return (
-      <div className="min-h-screen bg-[#0f172a] flex items-center justify-center p-4">
-        <div className="max-w-md w-full bg-slate-800/50 backdrop-blur-xl p-8 rounded-3xl border border-slate-700/50 text-center">
-          <h2 className="text-2xl font-bold text-white mb-4">Invalid Link</h2>
-          <p className="text-slate-400 mb-6">No reset token provided. Please use the link sent to your email.</p>
+      <div className="min-h-screen bg-background text-foreground flex items-center justify-center p-4">
+        <div className="max-w-md w-full bg-card/50 backdrop-blur-xl p-8 rounded-3xl border border-secondary/50 text-center">
+          <h2 className="text-2xl font-bold text-foreground mb-4">Invalid Link</h2>
+          <p className="text-muted-foreground mb-6">No reset token provided. Please use the link sent to your email.</p>
           <button onClick={() => navigate('/login')} className="text-blue-400 hover:underline">Back to Login</button>
         </div>
       </div>
@@ -51,37 +54,37 @@ const ResetPassword = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#0f172a] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background text-foreground flex items-center justify-center p-4">
       <motion.div 
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-md w-full bg-slate-800/50 backdrop-blur-xl p-8 rounded-3xl border border-slate-700/50"
+        className="max-w-md w-full bg-card/50 backdrop-blur-xl p-8 rounded-3xl border border-secondary/50"
       >
         {success ? (
           <div className="text-center">
             <div className="w-16 h-16 bg-emerald-500/10 rounded-2xl flex items-center justify-center mb-4 mx-auto">
               <CheckCircle className="w-8 h-8 text-emerald-400" />
             </div>
-            <h2 className="text-2xl font-bold text-white mb-2">Success!</h2>
-            <p className="text-slate-400 mb-6">Your password has been reset successfully.</p>
-            <p className="text-sm text-slate-500">Redirecting to login...</p>
+            <h2 className="text-2xl font-bold text-foreground mb-2">Success!</h2>
+            <p className="text-muted-foreground mb-6">Your password has been reset successfully.</p>
+            <p className="text-sm text-muted-foreground">Redirecting to login...</p>
           </div>
         ) : (
           <>
             <div className="mb-8">
-              <h2 className="text-3xl font-bold text-white mb-2">Reset Password</h2>
-              <p className="text-slate-400">Choose a new, strong password to secure your account.</p>
+              <h2 className="text-3xl font-bold text-foreground mb-2">Reset Password</h2>
+              <p className="text-muted-foreground">Choose a new, strong password to secure your account.</p>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-300 ml-1">New Password</label>
+                <label className="text-sm font-medium text-muted-foreground ml-1">New Password</label>
                 <div className="relative">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     required
-                    className="w-full bg-slate-900/50 border border-slate-700 p-4 pl-12 rounded-2xl text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
+                    className="w-full bg-secondary/50 border border-secondary/60 p-4 pl-12 rounded-2xl text-foreground focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -89,7 +92,7 @@ const ResetPassword = () => {
                   <button 
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
                   >
                     {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
@@ -97,13 +100,13 @@ const ResetPassword = () => {
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-medium text-slate-300 ml-1">Confirm New Password</label>
+                <label className="text-sm font-medium text-muted-foreground ml-1">Confirm New Password</label>
                 <div className="relative">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-500" />
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     required
-                    className="w-full bg-slate-900/50 border border-slate-700 p-4 pl-12 rounded-2xl text-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
+                    className="w-full bg-secondary/50 border border-secondary/60 p-4 pl-12 rounded-2xl text-foreground focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none transition-all"
                     placeholder="••••••••"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
@@ -118,7 +121,7 @@ const ResetPassword = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-2xl transition-all flex items-center justify-center gap-2 group disabled:opacity-50"
+                className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-primary-foreground font-bold rounded-2xl transition-all flex items-center justify-center gap-2 group disabled:opacity-50"
               >
                 {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : 'Reset Password'}
               </button>

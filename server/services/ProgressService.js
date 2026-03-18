@@ -3,21 +3,27 @@ const HabitRepository = require('../repositories/HabitRepository');
 const UserRepository = require('../repositories/UserRepository');
 const logger = require('../utils/logger');
 
+const getUTCMidnight = () => {
+  const d = new Date();
+  d.setUTCHours(0, 0, 0, 0);
+  return d;
+};
+
 class ProgressService {
   async getDashboardData(userId) {
     logger.info(`Fetching dashboard data for user: ${userId}`);
     const user = await UserRepository.findById(userId);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const today = getUTCMidnight(); // FIX: was setHours (local), now setUTCHours
 
     const progress = await ProgressRepository.findByUserAndDate(userId, today);
     const habits = await HabitRepository.findActiveByUserId(userId);
-    
-    // Calculate stats
+
     const totalHabits = habits.length;
     const habitsCompletedToday = progress ? progress.habitsCompleted : 0;
-    const completionPercentage = totalHabits > 0 ? Math.round((habitsCompletedToday / totalHabits) * 100) : 0;
-    
+    const completionPercentage = totalHabits > 0
+      ? Math.round((habitsCompletedToday / totalHabits) * 100)
+      : 0;
+
     const maxStreak = habits.reduce((max, h) => Math.max(max, h.streak || 0), 0);
 
     return {
@@ -33,14 +39,14 @@ class ProgressService {
 
   async getChartData(userId) {
     logger.info(`Fetching chart data for user: ${userId}`);
-    const stats = await ProgressRepository.findStats(userId, 7); // Last 7 days
+    const stats = await ProgressRepository.findStats(userId, 7);
     return stats.reverse();
   }
 
   async getHeatmapData(userId, year) {
     logger.info(`Fetching heatmap data for user: ${userId} for year: ${year}`);
-    const startDate = new Date(year, 0, 1);
-    const endDate = new Date(year, 11, 31);
+    const startDate = new Date(Date.UTC(year, 0, 1));  // FIX: use UTC dates
+    const endDate = new Date(Date.UTC(year, 11, 31));
     return ProgressRepository.findByUserAndDateRange(userId, startDate, endDate);
   }
 }

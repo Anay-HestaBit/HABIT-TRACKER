@@ -14,8 +14,8 @@ class HabitController {
 
   async createHabit(req, res, next) {
     try {
-      const habit = await HabitService.createHabit(req.user._id, req.body);
-      res.status(201).json(habit);
+      const result = await HabitService.createHabit(req.user._id, req.body);
+      res.status(201).json(result);
     } catch (error) {
       logger.error('Error creating habit:', error);
       next(error);
