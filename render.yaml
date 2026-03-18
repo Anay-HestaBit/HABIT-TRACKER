@@ -42,12 +42,12 @@ services:
           property: REDIS_URL
 
   # 3. Frontend Static Site
-  - type: static_site
+  - type: web
     name: habit-tracker-client
     runtime: static
     rootDir: client
     buildCommand: npm install && npm run build
-    publishDir: dist
+    staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
         value: https://habit-tracker-api.onrender.com/api # Update after first deployment
