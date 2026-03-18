@@ -19,13 +19,14 @@ const isTLS = redisUrl.startsWith('rediss://');
  */
 const createClient = (isBlocking = false) => {
   const options = {
-    maxRetriesPerRequest: null, // Critical: Set to null to prevent "MaxRetriesPerRequestError"
-    enableReadyCheck: false,    // Often needed for Upstash/Serverless Redis
-    connectTimeout: 30000,      // Increase timeout for cold starts
-    keepAlive: 10000,
-    family: 4,                  // Force IPv4 to avoid handshake resets
+    maxRetriesPerRequest: null,
+    enableReadyCheck: false,
+    connectTimeout: 30000,
+    lazyConnect: true,          // Don't connect until needed
+    enableOfflineQueue: true,   // Queue commands while disconnected
     retryStrategy: (times) => {
-      const delay = Math.min(times * 200, 5000);
+      // Exponential backoff with a cap
+      const delay = Math.min(times * 500, 10000);
       return delay;
     },
     reconnectOnError: (err) => {
@@ -38,9 +39,7 @@ const createClient = (isBlocking = false) => {
   };
 
   if (isTLS) {
-    options.tls = {
-      rejectUnauthorized: false,
-    };
+    options.tls = {}; // Use default TLS settings for Upstash
   }
 
   const client = new Redis(redisUrl, options);
