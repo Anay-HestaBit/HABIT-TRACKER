@@ -1,6 +1,21 @@
-envVarGroups:
-  - name: habit-tracker-shared
+services:
+  # 1. API Server & Background Workers (Node.js) - FREE TIER
+  - type: web
+    name: habit-tracker-api
+    plan: free
+    runtime: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: node server.js
     envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_URL
+        sync: false # The static site URL
       - key: MONGODB_URI
         sync: false
       - key: REDIS_URL
@@ -23,26 +38,6 @@ envVarGroups:
         sync: false
       - key: CLOUDINARY_API_SECRET
         sync: false
-
-services:
-  # 1. API Server & Background Workers (Node.js) - FREE TIER
-  - type: web
-    name: habit-tracker-api
-    plan: free
-    runtime: node
-    rootDir: server
-    buildCommand: npm install
-    startCommand: node server.js
-    envVars:
-      - fromGroup: habit-tracker-shared
-      - key: NODE_ENV
-        value: production
-      - key: PORT
-        value: 10000
-      - key: JWT_SECRET
-        generateValue: true
-      - key: CLIENT_URL
-        sync: false # The static site URL
 
   # 2. Frontend Static Site - FREE TIER
   - type: web
