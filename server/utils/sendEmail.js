@@ -1,41 +1,29 @@
-const nodemailer = require('nodemailer');
-const dns = require('dns');
+const { Resend } = require('resend');
 const logger = require('./logger');
-
-const resolveSmtpHost = async (host) => {
-  const lookup = await dns.promises.lookup(host, { family: 4 });
-  return lookup.address;
-};
 
 const sendEmail = async (options) => {
   try {
-    const smtpHost = process.env.SMTP_HOST;
-    const resolvedHost = await resolveSmtpHost(smtpHost);
-    const port = Number(process.env.SMTP_PORT);
+    const apiKey = process.env.RESEND_API_KEY;
+    const fallbackFrom = process.env.FROM_EMAIL
+      ? `${process.env.FROM_NAME || 'Daily Habit Journey'} <${process.env.FROM_EMAIL}>`
+      : '';
+    const from = process.env.RESEND_FROM || fallbackFrom;
 
-    const transporter = nodemailer.createTransport({
-      host: resolvedHost,
-      port,
-      secure: port === 465,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-      tls: {
-        servername: smtpHost,
-      },
-    });
+    if (!apiKey || !from) {
+      throw new Error('Missing RESEND_API_KEY or RESEND_FROM/FROM_EMAIL');
+    }
 
-    const message = {
-      from: `${process.env.FROM_NAME} <${process.env.FROM_EMAIL}>`,
+    const resend = new Resend(apiKey);
+    const payload = {
+      from,
       to: options.email,
       subject: options.subject,
       text: options.message,
       html: options.html,
     };
 
-    const info = await transporter.sendMail(message);
-    logger.info(`Email sent: ${info.messageId}`);
+    const result = await resend.emails.send(payload);
+    logger.info(`Email sent: ${result?.data?.id || 'unknown-id'}`);
   } catch (error) {
     logger.error('Email sending failed:', error);
     throw new Error('Email could not be sent');
