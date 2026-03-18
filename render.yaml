@@ -28,6 +28,7 @@ services:
   # 1. API Server & Background Workers (Node.js) - FREE TIER
   - type: web
     name: habit-tracker-api
+    plan: free
     runtime: node
     rootDir: server
     buildCommand: npm install
