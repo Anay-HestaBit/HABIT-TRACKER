@@ -23,9 +23,14 @@ if (process.env.NODE_ENV === 'production' || process.env.RENDER) {
   app.set('trust proxy', 1);
 }
 
-// Allowed origins — CLIENT_URL must be set to your Vercel URL in production
+// Allowed origins — set CLIENT_URL or CLIENT_URLS (comma-separated) in production
+const envOrigins = (process.env.CLIENT_URLS || process.env.CLIENT_URL || '')
+  .split(',')
+  .map(origin => origin.trim())
+  .filter(Boolean);
+
 const allowedOrigins = [
-  process.env.CLIENT_URL,
+  ...envOrigins,
   'http://localhost:5173',
   'https://localhost:5173',
   'http://localhost:8080',
