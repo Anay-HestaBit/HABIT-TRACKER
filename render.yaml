@@ -1,0 +1,53 @@
+services:
+  # 1. API Server (Node.js)
+  - type: web
+    name: habit-tracker-api
+    runtime: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        sync: false # Set in Render Dashboard
+      - key: REDIS_URL
+        sync: false # Set in Render Dashboard
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_URL
+        sync: false # Set in Render Dashboard (the static site URL)
+
+  # 2. Background Worker (Node.js)
+  - type: worker
+    name: habit-tracker-worker
+    runtime: node
+    rootDir: server
+    buildCommand: npm install
+    startCommand: node worker.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        fromService:
+          name: habit-tracker-api
+          type: env
+          property: MONGODB_URI
+      - key: REDIS_URL
+        fromService:
+          name: habit-tracker-api
+          type: env
+          property: REDIS_URL
+
+  # 3. Frontend Static Site
+  - type: static
+    name: habit-tracker-client
+    runtime: static
+    rootDir: client
+    buildCommand: npm install && npm run build
+    publishDir: dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://habit-tracker-api.onrender.com/api # Update after first deployment
