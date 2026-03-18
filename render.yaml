@@ -25,7 +25,7 @@ envVarGroups:
         sync: false
 
 services:
-  # 1. API Server (Node.js)
+  # 1. API Server & Background Workers (Node.js) - FREE TIER
   - type: web
     name: habit-tracker-api
     runtime: node
@@ -43,19 +43,7 @@ services:
       - key: CLIENT_URL
         sync: false # The static site URL
 
-  # 2. Background Worker (Node.js)
-  - type: worker
-    name: habit-tracker-worker
-    runtime: node
-    rootDir: server
-    buildCommand: npm install
-    startCommand: node worker.js
-    envVars:
-      - fromGroup: habit-tracker-shared
-      - key: NODE_ENV
-        value: production
-
-  # 3. Frontend Static Site
+  # 2. Frontend Static Site - FREE TIER
   - type: web
     name: habit-tracker-client
     runtime: static
