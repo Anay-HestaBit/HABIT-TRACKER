@@ -42,7 +42,7 @@ services:
           property: REDIS_URL
 
   # 3. Frontend Static Site
-  - type: static
+  - type: static_site
     name: habit-tracker-client
     runtime: static
     rootDir: client
