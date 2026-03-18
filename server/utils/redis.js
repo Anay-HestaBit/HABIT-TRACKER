@@ -54,14 +54,22 @@ const createClient = (isBlocking = false) => {
   return client;
 };
 
-// Shared connection for non-blocking commands (Rate limiting, simple GET/SET)
-const sharedConnection = createClient(false);
+let sharedConnection = null;
 
-sharedConnection.on('connect', () => {
-  logger.info('Connected to Redis (Shared)');
-});
+/**
+ * Gets the shared Redis connection, initializing it if necessary
+ */
+const getSharedConnection = () => {
+  if (!sharedConnection) {
+    sharedConnection = createClient(false);
+    sharedConnection.on('connect', () => {
+      logger.info('Connected to Redis (Shared)');
+    });
+  }
+  return sharedConnection;
+};
 
 module.exports = {
-  sharedConnection,
+  getSharedConnection,
   createClient
 };

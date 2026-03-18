@@ -9,10 +9,13 @@ const path = require('path');
 const rateLimit = require('express-rate-limit');
 const csrf = require('csurf');
 const RedisStore = require('rate-limit-redis').default;
-const { sharedConnection: redisConnection } = require('./utils/redis');
+const { getSharedConnection } = require('./utils/redis');
 const logger = require('./utils/logger');
 const { initWorkers } = require('./workers');
 const errorHandler = require('./middleware/errorHandler');
+
+// Initialize Redis connection
+const redisConnection = getSharedConnection();
 
 const app = express();
 
@@ -27,7 +30,7 @@ const limiter = rateLimit({
   max: 100,
   message: 'Too many requests from this IP, please try again after 15 minutes',
   store: new RedisStore({
-    sendCommand: (...args) => redisConnection.call(...args),
+    sendCommand: (...args) => getSharedConnection().call(...args),
   }),
 });
 
@@ -86,8 +89,8 @@ if (process.env.NODE_ENV === 'production') {
 app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  logger.info(`🚀 Server running on port ${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  logger.info(`🚀 Server running on port ${PORT} (0.0.0.0)`);
   logger.info(`Environment: ${process.env.NODE_ENV}`);
   initWorkers();
   ReminderService.init();
