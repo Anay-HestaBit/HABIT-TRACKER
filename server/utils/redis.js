@@ -19,13 +19,13 @@ const isTLS = redisUrl.startsWith('rediss://');
  */
 const createClient = (isBlocking = false) => {
   const options = {
-    maxRetriesPerRequest: isBlocking ? null : 20,
-    connectTimeout: 20000,
+    maxRetriesPerRequest: null, // Critical: Set to null to prevent "MaxRetriesPerRequestError"
+    enableReadyCheck: false,    // Often needed for Upstash/Serverless Redis
+    connectTimeout: 30000,      // Increase timeout for cold starts
     keepAlive: 10000,
-    family: 4, // Force IPv4 to avoid handshake resets
-    maxLoadingRetryTime: 10000,
+    family: 4,                  // Force IPv4 to avoid handshake resets
     retryStrategy: (times) => {
-      const delay = Math.min(times * 100, 3000);
+      const delay = Math.min(times * 200, 5000);
       return delay;
     },
     reconnectOnError: (err) => {
