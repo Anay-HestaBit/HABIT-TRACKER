@@ -65,7 +65,7 @@ const Layout = ({ children }) => {
             <Globe2 className="text-primary-foreground" size={24} />
           </div>
           <h1 className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            HabitJourney
+            Habitcraft
           </h1>
           <button 
             onClick={toggleTheme}
@@ -119,7 +119,7 @@ const Layout = ({ children }) => {
       <div className="lg:hidden fixed top-0 left-0 right-0 h-16 glass z-50 flex items-center justify-between px-6 border-b border-secondary/50">
         <div className="flex items-center gap-2">
           <Globe2 className="text-primary" size={24} />
-          <span className="font-bold">HabitJourney</span>
+          <span className="font-bold">Habitcraft</span>
         </div>
         <button 
           onClick={() => setIsMobileMenuOpen(true)}

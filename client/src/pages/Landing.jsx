@@ -61,7 +61,7 @@ const Landing = () => {
             <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-blue-500/20 group-hover:rotate-12 transition-transform">
               <Globe2 className="text-primary-foreground" size={24} />
             </div>
-            <span className="text-2xl font-black tracking-tighter text-foreground">Daily Habit Journey</span>
+            <span className="text-2xl font-black tracking-tighter text-foreground">Habitcraft</span>
           </Link>
           <div className="flex items-center gap-4 md:gap-8">
             <button
@@ -197,7 +197,7 @@ const Landing = () => {
         {/* Features Section */}
         <section id="features" className="max-w-7xl mx-auto px-6 py-32 border-t border-white/5">
           <div className="text-center mb-20">
-            <h2 className="text-4xl lg:text-6xl font-black text-foreground mb-6 uppercase tracking-tighter">The Journey Protocol</h2>
+            <h2 className="text-4xl lg:text-6xl font-black text-foreground mb-6 uppercase tracking-tighter">The Habitcraft Protocol</h2>
             <p className="text-muted-foreground max-w-2xl mx-auto font-medium">We've combined behavioral science with interactive gamification to make consistency inevitable.</p>
           </div>
           
@@ -261,9 +261,9 @@ const Landing = () => {
                 <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
                     <Globe2 className="text-primary-foreground" size={18} />
                 </div>
-            <span className="text-lg font-black text-foreground">Daily Habit Journey</span>
+            <span className="text-lg font-black text-foreground">Habitcraft</span>
             </div>
-          <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">© 2026 Antigravity Labs. All rights reserved.</p>
+          <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">© 2026 Habitcraft. All rights reserved.</p>
             <div className="flex gap-8">
             <a href="#" className="hover:text-foreground transition-colors text-sm font-bold uppercase tracking-widest">Discord</a>
             <a href="#" className="hover:text-foreground transition-colors text-sm font-bold uppercase tracking-widest">Twitter</a>

@@ -1,6 +1,6 @@
-# 🌍 Daily Habit Journey
+# 🌍 Habitcraft
 
-A premium, production-ready SaaS platform for gamified habit tracking. Build consistency through a immersive 3D-evolving world, AI-driven guidance, and elite-grade security.
+A premium, production-ready SaaS platform for gamified habit tracking. Build consistency through an immersive 3D-evolving world, AI-driven guidance, and elite-grade security.
 
 ## 🚀 Key SaaS Features
 
@@ -36,9 +36,8 @@ REDIS_URL=redis://localhost:6379
 CLOUDINARY_CLOUD_NAME=your_name
 CLOUDINARY_API_KEY=your_key
 CLOUDINARY_API_SECRET=your_secret
-SMTP_HOST=...
-SMTP_USER=...
-SMTP_PASS=...
+RESEND_API_KEY=...
+RESEND_FROM=Habitcraft <no-reply@yourdomain.com>
 ```
 
 ### 3. Run with Docker (Recommended)

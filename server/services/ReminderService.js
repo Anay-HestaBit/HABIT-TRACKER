@@ -64,7 +64,7 @@ class ReminderService {
       Go to your dashboard: ${process.env.CLIENT_URL}/dashboard
       
       Keep going,
-      The Antigravity Team
+      The Habitcraft Team
     `;
 
     try {

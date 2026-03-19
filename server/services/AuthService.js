@@ -38,7 +38,7 @@ class AuthService {
         <div style="text-align:center;margin-bottom:32px;">
           <span style="font-size:48px;">🌱</span>
         </div>
-        <h1 style="font-size:28px;font-weight:800;text-align:center;margin-bottom:16px;color:#818cf8;">Welcome to HabitJourney!</h1>
+        <h1 style="font-size:28px;font-weight:800;text-align:center;margin-bottom:16px;color:#818cf8;">Welcome to Habitcraft!</h1>
         <p style="font-size:16px;line-height:1.6;text-align:center;color:#94a3b8;margin-bottom:32px;">
           The best time to start was yesterday. The second best time is now.<br/>Let's verify your email to begin your journey.
         </p>
@@ -55,7 +55,7 @@ class AuthService {
 
     await emailQueue.add('verification-email', {
       email: user.email,
-      subject: '🌱 Verify your HabitJourney account',
+      subject: '🌱 Verify your Habitcraft account',
       message: `Verify your account: ${verifyUrl}`,
       html: emailHtml,
     });
@@ -112,7 +112,7 @@ class AuthService {
 
     await emailQueue.add('otp-email', {
       email: user.email,
-      subject: '🔑 Your HabitJourney Sign-in Code',
+      subject: '🔑 Your Habitcraft Sign-in Code',
       message: `Your sign-in OTP is: ${rawOtp}`,
       html: otpHtml,
     });
@@ -183,7 +183,7 @@ class AuthService {
 
     await emailQueue.add('reset-password-email', {
       email: user.email,
-      subject: '🔒 Reset your HabitJourney Password',
+      subject: '🔒 Reset your Habitcraft Password',
       message: `Reset your password: ${resetUrl}`,
       html: resetHtml,
     });

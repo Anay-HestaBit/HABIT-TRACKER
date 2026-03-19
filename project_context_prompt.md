@@ -1,11 +1,11 @@
-# 🧠 Master Project Context: Daily Habit Journey
+# 🧠 Master Project Context: Habitcraft
 
-This document provides a comprehensive, high-fidelity overview of the "Daily Habit Journey" project. It is designed to allow any AI or developer to understand the full technical stack, architectural patterns, and business logic of the application instantly.
+This document provides a comprehensive, high-fidelity overview of the "Habitcraft" project. It is designed to allow any AI or developer to understand the full technical stack, architectural patterns, and business logic of the application instantly.
 
 ---
 
 ## 🎯 Project Overview
-**Daily Habit Journey** is a premium, gamified habit-tracking SaaS. It transforms personal growth into a visual journey where staying consistent with habits evolves a digital "World."
+**Habitcraft** is a premium, gamified habit-tracking SaaS. It transforms personal growth into a visual journey where staying consistent with habits evolves a digital "World."
 
 ### Core Philosophy
 - **Emotional Reward**: Visual feedback (World growth) for consistency.

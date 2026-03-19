@@ -1,4 +1,4 @@
-# HabitJourney — Complete Deployment Guide
+# Habitcraft — Complete Deployment Guide
 > Backend → **Docker** | Frontend → **Vercel**
 
 ---
@@ -11,7 +11,7 @@ The original repo committed real credentials. Rotate everything before any git p
 |---------|----------------|
 | MongoDB Atlas | Atlas dashboard → Database Access → Edit user → New password |
 | Upstash Redis | Upstash console → Your DB → Reset password |
-| Gmail SMTP | Google Account → Security → App Passwords → Delete old, create new |
+| Resend | Resend dashboard → API Keys → Revoke old, create new |
 | Cloudinary | Cloudinary dashboard → Settings → Access Keys → Regenerate |
 | JWT Secret | Generate a new one (invalidates existing sessions — that's fine) |
 
@@ -133,12 +133,10 @@ CLIENT_URL=https://your-app.vercel.app
 REDIS_URL=redis://redis:6379   # Redis container in docker-compose
 JWT_SECRET=...
 ADMIN_SECRET=...
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=your_email@gmail.com
-SMTP_PASS=your_app_password
+RESEND_API_KEY=your_resend_api_key
+RESEND_FROM=Habitcraft <no-reply@yourdomain.com>
 FROM_EMAIL=your_email@gmail.com
-FROM_NAME=Daily Habit Journey
+FROM_NAME=Habitcraft
 CLOUDINARY_CLOUD_NAME=...
 CLOUDINARY_API_KEY=...
 CLOUDINARY_API_SECRET=...
@@ -198,7 +196,7 @@ curl https://YOUR_SERVER_DOMAIN/api/health
 - [ ] All `.env` files are gitignored and not in the repo
 - [ ] MongoDB password rotated
 - [ ] Redis password rotated (if using managed Redis)
-- [ ] Gmail App Password regenerated
+- [ ] Resend API key rotated
 - [ ] Cloudinary API keys regenerated
 - [ ] `REDIS_URL` uses `redis://redis:6379` for Docker or `rediss://` for managed Redis
 - [ ] `CLIENT_URL` on Render matches exact Vercel URL (no trailing slash)
@@ -239,5 +237,5 @@ curl https://YOUR_SERVER_DOMAIN/api/health
 
 **OTP code not working**
 → Already fixed — OTPs are now hashed before storage and comparison
-→ Check SMTP credentials — if email isn't arriving, the OTP never gets sent
+→ Check `RESEND_API_KEY`/`RESEND_FROM` — if email isn't arriving, the OTP never gets sent
 → Check Render logs for email worker errors

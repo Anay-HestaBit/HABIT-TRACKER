@@ -14,7 +14,7 @@ const reflectionSchema = new mongoose.Schema({
   content: {
     type: String,
     required: [true, 'Reflection content is required'],
-    maxlength: [2000, 'Reflection must be at most 2000 characters']
+    maxlength: [8000, 'Reflection must be at most 8000 characters']
   },
   mood: {
     type: String,

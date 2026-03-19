@@ -5,7 +5,7 @@ const sendEmail = async (options) => {
   try {
     const apiKey = process.env.RESEND_API_KEY;
     const fallbackFrom = process.env.FROM_EMAIL
-      ? `${process.env.FROM_NAME || 'Daily Habit Journey'} <${process.env.FROM_EMAIL}>`
+      ? `${process.env.FROM_NAME || 'Habitcraft'} <${process.env.FROM_EMAIL}>`
       : '';
     const from = process.env.RESEND_FROM || fallbackFrom;
 
