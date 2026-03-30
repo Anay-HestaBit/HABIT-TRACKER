@@ -21,7 +21,11 @@ class ReflectionService {
       date: data.date ? new Date(data.date) : new Date(),
       habitId: data.habitId || null,
     };
-    return ReflectionRepository.create(payload);
+    const reflection = await ReflectionRepository.create(payload);
+    return {
+      ...reflection.toObject(),
+      content: decryptText(reflection.content),
+    };
   }
 }
 
