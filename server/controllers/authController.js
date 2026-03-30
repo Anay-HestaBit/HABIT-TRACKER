@@ -73,6 +73,8 @@ class AuthController {
       secure: isProduction,
       // FIX: 'none' required for cross-domain (Vercel + Render)
       sameSite: isProduction ? 'none' : 'lax',
+      // Future-proof cross-site cookies (Chrome CHIPS warning)
+      partitioned: isProduction,
     });
     res.status(200).json({ status: 'success' });
   }
@@ -147,6 +149,8 @@ class AuthController {
       // Without this, the browser silently drops the cookie and auth breaks in production
       secure: isProduction,
       sameSite: isProduction ? 'none' : 'lax',
+      // Future-proof cross-site cookies (Chrome CHIPS warning)
+      partitioned: isProduction,
     };
     res.cookie('token', token, cookieOptions);
     user.password = undefined;
