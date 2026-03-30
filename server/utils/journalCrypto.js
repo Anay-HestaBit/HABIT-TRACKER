@@ -44,19 +44,23 @@ const decryptText = (payload) => {
 
   const parts = payload.split(':');
   if (parts.length !== 4) {
-    throw new Error('Invalid encrypted journal format');
+    return payload;
   }
 
-  const [, ivB64, tagB64, dataB64] = parts;
-  const key = getKey();
-  const iv = Buffer.from(ivB64, 'base64');
-  const tag = Buffer.from(tagB64, 'base64');
-  const data = Buffer.from(dataB64, 'base64');
+  try {
+    const [, ivB64, tagB64, dataB64] = parts;
+    const key = getKey();
+    const iv = Buffer.from(ivB64, 'base64');
+    const tag = Buffer.from(tagB64, 'base64');
+    const data = Buffer.from(dataB64, 'base64');
 
-  const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
-  decipher.setAuthTag(tag);
-  const plaintext = Buffer.concat([decipher.update(data), decipher.final()]);
-  return plaintext.toString('utf8');
+    const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv);
+    decipher.setAuthTag(tag);
+    const plaintext = Buffer.concat([decipher.update(data), decipher.final()]);
+    return plaintext.toString('utf8');
+  } catch (error) {
+    return payload;
+  }
 };
 
 module.exports = { encryptText, decryptText };
