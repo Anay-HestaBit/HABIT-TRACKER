@@ -28,7 +28,7 @@ const ChartCard = ({ title, children, icon: Icon, delay }) => (
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ delay }}
-    className="glass p-8 rounded-[2.5rem] border border-white/5 flex flex-col"
+    className="glass p-8 rounded-[2.5rem] border border-white/5 flex flex-col min-w-0"
   >
     <div className="flex items-center justify-between mb-8">
       <div className="flex items-center gap-3">
@@ -42,8 +42,8 @@ const ChartCard = ({ title, children, icon: Icon, delay }) => (
         <button className="px-3 py-1.5 rounded-lg bg-primary text-xs font-bold">M</button>
       </div>
     </div>
-    <div className="h-72 w-full">
-      <ResponsiveContainer width="100%" height="100%">
+    <div className="h-72 w-full min-w-0">
+      <ResponsiveContainer width="100%" height="100%" minHeight={1} minWidth={1}>
         {children}
       </ResponsiveContainer>
     </div>
