@@ -11,6 +11,14 @@ const getUTCMidnight = () => {
   return d;
 };
 
+const SEASONS = ['spring', 'summer', 'autumn', 'winter'];
+
+const getNextSeason = (current) => {
+  const idx = SEASONS.indexOf(current);
+  const nextIdx = idx === -1 ? 0 : (idx + 1) % SEASONS.length;
+  return SEASONS[nextIdx];
+};
+
 class HabitService {
   addBadgeIfMissing(user, badge, newlyUnlocked) {
     const exists = user.badges.some(b => b.name === badge.name);
@@ -103,6 +111,22 @@ class HabitService {
       user.worldState.leaves += 5;
       leveledUp = true;
       logger.info(`User ${userId} leveled up to ${newLevel}`);
+    }
+
+    // Keep world visuals evolving even between level-ups.
+    user.worldState.treeLevel = user.level;
+    user.worldState.leaves = Math.min((user.worldState.leaves || 0) + 1, 200);
+    if (habit.streak > 0 && habit.streak % 7 === 0) {
+      user.worldState.season = getNextSeason(user.worldState.season);
+    }
+    if (user.level >= 10) {
+      user.worldState.flowers = Math.max(user.worldState.flowers || 0, 5);
+    }
+    if (user.level >= 15) {
+      user.worldState.fruits = Math.max(user.worldState.fruits || 0, 3);
+    }
+    if (user.level >= 20) {
+      user.worldState.glowIntensity = Math.max(user.worldState.glowIntensity || 0, 0.35);
     }
 
     const newlyUnlockedBadges = [];
