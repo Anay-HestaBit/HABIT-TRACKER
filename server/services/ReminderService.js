@@ -7,11 +7,11 @@ const { maskEmail } = require('../utils/sanitize');
 
 class ReminderService {
   init() {
-    // Schedule reminders every day at 8 PM (20:00)
-    cron.schedule('0 20 * * *', () => {
+    // Schedule reminders every day at 10 AM IST (04:30) and 8 PM IST (14:30)
+    cron.schedule('30 4,14 * * *', () => {
       this.sendDailyReminders();
     });
-    logger.info('Reminder service initialized (Daily at 8 PM)');
+    logger.info('Reminder service initialized (Daily at 10 AM and 8 PM IST)');
   }
 
   getUTCMidnight() {

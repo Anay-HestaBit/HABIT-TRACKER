@@ -10,6 +10,10 @@ dist-ssr/
 .env.development.local
 .env.test.local
 .env.production
+.env.example
+deployment_guide.md
+DEPLOYMENT_GUIDE.md
+project_context_prompt.md
 
 # Debug
 npm-debug.log*

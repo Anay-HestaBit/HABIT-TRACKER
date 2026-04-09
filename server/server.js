@@ -27,13 +27,7 @@ const envOrigins = (process.env.CLIENT_URLS || process.env.CLIENT_URL || '')
   .filter(Boolean);
 
 const allowedOrigins = [
-  ...envOrigins,
-  'http://localhost:5173',
-  'https://localhost:5173',
-  'http://localhost:8080',
-  'https://habittracker:8443',
-  'http://habittracker:8080',
-  'http://localhost:3000',
+  ...envOrigins
 ].map(normalize);
 
 app.use(cors({
@@ -75,7 +69,7 @@ app.use(limiter);
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(cookieParser());
-app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads'), { maxAge: '1y' }));
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => logger.info('MongoDB Connected'))

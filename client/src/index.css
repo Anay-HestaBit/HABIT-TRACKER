@@ -115,6 +115,12 @@
    ───────────────────────────────────────────────────────────────── */
 body {
   background-color: var(--background);
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.12) 0px, transparent 40%),
+    radial-gradient(at 100% 0%, rgba(56, 189, 248, 0.1) 0px, transparent 40%),
+    radial-gradient(at 100% 100%, rgba(139, 92, 246, 0.12) 0px, transparent 40%),
+    radial-gradient(at 0% 100%, rgba(56, 189, 248, 0.1) 0px, transparent 40%);
+  background-attachment: fixed;
   color: var(--foreground);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   margin: 0;
@@ -124,9 +130,10 @@ body {
 
 .glass {
   background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
 }
 
 ::-webkit-scrollbar { width: 8px; }

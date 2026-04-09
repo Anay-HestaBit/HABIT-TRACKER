@@ -71,6 +71,7 @@ const userSchema = new mongoose.Schema({
   profilePicUrl: { type: String, default: null },
   journalPasswordHash: { type: String, default: null },
   journalPasswordSetAt: { type: Date, default: null },
+  hasCompletedTour: { type: Boolean, default: false },
   isDeleted: { type: Boolean, default: false },
   deletedAt: { type: Date, default: null }
 }, { timestamps: true });

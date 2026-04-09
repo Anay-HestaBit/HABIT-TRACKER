@@ -59,7 +59,7 @@ const Layout = ({ children }) => {
   return (
     <div className="min-h-screen bg-background flex text-foreground">
       {/* Sidebar - Desktop */}
-      <aside className="hidden lg:flex flex-col w-64 border-r border-secondary/50 p-6 glass sticky top-0 h-screen">
+      <aside id="tour-sidebar" className="hidden lg:flex flex-col w-64 border-r border-secondary/50 p-6 glass sticky top-0 h-screen">
         <div className="flex items-center gap-3 mb-10 px-2">
           <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg shadow-primary/30">
             <Globe2 className="text-primary-foreground" size={24} />

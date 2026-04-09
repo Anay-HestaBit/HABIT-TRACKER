@@ -96,7 +96,7 @@ class HabitService {
     if (habit.streak > habit.longestStreak) {
       habit.longestStreak = habit.streak;
     }
-    await habit.save();
+    const habitPromise = habit.save();
 
     const xpReward = 10 + (habit.streak * 2);
     const user = await UserRepository.findById(userId);
@@ -180,24 +180,28 @@ class HabitService {
       }, newlyUnlockedBadges);
     }
 
-    await user.save();
+    const userPromise = user.save();
 
     // Update or create daily progress record
-    let progress = await ProgressRepository.findByUserAndDate(userId, today);
-    if (!progress) {
-      const activeHabitsCount = await HabitRepository.countActive(userId);
-      progress = await ProgressRepository.create({
-        userId,
-        date: today,
-        habitsCompleted: 1,
-        totalHabits: activeHabitsCount,
-        xpEarned: xpReward
-      });
-    } else {
-      progress.habitsCompleted += 1;
-      progress.xpEarned += xpReward;
-      await progress.save();
-    }
+    const progressPromise = (async () => {
+      let progress = await ProgressRepository.findByUserAndDate(userId, today);
+      if (!progress) {
+        const activeHabitsCount = await HabitRepository.countActive(userId);
+        progress = await ProgressRepository.create({
+          userId,
+          date: today,
+          habitsCompleted: 1,
+          totalHabits: activeHabitsCount,
+          xpEarned: xpReward
+        });
+      } else {
+        progress.habitsCompleted += 1;
+        progress.xpEarned += xpReward;
+        await progress.save();
+      }
+    })();
+
+    await Promise.all([habitPromise, userPromise, progressPromise]);
 
     return {
       habit,

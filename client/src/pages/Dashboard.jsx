@@ -9,6 +9,8 @@ import { useTheme } from '../context/ThemeContext';
 import api from '../api/axios';
 import { Link } from 'react-router-dom';
 import ConsistencyBoard from '../components/ConsistencyBoard';
+import { driver } from 'driver.js';
+import 'driver.js/dist/driver.css';
 
 const StatsCard = ({ icon: Icon, label, value, subtext, color, delay }) => (
   <motion.div
@@ -52,6 +54,31 @@ const Dashboard = () => {
     fetchStats();
   }, []);
 
+  useEffect(() => {
+    if (user && !user.hasCompletedTour && !loading && stats) {
+      const d = driver({
+        showProgress: true,
+        animate: true,
+        popoverClass: 'driverjs-theme',
+        steps: [
+          { popover: { title: 'Welcome to Habitcraft! 🌍', description: 'Let us take a quick tour of your new world.' } },
+          { element: '#tour-new-habit', popover: { title: 'Create Habits', description: 'Begin your journey by creating your first daily habit here.' } },
+          { element: '#tour-stats', popover: { title: 'Track Stats', description: 'Monitor your XP, streaks, and achievements.' } },
+          { element: '#tour-consistency', popover: { title: 'Consistency', description: 'Keep the board glowing by completing habits every day.' } },
+          { element: '#tour-world-state', popover: { title: 'Visual World', description: 'As you level up, your world tree grows and evolves! Keep planting seeds.' } },
+          { element: '#tour-sidebar', popover: { title: 'Navigation', description: 'Access everything securely from the sidebar menus.' } }
+        ],
+        onDestroyed: () => {
+          api.patch('/users/tour').then(() => {
+             // Silently update standard state without forcing refresh
+             user.hasCompletedTour = true;
+          });
+        }
+      });
+      setTimeout(() => d.drive(), 500);
+    }
+  }, [user, loading, stats]);
+
   if (loading) return (
     <div className="h-[60vh] flex flex-col items-center justify-center gap-4">
       <Loader2 size={40} className="animate-spin text-primary" />
@@ -92,6 +119,7 @@ const Dashboard = () => {
             {isDarkMode ? 'Light Mode' : 'Dark Mode'}
           </button>
           <Link
+            id="tour-new-habit"
             to="/habits"
             className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-primary text-primary-foreground font-bold shadow-xl shadow-primary/20 hover:translate-y-[-2px] transition-all w-fit"
           >
@@ -101,19 +129,20 @@ const Dashboard = () => {
         </div>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div id="tour-stats" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatsCard icon={Flame}       label="Current Streak"   value={`${stats?.maxStreak || 0} Days`}                              subtext="Keep it going!"                                           color="bg-orange-500" delay={0.1} />
         <StatsCard icon={Zap}         label="Total XP"         value={(stats?.user?.xp || 0).toLocaleString()}                      subtext={`Level ${stats?.user?.level || 1}`}                       color="bg-purple-500" delay={0.2} />
         <StatsCard icon={CheckCircle2}label="Completed Today"  value={`${stats?.habitsCompletedToday || 0}/${stats?.totalHabits || 0}`} subtext={`${stats?.completionPercentage || 0}% of daily goal`} color="bg-emerald-500" delay={0.3} />
         <StatsCard icon={Trophy}      label="Achievements"     value={`${stats?.user?.badges?.length || 0} Unlocked`}               subtext={stats?.user?.badges?.length >= 5 ? 'All available! 🎉' : 'Keep streaking'} color="bg-blue-500" delay={0.4} />
       </div>
 
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
+      <motion.div id="tour-consistency" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
         <ConsistencyBoard />
       </motion.div>
 
       <div className="grid lg:grid-cols-3 gap-8">
         <motion.div
+          id="tour-world-state"
           initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.5 }}
           className="lg:col-span-2 glass rounded-[2.5rem] border border-white/5 p-8 relative overflow-hidden flex flex-col items-center justify-center min-h-[360px]"
         >

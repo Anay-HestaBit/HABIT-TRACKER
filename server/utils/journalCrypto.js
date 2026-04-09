@@ -43,7 +43,7 @@ const decryptText = (payload) => {
   }
 
   const parts = payload.split(':');
-  if (parts.length !== 4) {
+  if (parts.length !== 5) {
     return payload;
   }
 

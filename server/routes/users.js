@@ -16,4 +16,17 @@ router.delete('/me', protect, async (req, res) => {
   }
 });
 
+router.patch('/tour', protect, async (req, res) => {
+  try {
+    const user = await require('../models/User').findById(req.user._id);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    user.hasCompletedTour = true;
+    await user.save();
+    res.json({ success: true });
+  } catch (err) {
+    logger.error(`Error updating tour state: ${err.message}`);
+    res.status(500).json({ message: 'Failed to update tour tracking' });
+  }
+});
+
 module.exports = router;
