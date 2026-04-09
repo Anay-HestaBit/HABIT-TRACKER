@@ -219,7 +219,7 @@ class AuthService {
   }
 
   generateToken(id) {
-    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '1hr' });
+    return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
   }
 
   async getUserById(id) {
