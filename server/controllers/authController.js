@@ -67,7 +67,7 @@ class AuthController {
 
   async logout(req, res) {
     const isProduction = process.env.NODE_ENV === 'production';
-    res.cookie('token', 'none', {
+    res.cookie('access_token', 'none', {
       expires: new Date(Date.now() + 10 * 1000),
       httpOnly: true,
       secure: isProduction,
@@ -152,7 +152,7 @@ class AuthController {
       // Future-proof cross-site cookies (Chrome CHIPS warning)
       partitioned: isProduction,
     };
-    res.cookie('token', token, cookieOptions);
+    res.cookie('access_token', token, cookieOptions);
     user.password = undefined;
     res.status(statusCode).json({ user });
   }
