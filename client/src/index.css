@@ -140,3 +140,104 @@ body {
 ::-webkit-scrollbar-track { background: var(--background); }
 ::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); }
+
+/* ─────────────────────────────────────────────────────────────────
+   DRIVER.JS TOUR THEME
+   ───────────────────────────────────────────────────────────────── */
+.driverjs-theme {
+  background: rgba(15, 23, 42, 0.85) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(139, 92, 246, 0.4) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 20px 40px -10px rgba(139, 92, 246, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.1) !important;
+  color: var(--foreground) !important;
+  padding: 24px !important;
+  max-width: 320px !important;
+  font-family: inherit !important;
+}
+
+.driverjs-theme .driver-popover-title {
+  font-size: 1.25rem !important;
+  font-weight: 900 !important;
+  margin-bottom: 8px !important;
+  background: linear-gradient(135deg, #a78bfa, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.driverjs-theme .driver-popover-description {
+  font-size: 0.95rem !important;
+  font-weight: 500 !important;
+  color: var(--muted-foreground) !important;
+  line-height: 1.5 !important;
+  margin-bottom: 24px !important;
+}
+
+.driverjs-theme .driver-popover-footer {
+  margin-top: 0 !important;
+}
+
+.driverjs-theme .driver-popover-progress-text {
+  color: var(--muted-foreground) !important;
+  font-weight: 700 !important;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.05em !important;
+}
+
+.driverjs-theme button {
+  border-radius: 12px !important;
+  font-weight: 800 !important;
+  padding: 8px 16px !important;
+  transition: all 0.2s ease !important;
+  text-shadow: none !important;
+}
+
+.driverjs-theme .driver-popover-next-btn {
+  background: var(--primary) !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4) !important;
+}
+
+.driverjs-theme .driver-popover-next-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6) !important;
+}
+
+.driverjs-theme .driver-popover-prev-btn {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.driverjs-theme .driver-popover-prev-btn:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+}
+
+.driverjs-theme .driver-popover-close-btn {
+  color: var(--muted-foreground) !important;
+  top: 16px !important;
+  right: 16px !important;
+}
+
+.driverjs-theme .driver-popover-close-btn:hover {
+  color: var(--destructive) !important;
+}
+
+/* Light mode overrides for driver.js */
+.light-mode .driverjs-theme {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(124, 58, 237, 0.2) !important;
+  box-shadow: 0 20px 40px -10px rgba(124, 58, 237, 0.2) !important;
+}
+.light-mode .driverjs-theme .driver-popover-title {
+  background: linear-gradient(135deg, #7c3aed, #0284c7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.light-mode .driverjs-theme .driver-popover-prev-btn {
+  background: rgba(0, 0, 0, 0.05) !important;
+  color: #0f172a !important;
+  border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}

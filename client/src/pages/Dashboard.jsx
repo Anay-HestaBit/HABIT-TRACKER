@@ -9,9 +9,6 @@ import { useTheme } from '../context/ThemeContext';
 import api from '../api/axios';
 import { Link } from 'react-router-dom';
 import ConsistencyBoard from '../components/ConsistencyBoard';
-import { driver } from 'driver.js';
-import 'driver.js/dist/driver.css';
-
 const StatsCard = ({ icon: Icon, label, value, subtext, color, delay }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
@@ -53,32 +50,6 @@ const Dashboard = () => {
     };
     fetchStats();
   }, []);
-
-  useEffect(() => {
-    if (user && !user.hasCompletedTour && !loading && stats) {
-      const d = driver({
-        showProgress: true,
-        animate: true,
-        popoverClass: 'driverjs-theme',
-        steps: [
-          { popover: { title: 'Welcome to Habitcraft! 🌍', description: 'Let us take a quick tour of your new world.' } },
-          { element: '#tour-new-habit', popover: { title: 'Create Habits', description: 'Begin your journey by creating your first daily habit here.' } },
-          { element: '#tour-stats', popover: { title: 'Track Stats', description: 'Monitor your XP, streaks, and achievements.' } },
-          { element: '#tour-consistency', popover: { title: 'Consistency', description: 'Keep the board glowing by completing habits every day.' } },
-          { element: '#tour-world-state', popover: { title: 'Visual World', description: 'As you level up, your world tree grows and evolves! Keep planting seeds.' } },
-          { element: '#tour-sidebar', popover: { title: 'Navigation', description: 'Access everything securely from the sidebar menus.' } }
-        ],
-        onDestroyed: () => {
-          api.patch('/users/tour').then(() => {
-             // Silently update standard state without forcing refresh
-             user.hasCompletedTour = true;
-          });
-        }
-      });
-      setTimeout(() => d.drive(), 500);
-    }
-  }, [user, loading, stats]);
-
   if (loading) return (
     <div className="h-[60vh] flex flex-col items-center justify-center gap-4">
       <Loader2 size={40} className="animate-spin text-primary" />

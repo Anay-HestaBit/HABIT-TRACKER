@@ -141,6 +141,7 @@ const Reflections = () => {
 
       {!isUnlocked && (
         <motion.div
+          id="tour-journal-lock"
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           className="glass p-8 rounded-[2.5rem] border border-white/10 max-w-2xl"

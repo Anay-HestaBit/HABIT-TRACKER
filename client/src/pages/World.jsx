@@ -128,7 +128,7 @@ const World = () => {
     <div className="h-[calc(100vh-12rem)] flex flex-col lg:flex-row gap-8">
 
       {/* Visual Scene */}
-      <div className="flex-1 glass rounded-[3rem] border border-white/10 relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-800">
+      <div id="tour-world-scene" className="flex-1 glass rounded-[3rem] border border-white/10 relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-slate-800">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(99,102,241,0.15),transparent_40%),radial-gradient(circle_at_80%_30%,rgba(34,197,94,0.18),transparent_45%)]" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-slate-900 to-transparent" />
         <Cloud className="absolute top-12 left-12 text-foreground/5 animate-pulse" size={56} />
