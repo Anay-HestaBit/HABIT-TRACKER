@@ -33,7 +33,7 @@ const UserGuide = () => {
     },
     {
       q: 'What counts as “done today”?'
-    , a: 'Habits reset at UTC midnight so your progress is consistent across devices.'
+    , a: 'Habits are tracked by IST day boundaries (Asia/Kolkata), so your daily completion stays aligned with Indian time.'
     },
     {
       q: 'How do I unlock achievements?'

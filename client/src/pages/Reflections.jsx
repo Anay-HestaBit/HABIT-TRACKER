@@ -10,7 +10,9 @@ import {
   CheckCircle2,
   Loader2,
   Calendar as CalendarIcon,
-  Shield
+  Shield,
+  Eye,
+  EyeOff
 } from 'lucide-react';
 import api from '../api/axios';
 
@@ -52,6 +54,9 @@ const Reflections = () => {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [authError, setAuthError] = useState('');
   const [isSettingPassword, setIsSettingPassword] = useState(false);
+  const [showSetPassword, setShowSetPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showUnlockPassword, setShowUnlockPassword] = useState(false);
 
   useEffect(() => {
     const fetchStatus = async () => {
@@ -156,20 +161,40 @@ const Reflections = () => {
 
           {!hasJournalPassword ? (
             <div className="space-y-4">
-              <input
-                type="password"
-                placeholder="Set journal password"
-                value={journalPassword}
-                onChange={(e) => setJournalPassword(e.target.value)}
-                className="w-full bg-secondary/50 border border-white/5 rounded-2xl px-5 py-3 text-foreground"
-              />
-              <input
-                type="password"
-                placeholder="Confirm journal password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full bg-secondary/50 border border-white/5 rounded-2xl px-5 py-3 text-foreground"
-              />
+              <div className="relative">
+                <input
+                  type={showSetPassword ? 'text' : 'password'}
+                  placeholder="Set journal password"
+                  value={journalPassword}
+                  onChange={(e) => setJournalPassword(e.target.value)}
+                  className="w-full bg-secondary/50 border border-white/5 rounded-2xl px-5 py-3 pr-12 text-foreground"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowSetPassword(prev => !prev)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label={showSetPassword ? 'Hide journal password' : 'Show journal password'}
+                >
+                  {showSetPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+              <div className="relative">
+                <input
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  placeholder="Confirm journal password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="w-full bg-secondary/50 border border-white/5 rounded-2xl px-5 py-3 pr-12 text-foreground"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(prev => !prev)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label={showConfirmPassword ? 'Hide confirm journal password' : 'Show confirm journal password'}
+                >
+                  {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
               {authError && <p className="text-sm text-destructive">{authError}</p>}
               <button
                 onClick={handleSetPassword}
@@ -181,13 +206,23 @@ const Reflections = () => {
             </div>
           ) : (
             <div className="space-y-4">
-              <input
-                type="password"
-                placeholder="Enter journal password"
-                value={journalPassword}
-                onChange={(e) => setJournalPassword(e.target.value)}
-                className="w-full bg-secondary/50 border border-white/5 rounded-2xl px-5 py-3 text-foreground"
-              />
+              <div className="relative">
+                <input
+                  type={showUnlockPassword ? 'text' : 'password'}
+                  placeholder="Enter journal password"
+                  value={journalPassword}
+                  onChange={(e) => setJournalPassword(e.target.value)}
+                  className="w-full bg-secondary/50 border border-white/5 rounded-2xl px-5 py-3 pr-12 text-foreground"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowUnlockPassword(prev => !prev)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                  aria-label={showUnlockPassword ? 'Hide unlock journal password' : 'Show unlock journal password'}
+                >
+                  {showUnlockPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
               {authError && <p className="text-sm text-destructive">{authError}</p>}
               <button
                 onClick={handleUnlock}

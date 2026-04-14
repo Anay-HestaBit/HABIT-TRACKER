@@ -21,11 +21,11 @@ const adminAuth = (req, res, next) => {
     return res.status(503).json({ message: 'Admin panel is not configured' });
   }
 
-  if (process.env.NODE_ENV === 'production' && queryToken) {
+  if (queryToken) {
     return res.status(401).json({ message: 'Unauthorized: use x-admin-token header' });
   }
 
-  const token = headerToken || queryToken;
+  const token = headerToken;
   if (token !== secret) {
     return res.status(401).json({ message: 'Unauthorized: invalid admin token' });
   }

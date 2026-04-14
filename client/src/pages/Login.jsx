@@ -24,7 +24,7 @@ const Login = () => {
     try {
       const data = await login(email, password);
       if (data.status === 'otp_required') {
-        navigate('/verify-otp', { state: { email, otp: data.otp } });
+        navigate('/verify-otp', { state: { email } });
       } else {
         navigate(from, { replace: true });
       }

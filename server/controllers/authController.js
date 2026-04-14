@@ -44,7 +44,6 @@ class AuthController {
           status: 'otp_required',
           message: 'OTP sent to your email',
           email: result.email,
-          otp: result.otp, // undefined in production
         });
       }
       this.sendToken(result.user, result.token, 200, res);
