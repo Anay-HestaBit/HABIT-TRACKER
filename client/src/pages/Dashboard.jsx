@@ -100,6 +100,22 @@ const Dashboard = () => {
         </div>
       </header>
 
+      {isNewUser && (
+        <div className="glass p-6 rounded-[2.5rem] border border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div>
+            <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">Quick start</p>
+            <h2 className="text-2xl font-black text-foreground">Choose a starter pack</h2>
+            <p className="text-sm text-muted-foreground">Instantly add a few high-impact habits.</p>
+          </div>
+          <Link
+            to="/habits?templates=1"
+            className="px-6 py-3 rounded-2xl bg-primary text-primary-foreground font-bold shadow-xl shadow-primary/20"
+          >
+            Browse packs
+          </Link>
+        </div>
+      )}
+
       <div id="tour-stats" className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatsCard icon={Flame}       label="Current Streak"   value={`${stats?.maxStreak || 0} Days`}                              subtext="Keep it going!"                                           color="bg-orange-500" delay={0.1} />
         <StatsCard icon={Zap}         label="Total XP"         value={(stats?.user?.xp || 0).toLocaleString()}                      subtext={`Level ${stats?.user?.level || 1}`}                       color="bg-purple-500" delay={0.2} />

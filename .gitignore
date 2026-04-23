@@ -5,11 +5,11 @@ dist-ssr/
 *.local
 
 # Environment
-*.env
+*.env*
 .env.local
 .env.development.local
 .env.test.local
-.env.production
+.env.prod
 .env.example
 deployment_guide.md
 DEPLOYMENT_GUIDE.md
@@ -41,3 +41,5 @@ nginx/certs/*.key
 # Project specific
 public/uploads/*
 !public/uploads/.gitkeep
+
+#

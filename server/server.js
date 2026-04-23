@@ -28,6 +28,7 @@ const envOrigins = (process.env.CLIENT_URLS || process.env.CLIENT_URL || '')
 
 const allowedOrigins = [
   ...envOrigins
+  // "http://localhost:5173"
 ].map(normalize);
 
 app.use(cors({
@@ -80,6 +81,8 @@ mongoose.connect(process.env.MONGODB_URI)
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/habits', require('./routes/habits'));
+app.use('/api/templates', require('./routes/templates'));
+app.use('/api/communities', require('./routes/communities'));
 app.use('/api/progress', require('./routes/progress'));
 app.use('/api/reflections', require('./routes/reflections'));
 app.use('/api/users', require('./routes/users'));

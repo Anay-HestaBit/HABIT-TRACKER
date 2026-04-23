@@ -14,7 +14,8 @@ import {
   BookOpen,
   Sun,
   Moon,
-  Settings
+  Settings,
+  Users
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -52,6 +53,7 @@ const Layout = ({ children }) => {
     { to: '/progress', icon: BarChart3, label: 'Analytics' },
     { to: '/achievements', icon: Award, label: 'Trophies' },
     { to: '/reflections', icon: BookOpen, label: 'Journal' },
+    { to: '/community', icon: Users, label: 'Community' },
     { to: '/guide', icon: BookOpen, label: 'User Guide' },
     { to: '/settings', icon: Settings, label: 'Settings' },
   ];

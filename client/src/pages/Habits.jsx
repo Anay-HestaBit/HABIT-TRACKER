@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { 
   Plus, 
   Flame, 
@@ -9,16 +9,17 @@ import {
   Check, 
   Loader2, 
   Search,
-  CheckCircle2,
   X,
   Sparkles,
-  ShieldCheck
+  ShieldCheck,
+  Layers
 } from 'lucide-react';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
+import { useToast } from '../context/ToastContext';
 import PomodoroTimer from '../components/PomodoroTimer';
 
-const HabitCard = ({ habit, onComplete, onDelete, onEdit }) => {
+const HabitCard = ({ habit, onComplete, onDelete, onEdit, onShield, shieldAvailable }) => {
   const isCompletedToday = habit.completions?.some(c => {
     const today = new Date();
     today.setUTCHours(0, 0, 0, 0);
@@ -62,22 +63,34 @@ const HabitCard = ({ habit, onComplete, onDelete, onEdit }) => {
           <Flame size={20} className="fill-current" />
           <span className="text-xl">{habit.streak}</span>
         </div>
-        
-        <button
-          onClick={() => !isCompletedToday && onComplete(habit._id)}
-          disabled={isCompletedToday}
-          className={`px-6 py-3 rounded-2xl font-black transition-all flex items-center gap-2 ${
-            isCompletedToday 
-              ? 'bg-emerald-500/10 text-emerald-500 cursor-default' 
-              : 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-xl hover:shadow-primary/20'
-          }`}
-        >
-          {isCompletedToday ? (
-            <><Check size={20} /> Done</>
-          ) : (
-            <><div className="w-5 h-5 rounded-full border-2 border-current/30" /> Complete</>
+
+        <div className="flex items-center gap-2">
+          {shieldAvailable && !isCompletedToday && (
+            <button
+              onClick={() => onShield(habit._id)}
+              className="px-3 py-3 rounded-2xl font-black transition-all flex items-center gap-2 bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20"
+              title="Use a streak shield for today"
+            >
+              <ShieldCheck size={18} />
+              Shield
+            </button>
           )}
-        </button>
+          <button
+            onClick={() => !isCompletedToday && onComplete(habit._id)}
+            disabled={isCompletedToday}
+            className={`px-6 py-3 rounded-2xl font-black transition-all flex items-center gap-2 ${
+              isCompletedToday 
+                ? 'bg-emerald-500/10 text-emerald-500 cursor-default' 
+                : 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-xl hover:shadow-primary/20'
+            }`}
+          >
+            {isCompletedToday ? (
+              <><Check size={20} /> Done</>
+            ) : (
+              <><div className="w-5 h-5 rounded-full border-2 border-current/30" /> Complete</>
+            )}
+          </button>
+        </div>
       </div>
     </motion.div>
   );
@@ -160,9 +173,100 @@ const HabitModal = ({ isOpen, onClose, habit, onSave }) => {
   );
 };
 
+const TemplatePackCard = ({ pack, onSelect }) => (
+  <button
+    onClick={() => onSelect(pack)}
+    className="text-left glass p-5 rounded-3xl border border-white/5 hover:border-primary/30 transition-all group"
+  >
+    <div className="flex items-start justify-between gap-3 mb-3">
+      <div>
+        <h3 className="text-lg font-black text-foreground mb-1">{pack.name}</h3>
+        <p className="text-xs text-muted-foreground font-medium">{pack.description}</p>
+      </div>
+      <div className="p-2 rounded-2xl bg-primary/10 text-primary group-hover:scale-110 transition-transform">
+        <Layers size={18} />
+      </div>
+    </div>
+    <div className="flex items-center justify-between">
+      <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">
+        {pack.habits.length} habits
+      </span>
+      <span className="text-xs font-bold text-primary">View pack</span>
+    </div>
+  </button>
+);
+
+const TemplatePackModal = ({ isOpen, pack, onClose, onApply, isApplying }) => {
+  if (!isOpen || !pack) return null;
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 sm:p-0">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+        onClick={onClose}
+      />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 10 }}
+        className="glass w-full max-w-xl p-8 rounded-[2.5rem] border border-white/10 relative z-10"
+      >
+        <div className="flex items-start justify-between mb-6">
+          <div>
+            <p className="text-xs font-black uppercase tracking-widest text-muted-foreground mb-2">Starter Pack</p>
+            <h2 className="text-2xl font-black text-foreground mb-1">{pack.name}</h2>
+            <p className="text-sm text-muted-foreground">{pack.description}</p>
+          </div>
+          <button onClick={onClose} className="p-2 text-muted-foreground hover:text-foreground hover:bg-secondary rounded-xl transition-all">
+            <X size={22} />
+          </button>
+        </div>
+
+        <div className="space-y-3 max-h-[40vh] overflow-y-auto pr-2">
+          {pack.habits.map((habit) => (
+            <div key={habit.name} className="p-4 rounded-2xl bg-secondary/40 border border-white/5">
+              <div className="flex items-center justify-between mb-1">
+                <p className="font-bold text-foreground">{habit.name}</p>
+                <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">
+                  {habit.frequency}
+                </span>
+              </div>
+              <p className="text-xs text-muted-foreground">{habit.description}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="flex gap-3 mt-8">
+          <button
+            onClick={onClose}
+            className="flex-1 px-6 py-3 rounded-2xl bg-secondary text-foreground font-bold"
+          >
+            Maybe later
+          </button>
+          <button
+            onClick={() => onApply(pack)}
+            disabled={isApplying}
+            className="flex-1 px-6 py-3 rounded-2xl bg-primary text-primary-foreground font-bold shadow-xl shadow-primary/20 disabled:opacity-60"
+          >
+            {isApplying ? 'Adding...' : `Add ${pack.habits.length} habits`}
+          </button>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
 const Habits = () => {
   const [habits, setHabits] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [packs, setPacks] = useState([]);
+  const [packsLoading, setPacksLoading] = useState(true);
+  const [isPackModalOpen, setIsPackModalOpen] = useState(false);
+  const [selectedPack, setSelectedPack] = useState(null);
+  const [isApplyingPack, setIsApplyingPack] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingHabit, setEditingHabit] = useState(null);
   const [achievementNotice, setAchievementNotice] = useState(null);
@@ -171,11 +275,44 @@ const Habits = () => {
   const [deleteConfirmText, setDeleteConfirmText] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [aiSuggestion, setAiSuggestion] = useState(null);
-  const { setUser } = useAuth();
+  const { user, setUser } = useAuth();
+  const { pushToast } = useToast();
+  const location = useLocation();
+  const templateSectionRef = useRef(null);
+  const shieldAvailable = Boolean(user?.streakShield?.available);
+  const shieldResetsAt = user?.streakShield?.resetsAt
+    ? new Date(user.streakShield.resetsAt)
+    : null;
 
   useEffect(() => {
     fetchHabits();
   }, []);
+
+  useEffect(() => {
+    const fetchPacks = async () => {
+      setPacksLoading(true);
+      try {
+        const { data } = await api.get('/templates');
+        setPacks(data?.packs || []);
+      } catch (err) {
+        pushToast({
+          type: 'warning',
+          title: 'Starter packs unavailable',
+          message: 'Try again later to load templates.'
+        });
+      } finally {
+        setPacksLoading(false);
+      }
+    };
+    fetchPacks();
+  }, [pushToast]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    if (params.get('templates') === '1' && templateSectionRef.current) {
+      templateSectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [location.search]);
 
   useEffect(() => {
     if (!achievementNotice) return;
@@ -188,7 +325,11 @@ const Habits = () => {
       const { data } = await api.get('/habits');
       setHabits(data);
     } catch (err) {
-      console.error('Error fetching habits');
+      pushToast({
+        type: 'error',
+        title: 'Failed to load habits',
+        message: 'Please refresh or try again in a moment.'
+      });
     } finally {
       setLoading(false);
     }
@@ -198,6 +339,11 @@ const Habits = () => {
     try {
       if (editingHabit) {
         await api.put(`/habits/${editingHabit._id}`, formData);
+        pushToast({
+          type: 'success',
+          title: 'Habit updated',
+          message: 'Your changes are saved.'
+        });
       } else {
         const { data } = await api.post('/habits', formData);
         if (data?.newlyUnlockedBadges?.length) {
@@ -207,12 +353,21 @@ const Habits = () => {
             badges: [...(prev?.badges || []), ...data.newlyUnlockedBadges]
           }));
         }
+        pushToast({
+          type: 'success',
+          title: 'Habit created',
+          message: 'New habit added to your list.'
+        });
       }
       setIsModalOpen(false);
       setEditingHabit(null);
       fetchHabits();
     } catch (err) {
-      console.error('Error saving habit');
+      pushToast({
+        type: 'error',
+        title: 'Could not save habit',
+        message: 'Please check the details and try again.'
+      });
     }
   };
 
@@ -233,7 +388,70 @@ const Habits = () => {
         setAchievementNotice({ badges: data.newlyUnlockedBadges });
       }
     } catch (err) {
-      console.error('Error completing habit');
+      pushToast({
+        type: 'error',
+        title: 'Completion failed',
+        message: err.response?.data?.message || 'Try again in a moment.'
+      });
+    }
+  };
+
+  const handleUseShield = async (id) => {
+    try {
+      const { data } = await api.post(`/habits/${id}/shield`);
+      setHabits(habits.map(h => h._id === id ? data.habit : h));
+      setUser(prev => ({
+        ...prev,
+        streakShield: data.streakShield || prev?.streakShield,
+        badges: data?.newlyUnlockedBadges?.length
+          ? [...(prev?.badges || []), ...data.newlyUnlockedBadges]
+          : prev?.badges
+      }));
+      if (data?.newlyUnlockedBadges?.length) {
+        setAchievementNotice({ badges: data.newlyUnlockedBadges });
+      }
+      pushToast({
+        type: 'success',
+        title: 'Shield used',
+        message: 'Streak protected for today.'
+      });
+    } catch (err) {
+      pushToast({
+        type: 'error',
+        title: 'Shield unavailable',
+        message: err.response?.data?.message || 'Try again later.'
+      });
+    }
+  };
+
+  const handleApplyPack = async (pack) => {
+    if (!pack) return;
+    setIsApplyingPack(true);
+    try {
+      const { data } = await api.post('/habits/bulk', { habits: pack.habits });
+      if (data?.newlyUnlockedBadges?.length) {
+        setAchievementNotice({ badges: data.newlyUnlockedBadges });
+        setUser(prev => ({
+          ...prev,
+          badges: [...(prev?.badges || []), ...data.newlyUnlockedBadges]
+        }));
+      }
+      pushToast({
+        type: 'success',
+        title: 'Pack added',
+        message: `${data?.habits?.length || 0} habits added to your list.`
+      });
+      setIsPackModalOpen(false);
+      setSelectedPack(null);
+      fetchHabits();
+    } catch (err) {
+      pushToast({
+        type: 'error',
+        title: 'Pack failed',
+        message: err.response?.data?.message || 'Please try again.'
+      });
+    } finally {
+      setIsApplyingPack(false);
     }
   };
 
@@ -249,8 +467,17 @@ const Habits = () => {
       await api.delete(`/habits/${deleteCandidate._id}`);
       setHabits(habits.filter(h => h._id !== deleteCandidate._id));
       setDeleteCandidate(null);
+      pushToast({
+        type: 'success',
+        title: 'Habit removed',
+        message: 'You can re-add it anytime.'
+      });
     } catch (err) {
-      console.error('Error deleting habit');
+      pushToast({
+        type: 'error',
+        title: 'Delete failed',
+        message: 'Please try again.'
+      });
     }
   };
 
@@ -311,6 +538,36 @@ const Habits = () => {
             </div>
           </header>
 
+          <div ref={templateSectionRef} className="glass p-6 rounded-[2.5rem] border border-white/10">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">Starter Packs</p>
+                <h2 className="text-2xl font-black text-foreground">Jump-start your routine</h2>
+              </div>
+              <span className="text-xs font-bold text-primary">Curated</span>
+            </div>
+            {packsLoading ? (
+              <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                <Loader2 size={18} className="animate-spin" /> Loading packs...
+              </div>
+            ) : packs.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {packs.map((pack) => (
+                  <TemplatePackCard
+                    key={pack.id}
+                    pack={pack}
+                    onSelect={(selected) => {
+                      setSelectedPack(selected);
+                      setIsPackModalOpen(true);
+                    }}
+                  />
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">No packs available right now.</p>
+            )}
+          </div>
+
           <div className="relative group max-w-md">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-blue-500 transition-colors" size={20} />
             <input
@@ -334,6 +591,8 @@ const Habits = () => {
                     onComplete={handleComplete} 
                     onDelete={() => handleDeleteRequest(habit)}
                     onEdit={(h) => { setEditingHabit(h); setIsModalOpen(true); }}
+                    onShield={handleUseShield}
+                    shieldAvailable={shieldAvailable}
                   />
                 ))}
               </AnimatePresence>
@@ -366,21 +625,42 @@ const Habits = () => {
                     <div className="flex justify-between items-end">
                         <div>
                     <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">Available</p>
-                            <div className="flex gap-1">
-                                <div className="w-2 h-4 bg-indigo-500 rounded-sm" />
-                                <div className="w-2 h-4 bg-indigo-500/30 rounded-sm" />
-                                <div className="w-2 h-4 bg-indigo-500/30 rounded-sm" />
-                            </div>
+                    <div className="flex items-center gap-2">
+                      <div className={`w-2 h-4 rounded-sm ${shieldAvailable ? 'bg-indigo-500' : 'bg-indigo-500/30'}`} />
+                      <span className="text-xs font-bold text-muted-foreground">
+                        {shieldAvailable ? '1 shield ready' : '0 shield ready'}
+                      </span>
+                    </div>
+                    {!shieldAvailable && shieldResetsAt && (
+                      <p className="text-[10px] text-muted-foreground mt-1">
+                      Resets {shieldResetsAt.toLocaleDateString()}
+                      </p>
+                    )}
                         </div>
-                        <button className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-primary-foreground text-xs font-bold rounded-xl transition-all disabled:opacity-50" disabled>
-                            Activate (Level 5)
-                        </button>
+                  <button className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-primary-foreground text-xs font-bold rounded-xl transition-all disabled:opacity-50" disabled={!shieldAvailable}>
+                    {shieldAvailable ? 'Ready to use' : 'On cooldown'}
+                  </button>
                     </div>
                 </div>
                 <div className="absolute -top-4 -right-4 w-24 h-24 bg-indigo-500/10 rounded-full blur-3xl group-hover:bg-indigo-500/20 transition-all" />
             </div>
         </div>
       </div>
+
+      <AnimatePresence>
+        {isPackModalOpen && (
+          <TemplatePackModal
+            isOpen={isPackModalOpen}
+            pack={selectedPack}
+            onClose={() => {
+              setIsPackModalOpen(false);
+              setSelectedPack(null);
+            }}
+            onApply={handleApplyPack}
+            isApplying={isApplyingPack}
+          />
+        )}
+      </AnimatePresence>
 
       <AnimatePresence>
         {isModalOpen && (

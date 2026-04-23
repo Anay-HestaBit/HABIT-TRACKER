@@ -1,6 +1,8 @@
 const cron = require('node-cron');
 const UserRepository = require('../repositories/UserRepository');
 const HabitRepository = require('../repositories/HabitRepository');
+const Community = require('../models/Community');
+const CommunityHabit = require('../models/CommunityHabit');
 const emailQueue = require('../queues/emailQueue');
 const logger = require('../utils/logger');
 const { maskEmail } = require('../utils/sanitize');
@@ -84,9 +86,82 @@ class ReminderService {
         }
       }
 
+      if (process.env.COMMUNITY_REMINDERS_ENABLED === 'true') {
+        const communityQueued = await this.sendCommunityReminders();
+        queuedCount += communityQueued;
+      }
+
       logger.info(`Daily reminder scan complete. Queued reminders for ${queuedCount} user(s).`);
     } catch (error) {
       logger.error('Error in daily reminder job:', error);
+    }
+  }
+
+  async sendCommunityReminders() {
+    logger.info('Checking for community reminders...');
+    const communities = await Community.find({}).populate('members.userId', 'email username fullName isVerified');
+    const today = this.getISTDayAnchor();
+    let queuedCount = 0;
+
+    for (const community of communities) {
+      const habits = await CommunityHabit.find({ communityId: community._id, isActive: true });
+      if (!habits.length) continue;
+
+      for (const member of community.members) {
+        const user = member.userId;
+        if (!user?.isVerified || !user?.email) continue;
+
+        const uncompletedHabits = habits.filter(habit => {
+          return !habit.completions?.some(c => {
+            if (String(c.userId) !== String(user._id)) return false;
+            return this.isCompletedOnISTDate(c.date, today);
+          });
+        });
+
+        if (uncompletedHabits.length === 0) continue;
+
+        const queued = await this.sendCommunityReminderEmail(user, community, uncompletedHabits.slice(0, 5));
+        if (queued) queuedCount += 1;
+      }
+    }
+
+    logger.info(`Community reminder scan complete. Queued reminders for ${queuedCount} user(s).`);
+    return queuedCount;
+  }
+
+  async sendCommunityReminderEmail(user, community, habits) {
+    const firstName = (user.fullName || user.username || 'there').trim().split(/\s+/)[0] || 'there';
+    const habitList = habits.map(h => `- ${h.name}`).join('\n');
+    const communityUrl = process.env.CLIENT_URL
+      ? `${process.env.CLIENT_URL}/community/${community._id}`
+      : 'your Habitcraft community';
+
+    const message = `
+      Hi ${firstName},
+
+      Your community "${community.name}" still has shared habits to complete today:
+
+      ${habitList}
+
+      Jump in and keep the shared streak alive.
+
+      Go to your community: ${communityUrl}
+
+      Keep building together,
+      The Habitcraft Team
+    `;
+
+    try {
+      await emailQueue.add('community-reminder-email', {
+        email: user.email,
+        subject: `🤝 Community reminder: ${community.name}`,
+        message
+      });
+      logger.info(`Community reminder queued for ${maskEmail(user.email)}`);
+      return true;
+    } catch (err) {
+      logger.error(`Failed to queue community reminder for ${maskEmail(user.email)}:`, err);
+      return false;
     }
   }
 

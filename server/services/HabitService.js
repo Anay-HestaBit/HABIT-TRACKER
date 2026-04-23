@@ -13,6 +13,36 @@ const getUTCMidnight = () => {
 
 const SEASONS = ['spring', 'summer', 'autumn', 'winter'];
 
+const sanitizeHabitInput = (data = {}) => {
+  const name = String(data.name || '').trim();
+  const description = String(data.description || '').trim();
+  const frequency = data.frequency === 'weekly' ? 'weekly' : 'daily';
+  const color = /^#[0-9a-fA-F]{6}$/.test(data.color) ? data.color : '#8B5CF6';
+  const icon = typeof data.icon === 'string' && data.icon.trim() ? data.icon.trim() : 'star';
+
+  return { name, description, frequency, color, icon };
+};
+
+const getShieldCooldownMs = () => {
+  const rawDays = Number.parseInt(process.env.STREAK_SHIELD_COOLDOWN_DAYS || '7', 10);
+  const days = Number.isFinite(rawDays) && rawDays > 0 ? rawDays : 7;
+  return days * 24 * 60 * 60 * 1000;
+};
+
+const refreshShieldAvailability = (user) => {
+  if (!user?.streakShield) return;
+  if (user.streakShield.available) return;
+
+  const resetAt = user.streakShield.resetsAt
+    ? new Date(user.streakShield.resetsAt)
+    : null;
+
+  if (resetAt && resetAt.getTime() <= Date.now()) {
+    user.streakShield.available = true;
+    user.streakShield.resetsAt = null;
+  }
+};
+
 const getNextSeason = (current) => {
   const idx = SEASONS.indexOf(current);
   const nextIdx = idx === -1 ? 0 : (idx + 1) % SEASONS.length;
@@ -45,8 +75,10 @@ class HabitService {
   }
 
   async createHabit(userId, habitData) {
-    logger.info(`Creating habit for user ${userId}: ${habitData.name}`);
-    const habit = await HabitRepository.create({ ...habitData, userId });
+    const payload = sanitizeHabitInput(habitData);
+    if (!payload.name) throw new Error('Habit name is required');
+    logger.info(`Creating habit for user ${userId}: ${payload.name}`);
+    const habit = await HabitRepository.create({ ...payload, userId });
 
     const user = await UserRepository.findById(userId);
     const newlyUnlocked = [];
@@ -61,6 +93,45 @@ class HabitService {
     }
 
     return { habit, newlyUnlockedBadges: newlyUnlocked };
+  }
+
+  async createHabitsBulk(userId, habitsData) {
+    if (!Array.isArray(habitsData) || habitsData.length === 0) {
+      throw new Error('No habits provided');
+    }
+
+    if (habitsData.length > 10) {
+      throw new Error('Too many habits in one request');
+    }
+
+    const user = await UserRepository.findById(userId);
+    const initialHabitCount = await HabitRepository.countActive(userId);
+    const createdHabits = [];
+
+    for (const habitData of habitsData) {
+      const payload = sanitizeHabitInput(habitData);
+      if (!payload.name) {
+        throw new Error('Habit name is required');
+      }
+      const habit = await HabitRepository.create({ ...payload, userId });
+      createdHabits.push(habit);
+    }
+
+    const newlyUnlocked = [];
+    if (initialHabitCount === 0 && createdHabits.length > 0) {
+      this.addBadgeIfMissing(user, {
+        name: 'Creator',
+        description: 'Created your first habit!',
+        icon: 'PlusCircle'
+      }, newlyUnlocked);
+    }
+
+    if (newlyUnlocked.length > 0) {
+      await user.save();
+      logger.info(`Achievement Unlocked: Creator for user ${userId}`);
+    }
+
+    return { habits: createdHabits, newlyUnlockedBadges: newlyUnlocked };
   }
 
   async updateHabit(habitId, userId, habitData) {
@@ -211,6 +282,75 @@ class HabitService {
       newXP: user.xp,
       worldState: user.worldState,
       newlyUnlockedBadges
+    };
+  }
+
+  async useStreakShield(habitId, userId) {
+    logger.info(`Using streak shield for habit ${habitId} by user ${userId}`);
+    const habit = await HabitRepository.findOneWithUser(habitId, userId);
+    if (!habit) throw new Error('Habit not found');
+
+    if (habit.isCompletedToday()) {
+      throw new Error('Habit already completed today');
+    }
+
+    const user = await UserRepository.findById(userId);
+    if (!user.streakShield) {
+      user.streakShield = { available: true, lastUsed: null, resetsAt: null };
+    }
+    refreshShieldAvailability(user);
+
+    if (!user?.streakShield?.available) {
+      throw new Error('Streak shield not available');
+    }
+
+    const today = getUTCMidnight();
+    const completionTime = new Date();
+
+    habit.completions.push({
+      date: today,
+      completedAt: completionTime,
+      shielded: true,
+    });
+    habit.streak = habit.calculateStreak();
+    if (habit.streak > habit.longestStreak) {
+      habit.longestStreak = habit.streak;
+    }
+
+    user.streakShield.available = false;
+    user.streakShield.lastUsed = completionTime;
+    user.streakShield.resetsAt = new Date(Date.now() + getShieldCooldownMs());
+
+    const newlyUnlockedBadges = [];
+    this.addBadgeIfMissing(user, {
+      name: 'Streak Shield',
+      description: 'Use your first streak shield.',
+      icon: 'Shield',
+    }, newlyUnlockedBadges);
+
+    const progressPromise = (async () => {
+      let progress = await ProgressRepository.findByUserAndDate(userId, today);
+      if (!progress) {
+        const activeHabitsCount = await HabitRepository.countActive(userId);
+        progress = await ProgressRepository.create({
+          userId,
+          date: today,
+          habitsCompleted: 1,
+          totalHabits: activeHabitsCount,
+          xpEarned: 0,
+        });
+      } else {
+        progress.habitsCompleted += 1;
+        await progress.save();
+      }
+    })();
+
+    await Promise.all([habit.save(), user.save(), progressPromise]);
+
+    return {
+      habit,
+      streakShield: user.streakShield,
+      newlyUnlockedBadges,
     };
   }
 }

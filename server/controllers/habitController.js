@@ -18,6 +18,26 @@ class HabitController {
       res.status(201).json(result);
     } catch (error) {
       logger.error('Error creating habit:', error);
+      if (error.message === 'Habit name is required') {
+        return res.status(400).json({ message: error.message });
+      }
+      next(error);
+    }
+  }
+
+  async createHabitsBulk(req, res, next) {
+    try {
+      const result = await HabitService.createHabitsBulk(req.user._id, req.body?.habits);
+      res.status(201).json(result);
+    } catch (error) {
+      logger.error('Error creating habits in bulk:', error);
+      if (
+        error.message === 'No habits provided' ||
+        error.message === 'Too many habits in one request' ||
+        error.message === 'Habit name is required'
+      ) {
+        return res.status(400).json({ message: error.message });
+      }
       next(error);
     }
   }
@@ -49,6 +69,19 @@ class HabitController {
     } catch (error) {
       logger.error('Error completing habit:', error);
       if (error.message === 'Habit already completed today') {
+        return res.status(400).json({ message: error.message });
+      }
+      next(error);
+    }
+  }
+
+  async useStreakShield(req, res, next) {
+    try {
+      const result = await HabitService.useStreakShield(req.params.id, req.user._id);
+      res.json(result);
+    } catch (error) {
+      logger.error('Error using streak shield:', error);
+      if (error.message === 'Habit already completed today' || error.message === 'Streak shield not available') {
         return res.status(400).json({ message: error.message });
       }
       next(error);

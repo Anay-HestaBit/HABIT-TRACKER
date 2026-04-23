@@ -7,6 +7,7 @@ import { useAuth } from './context/AuthContext';
 import Layout from './components/Layout';
 import ProtectedRoute from './components/ProtectedRoute';
 import TourRunner from './components/TourRunner';
+import ToastViewport from './components/ToastViewport';
 
 // Pages (to be implemented)
 import Login from './pages/Login';
@@ -25,6 +26,8 @@ import VerifyOTP from './pages/VerifyOTP';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import Profile from './pages/Profile';
+import Community from './pages/Community';
+import CommunityDetail from './pages/CommunityDetail';
 
 function App() {
   const location = useLocation();
@@ -90,11 +93,22 @@ function App() {
             <Layout><Profile /></Layout>
           </ProtectedRoute>
         } />
+        <Route path="/community" element={
+          <ProtectedRoute>
+            <Layout><Community /></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/community/:id" element={
+          <ProtectedRoute>
+            <Layout><CommunityDetail /></Layout>
+          </ProtectedRoute>
+        } />
 
         {/* Catch all */}
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
       </AnimatePresence>
+      <ToastViewport />
     </>
   );
 }
