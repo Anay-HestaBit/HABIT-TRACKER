@@ -16,6 +16,9 @@ const CommunityDetail = () => {
   const [journalEntries, setJournalEntries] = useState([]);
   const [leaderboard, setLeaderboard] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [accessDenied, setAccessDenied] = useState(false);
+  const [accessMessage, setAccessMessage] = useState('');
+  const [accessInviteCode, setAccessInviteCode] = useState('');
   const [newHabitName, setNewHabitName] = useState('');
   const [newHabitDescription, setNewHabitDescription] = useState('');
   const [journalContent, setJournalContent] = useState('');
@@ -33,24 +36,33 @@ const CommunityDetail = () => {
 
   const loadCommunity = async () => {
     setLoading(true);
+    setAccessDenied(false);
+    setAccessMessage('');
     try {
-      const [communityRes, habitsRes, journalRes, leaderboardRes] = await Promise.all([
-        api.get(`/communities/${id}`),
+      const communityRes = await api.get(`/communities/${id}`);
+      setCommunity(communityRes.data);
+
+      const [habitsRes, journalRes, leaderboardRes] = await Promise.all([
         api.get(`/communities/${id}/habits`),
         api.get(`/communities/${id}/journal`),
         api.get(`/communities/${id}/leaderboard`),
       ]);
-      setCommunity(communityRes.data);
       setHabits(habitsRes.data.habits || []);
       setJournalEntries(journalRes.data.entries || []);
       setLeaderboard(leaderboardRes.data.leaderboard || []);
     } catch (err) {
-      pushToast({
-        type: 'error',
-        title: 'Community unavailable',
-        message: err.response?.data?.message || 'Please try again.'
-      });
-      navigate('/community');
+      const status = err.response?.status;
+      if (status === 403 || status === 401) {
+        setAccessDenied(true);
+        setAccessMessage(err.response?.data?.message || 'You are not a member of this community.');
+      } else {
+        pushToast({
+          type: 'error',
+          title: 'Community unavailable',
+          message: err.response?.data?.message || 'Please try again.'
+        });
+        navigate('/community');
+      }
     } finally {
       setLoading(false);
     }
@@ -195,11 +207,66 @@ const CommunityDetail = () => {
     }
   };
 
+  const handleRequestAccess = async () => {
+    if (!accessInviteCode.trim()) return;
+    setProcessing(true);
+    try {
+      await api.post('/communities/join', { code: accessInviteCode });
+      pushToast({
+        type: 'success',
+        title: 'Request sent',
+        message: 'The owner will approve it soon.'
+      });
+      navigate('/community');
+    } catch (err) {
+      pushToast({
+        type: 'error',
+        title: 'Request failed',
+        message: err.response?.data?.message || 'Check the code and try again.'
+      });
+    } finally {
+      setProcessing(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center gap-3">
         <Loader2 className="animate-spin text-primary" size={36} />
         <p className="text-muted-foreground">Loading community...</p>
+      </div>
+    );
+  }
+
+  if (accessDenied) {
+    return (
+      <div className="space-y-6">
+        <div className="glass p-8 rounded-[2rem] border border-white/10 max-w-xl">
+          <h1 className="text-2xl font-black mb-2">Access required</h1>
+          <p className="text-muted-foreground mb-6">{accessMessage}</p>
+          <div className="space-y-3 mb-6">
+            <label className="text-xs font-black uppercase tracking-widest text-muted-foreground">Invite code</label>
+            <input
+              value={accessInviteCode}
+              onChange={(e) => setAccessInviteCode(e.target.value)}
+              placeholder="Enter invite code"
+              className="w-full bg-secondary/50 border border-secondary/60 rounded-2xl px-4 py-3 text-foreground uppercase tracking-widest"
+            />
+            <button
+              onClick={handleRequestAccess}
+              disabled={processing || !accessInviteCode.trim()}
+              className="w-full px-6 py-3 rounded-2xl bg-primary text-primary-foreground font-bold disabled:opacity-50"
+            >
+              Request access
+            </button>
+          </div>
+          <button
+            onClick={() => navigate('/community')}
+            className="px-6 py-3 rounded-2xl bg-secondary text-foreground font-bold"
+          >
+            Back to Community Hub
+          </button>
+        </div>
       </div>
     );
   }

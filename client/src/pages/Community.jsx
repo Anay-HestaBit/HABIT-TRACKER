@@ -86,6 +86,9 @@ const Community = () => {
     }
   };
 
+  const pendingIds = new Set(pending.map((community) => community._id));
+  const visibleCommunities = communities.filter((community) => !pendingIds.has(community._id));
+
   return (
     <div className="space-y-10">
       <header className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -179,9 +182,9 @@ const Community = () => {
           <div className="flex items-center gap-2 text-muted-foreground">
             <Loader2 size={16} className="animate-spin" /> Loading communities...
           </div>
-        ) : communities.length > 0 ? (
+        ) : visibleCommunities.length > 0 ? (
           <div className="grid md:grid-cols-2 gap-4">
-            {communities.map((community) => (
+            {visibleCommunities.map((community) => (
               <Link
                 key={community._id}
                 to={`/community/${community._id}`}

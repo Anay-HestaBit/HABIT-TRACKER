@@ -727,3 +727,29 @@
 {"level":"info","message":"MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-04-23 18:19:20"}
 {"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-04-23 18:19:20"}
 {"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-04-23 18:19:20"}
+{"level":"info","message":"Server running on port 5000","service":"habit-tracker-api","timestamp":"2026-04-27 15:24:26"}
+{"level":"info","message":"Environment: developmnet","service":"habit-tracker-api","timestamp":"2026-04-27 15:24:26"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-04-27 15:24:26"}
+{"level":"info","message":"Reminder service initialized (Daily at 10:00 and 20:00 Asia/Kolkata)","service":"habit-tracker-api","timestamp":"2026-04-27 15:24:26"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-04-27 15:24:26"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-04-27 15:24:26"}
+{"cause":{"commonWireVersion":0,"compatible":true,"heartbeatFrequencyMS":10000,"localThresholdMS":15,"logicalSessionTimeoutMinutes":null,"maxElectionId":null,"maxSetVersion":null,"servers":{"127.0.0.1:27017":{"$clusterTime":null,"address":"127.0.0.1:27017","arbiters":[],"electionId":null,"error":{"beforeHandshake":false,"errorLabelSet":{}},"hosts":[],"iscryptd":false,"lastUpdateTime":11680647,"lastWriteDate":0,"logicalSessionTimeoutMinutes":null,"maxBsonObjectSize":null,"maxMessageSizeBytes":null,"maxWireVersion":0,"maxWriteBatchSize":null,"me":null,"minRoundTripTime":0,"minWireVersion":0,"passives":[],"primary":null,"roundTripTime":-1,"setName":null,"setVersion":null,"tags":{},"topologyVersion":null,"type":"Unknown"}},"setName":null,"stale":false,"type":"Unknown"},"errorLabelSet":{},"level":"error","message":"connect ECONNREFUSED 127.0.0.1:27017","reason":{"commonWireVersion":0,"compatible":true,"heartbeatFrequencyMS":10000,"localThresholdMS":15,"logicalSessionTimeoutMinutes":null,"maxElectionId":null,"maxSetVersion":null,"servers":{"127.0.0.1:27017":{"$clusterTime":null,"address":"127.0.0.1:27017","arbiters":[],"electionId":null,"error":{"beforeHandshake":false,"errorLabelSet":{}},"hosts":[],"iscryptd":false,"lastUpdateTime":11680647,"lastWriteDate":0,"logicalSessionTimeoutMinutes":null,"maxBsonObjectSize":null,"maxMessageSizeBytes":null,"maxWireVersion":0,"maxWriteBatchSize":null,"me":null,"minRoundTripTime":0,"minWireVersion":0,"passives":[],"primary":null,"roundTripTime":-1,"setName":null,"setVersion":null,"tags":{},"topologyVersion":null,"type":"Unknown"}},"setName":null,"stale":false,"type":"Unknown"},"service":"habit-tracker-api","stack":"MongooseServerSelectionError: connect ECONNREFUSED 127.0.0.1:27017\n    at _handleConnectionErrors (/home/anaygupta/Desktop/My Projects /Habbit-Tracker/server/node_modules/mongoose/lib/connection.js:1169:11)\n    at NativeConnection.openUri (/home/anaygupta/Desktop/My Projects /Habbit-Tracker/server/node_modules/mongoose/lib/connection.js:1100:11)","timestamp":"2026-04-27 15:24:56"}
+{"level":"info","message":"Server running on port 5000","service":"habit-tracker-api","timestamp":"2026-04-27 15:30:10"}
+{"level":"info","message":"Environment: developmnet","service":"habit-tracker-api","timestamp":"2026-04-27 15:30:10"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-04-27 15:30:10"}
+{"level":"info","message":"Reminder service initialized (Daily at 10:00 and 20:00 Asia/Kolkata)","service":"habit-tracker-api","timestamp":"2026-04-27 15:30:10"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-04-27 15:30:10"}
+{"level":"info","message":"MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-04-27 15:30:10"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-04-27 15:30:11"}
+{"level":"info","message":"Server running on port 5000","service":"habit-tracker-api","timestamp":"2026-04-27 15:30:55"}
+{"level":"info","message":"Environment: developmnet","service":"habit-tracker-api","timestamp":"2026-04-27 15:30:55"}
+{"level":"info","message":"Initializing Background Workers...","service":"habit-tracker-api","timestamp":"2026-04-27 15:30:55"}
+{"level":"info","message":"Reminder service initialized (Daily at 10:00 and 20:00 Asia/Kolkata)","service":"habit-tracker-api","timestamp":"2026-04-27 15:30:55"}
+{"level":"info","message":"MongoDB Connected","service":"habit-tracker-api","timestamp":"2026-04-27 15:30:55"}
+{"level":"info","message":"Connected to Redis (Shared)","service":"habit-tracker-api","timestamp":"2026-04-27 15:30:55"}
+{"level":"info","message":"Email Worker is ready","service":"habit-tracker-api","timestamp":"2026-04-27 15:30:55"}
+{"level":"info","message":"New user registered: Jod_Vivek","service":"habit-tracker-api","timestamp":"2026-04-27 15:30:59"}
+{"level":"info","message":"Processing email job: 27 (verification-email) for a***@gmail.com","service":"habit-tracker-api","timestamp":"2026-04-27 15:30:59"}
+{"level":"info","message":"Email sent: unknown-id","service":"habit-tracker-api","timestamp":"2026-04-27 15:31:00"}
+{"level":"info","message":"Successfully sent email to a***@gmail.com","service":"habit-tracker-api","timestamp":"2026-04-27 15:31:00"}
+{"level":"info","message":"Email job 27 completed","service":"habit-tracker-api","timestamp":"2026-04-27 15:31:00"}

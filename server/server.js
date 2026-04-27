@@ -27,8 +27,8 @@ const envOrigins = (process.env.CLIENT_URLS || process.env.CLIENT_URL || '')
   .filter(Boolean);
 
 const allowedOrigins = [
-  ...envOrigins
-  // "http://localhost:5173"
+  ...envOrigins,
+  //  "http://localhost:5173"
 ].map(normalize);
 
 app.use(cors({
