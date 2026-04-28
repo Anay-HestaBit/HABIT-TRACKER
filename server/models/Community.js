@@ -23,6 +23,39 @@ const pendingSchema = new mongoose.Schema({
   requestedAt: { type: Date, default: Date.now },
 }, { _id: false });
 
+const mutedSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  mutedUntil: { type: Date, default: null },
+  mutedBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
+  reason: { type: String, default: '' },
+}, { _id: false });
+
+const auditSchema = new mongoose.Schema({
+  action: {
+    type: String,
+    required: true,
+  },
+  actor: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  target: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null,
+  },
+  meta: {
+    type: mongoose.Schema.Types.Mixed,
+    default: {},
+  },
+  createdAt: { type: Date, default: Date.now },
+}, { _id: false });
+
 const communitySchema = new mongoose.Schema({
   name: {
     type: String,
@@ -49,6 +82,8 @@ const communitySchema = new mongoose.Schema({
   },
   members: [memberSchema],
   pendingRequests: [pendingSchema],
+  mutedMembers: [mutedSchema],
+  auditLog: [auditSchema],
   xp: { type: Number, default: 0 },
   level: { type: Number, default: 1 },
   badges: [{

@@ -26,7 +26,12 @@ const communityReflectionSchema = new mongoose.Schema({
     type: String,
     enum: ['amazing', 'good', 'okay', 'bad', 'terrible'],
     default: 'okay'
-  }
+  },
+  isPinned: { type: Boolean, default: false },
+  pinnedAt: { type: Date, default: null },
+  isHidden: { type: Boolean, default: false },
+  hiddenAt: { type: Date, default: null },
+  hiddenBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User', default: null },
 }, { timestamps: true });
 
 communityReflectionSchema.index({ communityId: 1, date: 1 });

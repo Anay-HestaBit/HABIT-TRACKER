@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useLocation } from 'react-router-dom';
 import { 
@@ -12,21 +12,27 @@ import {
   X,
   Sparkles,
   ShieldCheck,
-  Layers
+  Layers,
+  LayoutGrid,
+  List
 } from 'lucide-react';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import PomodoroTimer from '../components/PomodoroTimer';
 
-const HabitCard = ({ habit, onComplete, onDelete, onEdit, onShield, shieldAvailable }) => {
-  const isCompletedToday = habit.completions?.some(c => {
-    const today = new Date();
-    today.setUTCHours(0, 0, 0, 0);
+const isHabitCompletedToday = (habit) => {
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+  return habit.completions?.some(c => {
     const d = new Date(c.date);
     d.setUTCHours(0, 0, 0, 0);
     return d.getTime() === today.getTime();
   });
+};
+
+const HabitCard = ({ habit, onComplete, onDelete, onEdit, onShield, shieldAvailable }) => {
+  const isCompletedToday = isHabitCompletedToday(habit);
 
   return (
     <motion.div
@@ -91,6 +97,75 @@ const HabitCard = ({ habit, onComplete, onDelete, onEdit, onShield, shieldAvaila
             )}
           </button>
         </div>
+      </div>
+    </motion.div>
+  );
+};
+
+const HabitListRow = ({ habit, onComplete, onDelete, onEdit, onShield, shieldAvailable }) => {
+  const isCompletedToday = isHabitCompletedToday(habit);
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 8 }}
+      className={`glass group flex flex-col gap-3 rounded-2xl border px-4 py-3 sm:flex-row sm:items-center sm:justify-between ${
+        isCompletedToday ? 'border-emerald-500/30' : 'border-white/5 hover:border-primary/30'
+      }`}
+    >
+      <div className="flex min-w-0 items-center gap-3">
+        <div
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary/60 text-base font-black"
+          style={{ borderLeft: `4px solid ${habit.color}` }}
+        >
+          <span style={{ color: habit.color }}>{habit.name.charAt(0).toUpperCase()}</span>
+        </div>
+        <div className="min-w-0">
+          <h3 className="truncate text-base font-black text-foreground">{habit.name}</h3>
+          <div className="mt-1 flex items-center gap-3 text-xs text-muted-foreground">
+            <span className="font-bold uppercase tracking-widest">{habit.frequency}</span>
+            <span className="flex items-center gap-1 font-black text-orange-500">
+              <Flame size={14} className="fill-current" />
+              {habit.streak}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex shrink-0 flex-wrap items-center gap-2 sm:justify-end">
+        <button onClick={() => onEdit(habit)} className="p-2 text-muted-foreground hover:text-foreground transition-colors" title="Edit habit">
+          <Edit3 size={17} />
+        </button>
+        <button onClick={() => onDelete(habit)} className="p-2 text-muted-foreground hover:text-rose-500 transition-colors" title="Delete habit">
+          <Trash2 size={17} />
+        </button>
+        {shieldAvailable && !isCompletedToday && (
+          <button
+            onClick={() => onShield(habit._id)}
+            className="px-3 py-2 rounded-xl font-black transition-all flex items-center gap-2 bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 text-sm"
+            title="Use a streak shield for today"
+          >
+            <ShieldCheck size={16} />
+            Shield
+          </button>
+        )}
+        <button
+          onClick={() => !isCompletedToday && onComplete(habit._id)}
+          disabled={isCompletedToday}
+          className={`px-4 py-2 rounded-xl font-black transition-all flex items-center gap-2 text-sm ${
+            isCompletedToday
+              ? 'bg-emerald-500/10 text-emerald-500 cursor-default'
+              : 'bg-primary text-primary-foreground hover:bg-primary/90'
+          }`}
+        >
+          {isCompletedToday ? (
+            <><Check size={18} /> Done</>
+          ) : (
+            <><div className="w-4 h-4 rounded-full border-2 border-current/30" /> Complete</>
+          )}
+        </button>
       </div>
     </motion.div>
   );
@@ -275,6 +350,7 @@ const Habits = () => {
   const [deleteConfirmText, setDeleteConfirmText] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [aiSuggestion, setAiSuggestion] = useState(null);
+  const [viewMode, setViewMode] = useState(() => localStorage.getItem('habitViewMode') || 'grid');
   const { user, setUser } = useAuth();
   const { pushToast } = useToast();
   const location = useLocation();
@@ -282,6 +358,27 @@ const Habits = () => {
   const shieldAvailable = Boolean(user?.streakShield?.available);
   const shieldResetsAt = user?.streakShield?.resetsAt
     ? new Date(user.streakShield.resetsAt)
+    : null;
+
+  const shieldHistory = useMemo(() => {
+    const entries = [];
+    habits.forEach((habit) => {
+      (habit.completions || []).forEach((completion) => {
+        if (completion.shielded) {
+          entries.push({
+            habitName: habit.name,
+            date: completion.completedAt || completion.date,
+          });
+        }
+      });
+    });
+    return entries
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, 5);
+  }, [habits]);
+
+  const shieldCooldownDays = shieldResetsAt
+    ? Math.max(1, Math.ceil((shieldResetsAt.getTime() - Date.now()) / (1000 * 60 * 60 * 24)))
     : null;
 
   useEffect(() => {
@@ -319,6 +416,10 @@ const Habits = () => {
     const timer = setTimeout(() => setAchievementNotice(null), 6000);
     return () => clearTimeout(timer);
   }, [achievementNotice]);
+
+  useEffect(() => {
+    localStorage.setItem('habitViewMode', viewMode);
+  }, [viewMode]);
 
   const fetchHabits = async () => {
     try {
@@ -568,24 +669,59 @@ const Habits = () => {
             )}
           </div>
 
-          <div className="relative group max-w-md">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-blue-500 transition-colors" size={20} />
-            <input
-              type="text"
-              placeholder="Search habits..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-secondary/50 border border-secondary/60 rounded-2xl py-3 pl-12 pr-4 text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition-all font-medium"
-            />
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div className="relative group w-full max-w-md">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-blue-500 transition-colors" size={20} />
+              <input
+                type="text"
+                placeholder="Search habits..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full bg-secondary/50 border border-secondary/60 rounded-2xl py-3 pl-12 pr-4 text-foreground focus:outline-none focus:ring-2 focus:ring-blue-500/30 transition-all font-medium"
+              />
+            </div>
+            <div className="inline-flex w-fit rounded-2xl border border-white/10 bg-secondary/40 p-1">
+              <button
+                type="button"
+                onClick={() => setViewMode('grid')}
+                className={`flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold transition-all ${
+                  viewMode === 'grid' ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                <LayoutGrid size={16} />
+                Grid
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewMode('list')}
+                className={`flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-bold transition-all ${
+                  viewMode === 'list' ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                <List size={16} />
+                List
+              </button>
+            </div>
           </div>
 
           {loading ? (
             <div className="flex justify-center py-20"><Loader2 size={32} className="animate-spin text-blue-500" /></div>
           ) : filteredHabits.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className={viewMode === 'list' ? 'space-y-3' : 'grid grid-cols-1 md:grid-cols-2 gap-6'}>
               <AnimatePresence>
                 {filteredHabits.map((habit) => (
-                  <HabitCard 
+                  viewMode === 'list' ? (
+                    <HabitListRow
+                      key={habit._id}
+                      habit={habit}
+                      onComplete={handleComplete}
+                      onDelete={() => handleDeleteRequest(habit)}
+                      onEdit={(h) => { setEditingHabit(h); setIsModalOpen(true); }}
+                      onShield={handleUseShield}
+                      shieldAvailable={shieldAvailable}
+                    />
+                  ) : (
+                    <HabitCard
                     key={habit._id} 
                     habit={habit} 
                     onComplete={handleComplete} 
@@ -594,6 +730,7 @@ const Habits = () => {
                     onShield={handleUseShield}
                     shieldAvailable={shieldAvailable}
                   />
+                  )
                 ))}
               </AnimatePresence>
             </div>
@@ -633,13 +770,28 @@ const Habits = () => {
                     </div>
                     {!shieldAvailable && shieldResetsAt && (
                       <p className="text-[10px] text-muted-foreground mt-1">
-                      Resets {shieldResetsAt.toLocaleDateString()}
+                      Resets in {shieldCooldownDays} day{shieldCooldownDays === 1 ? '' : 's'}
                       </p>
                     )}
                         </div>
                   <button className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-primary-foreground text-xs font-bold rounded-xl transition-all disabled:opacity-50" disabled={!shieldAvailable}>
                     {shieldAvailable ? 'Ready to use' : 'On cooldown'}
                   </button>
+                    </div>
+                    <div className="mt-5">
+                      <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-2">Recent shields</p>
+                      {shieldHistory.length > 0 ? (
+                        <div className="space-y-2 text-xs text-muted-foreground">
+                          {shieldHistory.map((entry, index) => (
+                            <div key={`${entry.habitName}-${entry.date}-${index}`} className="flex items-center justify-between">
+                              <span className="font-semibold text-foreground">{entry.habitName}</span>
+                              <span>{new Date(entry.date).toLocaleDateString()}</span>
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        <p className="text-xs text-muted-foreground">No shield uses yet.</p>
+                      )}
                     </div>
                 </div>
                 <div className="absolute -top-4 -right-4 w-24 h-24 bg-indigo-500/10 rounded-full blur-3xl group-hover:bg-indigo-500/20 transition-all" />

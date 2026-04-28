@@ -28,6 +28,7 @@ import ResetPassword from './pages/ResetPassword';
 import Profile from './pages/Profile';
 import Community from './pages/Community';
 import CommunityDetail from './pages/CommunityDetail';
+import CommunityChat from './pages/CommunityChat';
 
 function App() {
   const location = useLocation();
@@ -101,6 +102,11 @@ function App() {
         <Route path="/community/:id" element={
           <ProtectedRoute>
             <Layout><CommunityDetail /></Layout>
+          </ProtectedRoute>
+        } />
+        <Route path="/community/:id/chat" element={
+          <ProtectedRoute>
+            <Layout><CommunityChat /></Layout>
           </ProtectedRoute>
         } />
 

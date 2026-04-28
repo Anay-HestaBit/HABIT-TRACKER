@@ -8,6 +8,7 @@ import { useToast } from '../context/ToastContext';
 const Community = () => {
   const [communities, setCommunities] = useState([]);
   const [pending, setPending] = useState([]);
+  const [approvals, setApprovals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [creating, setCreating] = useState(false);
   const [joining, setJoining] = useState(false);
@@ -22,6 +23,7 @@ const Community = () => {
       const { data } = await api.get('/communities');
       setCommunities(data.communities || []);
       setPending(data.pending || []);
+      setApprovals(data.approvals || []);
     } catch (err) {
       pushToast({
         type: 'error',
@@ -83,6 +85,42 @@ const Community = () => {
       });
     } finally {
       setJoining(false);
+    }
+  };
+
+  const handleApprove = async (communityId, userId) => {
+    try {
+      await api.post(`/communities/${communityId}/approve`, { userId });
+      pushToast({
+        type: 'success',
+        title: 'Request approved',
+        message: 'Member added to the community.'
+      });
+      fetchCommunities();
+    } catch (err) {
+      pushToast({
+        type: 'error',
+        title: 'Approval failed',
+        message: err.response?.data?.message || 'Try again.'
+      });
+    }
+  };
+
+  const handleReject = async (communityId, userId) => {
+    try {
+      await api.post(`/communities/${communityId}/reject`, { userId });
+      pushToast({
+        type: 'success',
+        title: 'Request rejected',
+        message: 'The request was declined.'
+      });
+      fetchCommunities();
+    } catch (err) {
+      pushToast({
+        type: 'error',
+        title: 'Rejection failed',
+        message: err.response?.data?.message || 'Try again.'
+      });
     }
   };
 
@@ -218,6 +256,52 @@ const Community = () => {
                   <div>
                     <p className="font-bold text-foreground">{community.name}</p>
                     <p className="text-xs text-muted-foreground">Awaiting approval</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {approvals.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            className="glass p-6 rounded-[2rem] border border-white/10"
+          >
+            <h2 className="text-xl font-black mb-3">Requests to approve</h2>
+            <div className="space-y-4">
+              {approvals.map((community) => (
+                <div key={community._id} className="bg-secondary/40 p-4 rounded-2xl">
+                  <div className="flex items-center justify-between mb-2">
+                    <div>
+                      <p className="font-bold text-foreground">{community.name}</p>
+                      <p className="text-xs text-muted-foreground">Invite code: {community.inviteCode}</p>
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    {community.pendingRequests?.map((request) => (
+                      <div key={request.userId?._id || request.userId} className="flex items-center justify-between text-sm">
+                        <span>{request.userId?.username || 'User'}</span>
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => handleApprove(community._id, request.userId?._id || request.userId)}
+                            className="px-3 py-1 rounded-lg bg-secondary text-foreground font-bold"
+                          >
+                            Approve
+                          </button>
+                          <button
+                            onClick={() => handleReject(community._id, request.userId?._id || request.userId)}
+                            className="px-3 py-1 rounded-lg bg-secondary/60 text-foreground font-bold"
+                          >
+                            Reject
+                          </button>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
               ))}

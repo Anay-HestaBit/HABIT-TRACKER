@@ -1,6 +1,7 @@
 const crypto = require('crypto');
 const Community = require('../models/Community');
 const CommunityHabit = require('../models/CommunityHabit');
+const CommunityMessage = require('../models/CommunityMessage');
 const User = require('../models/User');
 const CommunityReflection = require('../models/CommunityReflection');
 const logger = require('../utils/logger');
@@ -55,6 +56,21 @@ const refreshShieldAvailability = (community) => {
 };
 
 class CommunityService {
+  addAuditEntry(community, action, actor, target = null, meta = {}) {
+    community.auditLog = community.auditLog || [];
+    community.auditLog.unshift({ action, actor, target, meta, createdAt: new Date() });
+    if (community.auditLog.length > 50) {
+      community.auditLog = community.auditLog.slice(0, 50);
+    }
+  }
+
+  isMuted(community, userId) {
+    const entry = community.mutedMembers?.find(m => String(m.userId) === String(userId));
+    if (!entry) return false;
+    if (!entry.mutedUntil) return true;
+    return new Date(entry.mutedUntil).getTime() > Date.now();
+  }
+
   addBadgeIfMissing(community, badge, newlyUnlocked) {
     const exists = community.badges.some(b => b.name === badge.name);
     if (!exists) {
@@ -66,7 +82,10 @@ class CommunityService {
   }
 
   isMember(community, userId) {
-    return community.members.some(m => String(m.userId) === String(userId));
+    return community.members.some(m => {
+      const memberId = m.userId?._id || m.userId;
+      return String(memberId) === String(userId);
+    });
   }
 
   isOwner(community, userId) {
@@ -75,7 +94,7 @@ class CommunityService {
 
   isAdmin(community, userId) {
     return community.members.some(m =>
-      String(m.userId) === String(userId) && (m.role === 'admin' || m.role === 'owner')
+      String(m.userId?._id || m.userId) === String(userId) && (m.role === 'admin' || m.role === 'owner')
     );
   }
 
@@ -112,7 +131,20 @@ class CommunityService {
       'pendingRequests.userId': userId,
     }).select('name inviteCode pendingRequests');
 
-    return { communities, pending };
+    const approvals = await Community.find({
+      members: {
+        $elemMatch: {
+          userId,
+          role: 'owner',
+        },
+      },
+      'pendingRequests.0': { $exists: true },
+    })
+      .populate('pendingRequests.userId', 'username fullName profilePicUrl')
+      .select('name inviteCode pendingRequests')
+      .sort('-createdAt');
+
+    return { communities, pending, approvals };
   }
 
   async requestJoinByCode(userId, codeRaw) {
@@ -148,6 +180,23 @@ class CommunityService {
       community.members.push({ userId: userIdToApprove, role: 'member' });
     }
 
+    this.addAuditEntry(community, 'approve_request', ownerId, userIdToApprove);
+
+    await community.save();
+    return community;
+  }
+
+  async rejectRequest(communityId, ownerId, userIdToReject) {
+    const community = await Community.findById(communityId);
+    if (!community) throw new Error('Community not found');
+    if (!this.isOwner(community, ownerId)) throw new Error('Only the owner can reject requests');
+
+    const pendingIndex = community.pendingRequests.findIndex(r => String(r.userId) === String(userIdToReject));
+    if (pendingIndex === -1) throw new Error('Request not found');
+
+    community.pendingRequests.splice(pendingIndex, 1);
+    this.addAuditEntry(community, 'reject_request', ownerId, userIdToReject);
+
     await community.save();
     return community;
   }
@@ -163,6 +212,133 @@ class CommunityService {
     if (member.role === 'owner') throw new Error('Owner role cannot be changed');
 
     member.role = normalizedRole;
+    this.addAuditEntry(community, 'update_role', ownerId, targetUserId, { role: normalizedRole });
+    await community.save();
+    return community;
+  }
+
+  async removeMember(communityId, ownerId, targetUserId) {
+    const community = await Community.findById(communityId);
+    if (!community) throw new Error('Community not found');
+    if (!this.isOwner(community, ownerId)) throw new Error('Only the owner can remove members');
+    if (this.isOwner(community, targetUserId)) throw new Error('Owner cannot be removed');
+
+    const memberIndex = community.members.findIndex(m => String(m.userId) === String(targetUserId));
+    if (memberIndex === -1) throw new Error('Member not found');
+
+    community.members.splice(memberIndex, 1);
+    this.addAuditEntry(community, 'remove_member', ownerId, targetUserId);
+
+    await community.save();
+    return community;
+  }
+
+  async getChatMessages(communityId, userId, limit = 50) {
+    const community = await this.getCommunity(communityId, userId);
+    const isAdmin = this.isAdmin(community, userId);
+
+    const query = { communityId: community._id };
+    if (!isAdmin) {
+      query.isHidden = { $ne: true };
+      query.isDeleted = { $ne: true };
+    }
+
+    const messages = await CommunityMessage.find(query)
+      .populate('userId', 'username fullName profilePicUrl')
+      .sort('-createdAt')
+      .limit(limit);
+
+    return { community, messages: messages.reverse(), canModerate: isAdmin };
+  }
+
+  async createChatMessage(communityId, userId, contentRaw) {
+    const community = await this.getCommunity(communityId, userId);
+    if (this.isMuted(community, userId)) throw new Error('You are muted in this community');
+
+    const content = String(contentRaw || '').trim();
+    if (!content) throw new Error('Message content is required');
+
+    const message = await CommunityMessage.create({
+      communityId: community._id,
+      userId,
+      content,
+    });
+
+    return message;
+  }
+
+  async hideChatMessage(communityId, userId, messageId, hidden) {
+    const community = await this.getCommunity(communityId, userId);
+    if (!this.isAdmin(community, userId)) throw new Error('Only admins can moderate chat');
+
+    const message = await CommunityMessage.findOne({ _id: messageId, communityId: community._id });
+    if (!message) throw new Error('Message not found');
+
+    message.isHidden = Boolean(hidden);
+    message.hiddenAt = message.isHidden ? new Date() : null;
+    message.hiddenBy = message.isHidden ? userId : null;
+    if (message.isHidden) {
+      message.isDeleted = false;
+      message.deletedAt = null;
+      message.deletedBy = null;
+    }
+    await message.save();
+
+    this.addAuditEntry(community, message.isHidden ? 'hide_message' : 'unhide_message', userId, message.userId);
+    await community.save();
+
+    return message;
+  }
+
+  async deleteChatMessage(communityId, userId, messageId) {
+    const community = await this.getCommunity(communityId, userId);
+    if (!this.isAdmin(community, userId)) throw new Error('Only admins can moderate chat');
+
+    const message = await CommunityMessage.findOne({ _id: messageId, communityId: community._id });
+    if (!message) throw new Error('Message not found');
+
+    message.isDeleted = true;
+    message.deletedAt = new Date();
+    message.deletedBy = userId;
+    message.isHidden = false;
+    message.hiddenAt = null;
+    message.hiddenBy = null;
+    await message.save();
+
+    this.addAuditEntry(community, 'delete_message', userId, message.userId);
+    await community.save();
+
+    return message;
+  }
+
+  async muteMember(communityId, userId, targetUserId, minutes = 60, reason = '') {
+    const community = await this.getCommunity(communityId, userId);
+    if (!this.isAdmin(community, userId)) throw new Error('Only admins can mute members');
+    if (this.isOwner(community, targetUserId)) throw new Error('Owner cannot be muted');
+
+    const durationMs = Math.max(5, Math.min(Number(minutes) || 60, 1440)) * 60 * 1000;
+    const mutedUntil = new Date(Date.now() + durationMs);
+
+    const existing = community.mutedMembers?.find(m => String(m.userId) === String(targetUserId));
+    if (existing) {
+      existing.mutedUntil = mutedUntil;
+      existing.mutedBy = userId;
+      existing.reason = reason;
+    } else {
+      community.mutedMembers.push({ userId: targetUserId, mutedUntil, mutedBy: userId, reason });
+    }
+
+    this.addAuditEntry(community, 'mute_member', userId, targetUserId, { minutes: durationMs / 60000 });
+    await community.save();
+    return { community, mutedUntil };
+  }
+
+  async unmuteMember(communityId, userId, targetUserId) {
+    const community = await this.getCommunity(communityId, userId);
+    if (!this.isAdmin(community, userId)) throw new Error('Only admins can mute members');
+
+    community.mutedMembers = (community.mutedMembers || []).filter(m => String(m.userId) !== String(targetUserId));
+    this.addAuditEntry(community, 'unmute_member', userId, targetUserId);
     await community.save();
     return community;
   }
@@ -351,9 +527,10 @@ class CommunityService {
     };
   }
 
-  async getLeaderboard(communityId, userId) {
+  async getLeaderboard(communityId, userId, rangeDays = 7) {
     const community = await this.getCommunity(communityId, userId);
-    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const safeDays = rangeDays === 30 ? 30 : 7;
+    const rangeAgo = new Date(Date.now() - safeDays * 24 * 60 * 60 * 1000);
 
     const leaderboard = await CommunityHabit.aggregate([
       { $match: { communityId: community._id } },
@@ -362,15 +539,15 @@ class CommunityService {
         $group: {
           _id: '$completions.userId',
           totalCompletions: { $sum: 1 },
-          last7Completions: {
+          rangeCompletions: {
             $sum: {
-              $cond: [{ $gte: ['$completions.date', sevenDaysAgo] }, 1, 0]
+              $cond: [{ $gte: ['$completions.date', rangeAgo] }, 1, 0]
             }
           },
           lastCompletedAt: { $max: '$completions.completedAt' },
         }
       },
-      { $sort: { last7Completions: -1, totalCompletions: -1 } },
+      { $sort: { rangeCompletions: -1, totalCompletions: -1 } },
       { $limit: 10 },
     ]);
 
@@ -382,24 +559,74 @@ class CommunityService {
     const mapped = leaderboard.map(entry => ({
       user: userMap.get(String(entry._id)) || { _id: entry._id, username: 'Member' },
       totalCompletions: entry.totalCompletions,
-      last7Completions: entry.last7Completions,
+      rangeCompletions: entry.rangeCompletions,
       lastCompletedAt: entry.lastCompletedAt,
     }));
 
-    return { community, leaderboard: mapped, memberCount: userIds.length };
+    return { community, leaderboard: mapped, memberCount: userIds.length, rangeDays: safeDays };
   }
 
   async getCommunityJournal(communityId, userId) {
     const community = await this.getCommunity(communityId, userId);
-    const reflections = await CommunityReflection.find({ communityId: community._id })
+    const isAdmin = this.isAdmin(community, userId);
+    const query = { communityId: community._id };
+    if (!isAdmin) {
+      query.isHidden = { $ne: true };
+    }
+
+    const reflections = await CommunityReflection.find(query)
       .populate('userId', 'username fullName profilePicUrl')
-      .sort('-date');
+      .sort({ isPinned: -1, date: -1 });
     const entries = reflections.map(reflection => ({
       ...reflection.toObject(),
       content: decryptText(reflection.content),
     }));
 
-    return { community, entries };
+    return { community, entries, canModerate: isAdmin };
+  }
+
+  async pinCommunityJournalEntry(communityId, userId, entryId, pinned) {
+    const community = await this.getCommunity(communityId, userId);
+    if (!this.isAdmin(community, userId)) throw new Error('Only admins can moderate journal entries');
+
+    const entry = await CommunityReflection.findOne({ _id: entryId, communityId: community._id });
+    if (!entry) throw new Error('Journal entry not found');
+
+    entry.isPinned = Boolean(pinned);
+    entry.pinnedAt = entry.isPinned ? new Date() : null;
+    if (entry.isPinned && entry.isHidden) {
+      entry.isHidden = false;
+      entry.hiddenAt = null;
+      entry.hiddenBy = null;
+    }
+
+    await entry.save();
+    this.addAuditEntry(community, entry.isPinned ? 'pin_entry' : 'unpin_entry', userId, entry.userId);
+    await community.save();
+
+    return entry;
+  }
+
+  async hideCommunityJournalEntry(communityId, userId, entryId, hidden) {
+    const community = await this.getCommunity(communityId, userId);
+    if (!this.isAdmin(community, userId)) throw new Error('Only admins can moderate journal entries');
+
+    const entry = await CommunityReflection.findOne({ _id: entryId, communityId: community._id });
+    if (!entry) throw new Error('Journal entry not found');
+
+    entry.isHidden = Boolean(hidden);
+    entry.hiddenAt = entry.isHidden ? new Date() : null;
+    entry.hiddenBy = entry.isHidden ? userId : null;
+    if (entry.isHidden) {
+      entry.isPinned = false;
+      entry.pinnedAt = null;
+    }
+
+    await entry.save();
+    this.addAuditEntry(community, entry.isHidden ? 'hide_entry' : 'unhide_entry', userId, entry.userId);
+    await community.save();
+
+    return entry;
   }
 
   async createCommunityJournalEntry(communityId, userId, data) {
