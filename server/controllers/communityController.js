@@ -58,6 +58,40 @@ class CommunityController {
     }
   }
 
+  async update(req, res, next) {
+    try {
+      const community = await CommunityService.updateCommunity(req.params.id, req.user._id, req.body);
+      res.json({ message: 'Community updated', community });
+    } catch (error) {
+      logger.error('Error updating community:', error);
+      if (
+        error.message === 'Community not found' ||
+        error.message === 'Not a community member' ||
+        error.message === 'Community name is required' ||
+        error.message === 'Only admins can edit community details'
+      ) {
+        return res.status(400).json({ message: error.message });
+      }
+      next(error);
+    }
+  }
+
+  async delete(req, res, next) {
+    try {
+      await CommunityService.deleteCommunity(req.params.id, req.user._id);
+      res.json({ message: 'Community deleted' });
+    } catch (error) {
+      logger.error('Error deleting community:', error);
+      if (
+        error.message === 'Community not found' ||
+        error.message === 'Only admins can delete communities'
+      ) {
+        return res.status(400).json({ message: error.message });
+      }
+      next(error);
+    }
+  }
+
   async approve(req, res, next) {
     try {
       const community = await CommunityService.approveRequest(
@@ -70,7 +104,7 @@ class CommunityController {
       logger.error('Error approving request:', error);
       if (
         error.message === 'Community not found' ||
-        error.message === 'Only the owner can approve requests' ||
+        error.message === 'Only admins can approve requests' ||
         error.message === 'Request not found'
       ) {
         return res.status(400).json({ message: error.message });
@@ -91,7 +125,7 @@ class CommunityController {
       logger.error('Error rejecting request:', error);
       if (
         error.message === 'Community not found' ||
-        error.message === 'Only the owner can reject requests' ||
+        error.message === 'Only admins can reject requests' ||
         error.message === 'Request not found'
       ) {
         return res.status(400).json({ message: error.message });
@@ -135,7 +169,8 @@ class CommunityController {
       logger.error('Error removing member:', error);
       if (
         error.message === 'Community not found' ||
-        error.message === 'Only the owner can remove members' ||
+        error.message === 'Only admins can remove members' ||
+        error.message === 'Admins cannot remove other admins' ||
         error.message === 'Owner cannot be removed' ||
         error.message === 'Member not found'
       ) {
@@ -247,126 +282,6 @@ class CommunityController {
       res.json(result);
     } catch (error) {
       logger.error('Error fetching community leaderboard:', error);
-      if (
-        error.message === 'Community not found' ||
-        error.message === 'Not a community member'
-      ) {
-        return res.status(403).json({ message: error.message });
-      }
-      next(error);
-    }
-  }
-
-  async journal(req, res, next) {
-    try {
-      const result = await CommunityService.getCommunityJournal(req.params.id, req.user._id);
-      res.json(result);
-    } catch (error) {
-      logger.error('Error fetching community journal:', error);
-      if (
-        error.message === 'Community not found' ||
-        error.message === 'Not a community member'
-      ) {
-        return res.status(403).json({ message: error.message });
-      }
-      next(error);
-    }
-  }
-
-  async pinJournal(req, res, next) {
-    try {
-      const entry = await CommunityService.pinCommunityJournalEntry(
-        req.params.id,
-        req.user._id,
-        req.params.entryId,
-        true
-      );
-      res.json({ message: 'Entry pinned', entry });
-    } catch (error) {
-      logger.error('Error pinning journal entry:', error);
-      if (
-        error.message === 'Community not found' ||
-        error.message === 'Only admins can moderate journal entries' ||
-        error.message === 'Journal entry not found'
-      ) {
-        return res.status(400).json({ message: error.message });
-      }
-      next(error);
-    }
-  }
-
-  async unpinJournal(req, res, next) {
-    try {
-      const entry = await CommunityService.pinCommunityJournalEntry(
-        req.params.id,
-        req.user._id,
-        req.params.entryId,
-        false
-      );
-      res.json({ message: 'Entry unpinned', entry });
-    } catch (error) {
-      logger.error('Error unpinning journal entry:', error);
-      if (
-        error.message === 'Community not found' ||
-        error.message === 'Only admins can moderate journal entries' ||
-        error.message === 'Journal entry not found'
-      ) {
-        return res.status(400).json({ message: error.message });
-      }
-      next(error);
-    }
-  }
-
-  async hideJournal(req, res, next) {
-    try {
-      const entry = await CommunityService.hideCommunityJournalEntry(
-        req.params.id,
-        req.user._id,
-        req.params.entryId,
-        true
-      );
-      res.json({ message: 'Entry hidden', entry });
-    } catch (error) {
-      logger.error('Error hiding journal entry:', error);
-      if (
-        error.message === 'Community not found' ||
-        error.message === 'Only admins can moderate journal entries' ||
-        error.message === 'Journal entry not found'
-      ) {
-        return res.status(400).json({ message: error.message });
-      }
-      next(error);
-    }
-  }
-
-  async unhideJournal(req, res, next) {
-    try {
-      const entry = await CommunityService.hideCommunityJournalEntry(
-        req.params.id,
-        req.user._id,
-        req.params.entryId,
-        false
-      );
-      res.json({ message: 'Entry restored', entry });
-    } catch (error) {
-      logger.error('Error unhiding journal entry:', error);
-      if (
-        error.message === 'Community not found' ||
-        error.message === 'Only admins can moderate journal entries' ||
-        error.message === 'Journal entry not found'
-      ) {
-        return res.status(400).json({ message: error.message });
-      }
-      next(error);
-    }
-  }
-
-  async createJournal(req, res, next) {
-    try {
-      const entry = await CommunityService.createCommunityJournalEntry(req.params.id, req.user._id, req.body);
-      res.status(201).json(entry);
-    } catch (error) {
-      logger.error('Error creating community journal:', error);
       if (
         error.message === 'Community not found' ||
         error.message === 'Not a community member'

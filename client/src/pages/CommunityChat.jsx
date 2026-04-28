@@ -304,45 +304,45 @@ const CommunityChat = () => {
 
   return (
     <div className="mx-auto max-w-5xl space-y-5">
-      <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-[#0b141a] shadow-2xl shadow-black/20">
-        <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-[#202c33] px-4 py-3">
+      <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-background shadow-2xl shadow-black/20">
+        <div className="flex items-center justify-between gap-3 border-b border-white/10 bg-secondary/70 px-4 py-3 backdrop-blur">
           <div className="flex min-w-0 items-center gap-3">
             <Link
               to={`/community/${id}`}
-              className="rounded-full p-2 text-slate-200 transition-colors hover:bg-white/10"
+              className="rounded-full p-2 text-foreground transition-colors hover:bg-white/10"
               aria-label="Back to community"
             >
               <ArrowLeft size={20} />
             </Link>
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-700 text-lg font-black text-white">
+            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary text-lg font-black text-primary-foreground shadow-lg shadow-primary/20">
               {community?.name?.charAt(0)?.toUpperCase() || 'C'}
             </div>
             <div className="min-w-0">
-              <h1 className="truncate text-base font-black text-white">{community?.name}</h1>
-              <p className="flex items-center gap-1 truncate text-xs text-slate-300">
+              <h1 className="truncate text-base font-black text-foreground">{community?.name}</h1>
+              <p className="flex items-center gap-1 truncate text-xs text-muted-foreground">
                 <Users size={13} /> {memberCount} members
                 {typingNames.length > 0 && (
-                  <span className="text-emerald-300">
+                  <span className="text-primary">
                     · {typingNames.length === 1 ? `${typingNames[0]} typing...` : `${typingNames.slice(0, 2).join(', ')} typing...`}
                   </span>
                 )}
               </p>
             </div>
           </div>
-          <button className="rounded-full p-2 text-slate-300 transition-colors hover:bg-white/10" aria-label="Chat menu">
+          <button className="rounded-full p-2 text-muted-foreground transition-colors hover:bg-white/10" aria-label="Chat menu">
             <MoreVertical size={20} />
           </button>
         </div>
 
         <div className="relative">
           <div className="absolute inset-0 opacity-[0.06]" style={{
-            backgroundImage: 'radial-gradient(circle at 1px 1px, #ffffff 1px, transparent 0)',
+            backgroundImage: 'radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)',
             backgroundSize: '22px 22px',
           }} />
           <div className="relative flex h-[62vh] min-h-[480px] flex-col">
             <div className="flex-1 space-y-2 overflow-y-auto px-4 py-5 md:px-8">
               {messages.length === 0 && (
-                <div className="mx-auto mt-10 max-w-sm rounded-2xl bg-[#182229]/90 px-5 py-4 text-center text-sm text-slate-300">
+                <div className="mx-auto mt-10 max-w-sm rounded-2xl bg-secondary/70 px-5 py-4 text-center text-sm text-muted-foreground">
                   No messages yet. Start the conversation.
                 </div>
               )}
@@ -355,7 +355,7 @@ const CommunityChat = () => {
                     <React.Fragment key={msg._id}>
                       {shouldShowDaySeparator(msg, index) && (
                         <div className="sticky top-2 z-10 flex justify-center py-2">
-                          <span className="rounded-lg bg-[#182229]/95 px-3 py-1 text-[11px] font-black uppercase tracking-widest text-slate-300 shadow-lg backdrop-blur">
+                          <span className="rounded-lg bg-secondary/95 px-3 py-1 text-[11px] font-black uppercase tracking-widest text-muted-foreground shadow-lg backdrop-blur">
                             {formatDayLabel(msg.createdAt)}
                           </span>
                         </div>
@@ -368,17 +368,17 @@ const CommunityChat = () => {
                         transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
                         className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}
                       >
-                        <div className={`group max-w-[82%] rounded-2xl px-3.5 py-2 shadow-md md:max-w-[68%] ${
+                        <div className={`group w-fit max-w-[82%] rounded-2xl px-3.5 py-2 shadow-md md:max-w-[68%] ${
                           isMine
-                            ? 'rounded-tr-md bg-[#005c4b] text-white'
-                            : 'rounded-tl-md bg-[#202c33] text-slate-50'
+                            ? 'rounded-tr-md bg-primary text-primary-foreground'
+                            : 'rounded-tl-md bg-secondary/80 text-foreground'
                         } ${msg.isHidden ? 'opacity-60' : ''}`}
                         >
                           {!isMine && (
-                            <p className="mb-1 text-[12px] font-black text-emerald-300">{msg.userId?.username || 'Member'}</p>
+                            <p className="mb-1 text-[12px] font-black text-primary">{msg.userId?.username || 'Member'}</p>
                           )}
                           <p className="whitespace-pre-wrap break-words text-[15px] leading-relaxed">{msg.content}</p>
-                          <div className={`mt-1 flex items-center justify-end gap-1 text-[10px] ${isMine ? 'text-emerald-100/80' : 'text-slate-400'}`}>
+                          <div className={`mt-1 flex items-center justify-end gap-1 text-[10px] ${isMine ? 'text-primary-foreground/75' : 'text-muted-foreground'}`}>
                             <span>{new Date(msg.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                             {isMine && <CheckCheck size={14} />}
                           </div>
@@ -386,13 +386,13 @@ const CommunityChat = () => {
                             <div className="mt-2 flex flex-wrap items-center gap-1.5 opacity-100 transition-opacity md:opacity-0 md:group-hover:opacity-100">
                               <button
                                 onClick={() => handleHide(msg._id, !msg.isHidden)}
-                                className="rounded-full bg-black/20 px-2.5 py-1 text-[11px] font-bold text-white hover:bg-black/30"
+                                className="rounded-full bg-black/10 px-2.5 py-1 text-[11px] font-bold text-current hover:bg-black/20"
                               >
                                 {msg.isHidden ? 'Unhide' : 'Hide'}
                               </button>
                               <button
                                 onClick={() => handleDelete(msg._id)}
-                                className="rounded-full bg-black/20 px-2.5 py-1 text-[11px] font-bold text-white hover:bg-black/30"
+                                className="rounded-full bg-black/10 px-2.5 py-1 text-[11px] font-bold text-current hover:bg-black/20"
                               >
                                 Delete
                               </button>
@@ -415,18 +415,18 @@ const CommunityChat = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            <form onSubmit={handleSend} className="flex items-center gap-3 border-t border-white/10 bg-[#202c33] px-4 py-3">
+            <form onSubmit={handleSend} className="flex items-center gap-3 border-t border-white/10 bg-secondary/70 px-4 py-3 backdrop-blur">
               <input
                 value={newMessage}
                 onChange={handleMessageChange}
                 onBlur={stopTyping}
                 placeholder="Message"
-                className="min-w-0 flex-1 rounded-full border border-white/5 bg-[#2a3942] px-5 py-3 text-slate-50 placeholder:text-slate-400 outline-none transition-all focus:border-emerald-500/40 focus:ring-4 focus:ring-emerald-500/10"
+                className="min-w-0 flex-1 rounded-full border border-white/5 bg-background/70 px-5 py-3 text-foreground placeholder:text-muted-foreground outline-none transition-all focus:border-primary/40 focus:ring-4 focus:ring-primary/10"
               />
               <button
                 type="submit"
                 disabled={processing || !newMessage.trim()}
-                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white shadow-lg shadow-emerald-900/30 transition-all hover:-translate-y-0.5 hover:bg-emerald-500 disabled:translate-y-0 disabled:opacity-50"
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 hover:bg-primary/90 disabled:translate-y-0 disabled:opacity-50"
                 aria-label="Send message"
               >
                 <Send size={20} />

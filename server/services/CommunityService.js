@@ -5,7 +5,6 @@ const CommunityMessage = require('../models/CommunityMessage');
 const User = require('../models/User');
 const CommunityReflection = require('../models/CommunityReflection');
 const logger = require('../utils/logger');
-const { encryptText, decryptText } = require('../utils/journalCrypto');
 
 const SEASONS = ['spring', 'summer', 'autumn', 'winter'];
 
@@ -98,6 +97,11 @@ class CommunityService {
     );
   }
 
+  getMemberRole(community, userId) {
+    const member = community.members.find(m => String(m.userId?._id || m.userId) === String(userId));
+    return member?.role || null;
+  }
+
   async createCommunity(userId, data) {
     const name = String(data.name || '').trim();
     const description = String(data.description || '').trim();
@@ -135,7 +139,7 @@ class CommunityService {
       members: {
         $elemMatch: {
           userId,
-          role: 'owner',
+          role: { $in: ['owner', 'admin'] },
         },
       },
       'pendingRequests.0': { $exists: true },
@@ -170,7 +174,7 @@ class CommunityService {
   async approveRequest(communityId, ownerId, userIdToApprove) {
     const community = await Community.findById(communityId);
     if (!community) throw new Error('Community not found');
-    if (!this.isOwner(community, ownerId)) throw new Error('Only the owner can approve requests');
+    if (!this.isAdmin(community, ownerId)) throw new Error('Only admins can approve requests');
 
     const pendingIndex = community.pendingRequests.findIndex(r => String(r.userId) === String(userIdToApprove));
     if (pendingIndex === -1) throw new Error('Request not found');
@@ -189,7 +193,7 @@ class CommunityService {
   async rejectRequest(communityId, ownerId, userIdToReject) {
     const community = await Community.findById(communityId);
     if (!community) throw new Error('Community not found');
-    if (!this.isOwner(community, ownerId)) throw new Error('Only the owner can reject requests');
+    if (!this.isAdmin(community, ownerId)) throw new Error('Only admins can reject requests');
 
     const pendingIndex = community.pendingRequests.findIndex(r => String(r.userId) === String(userIdToReject));
     if (pendingIndex === -1) throw new Error('Request not found');
@@ -217,19 +221,64 @@ class CommunityService {
     return community;
   }
 
-  async removeMember(communityId, ownerId, targetUserId) {
+  async removeMember(communityId, actorId, targetUserId) {
     const community = await Community.findById(communityId);
     if (!community) throw new Error('Community not found');
-    if (!this.isOwner(community, ownerId)) throw new Error('Only the owner can remove members');
+    if (!this.isAdmin(community, actorId)) throw new Error('Only admins can remove members');
     if (this.isOwner(community, targetUserId)) throw new Error('Owner cannot be removed');
 
     const memberIndex = community.members.findIndex(m => String(m.userId) === String(targetUserId));
     if (memberIndex === -1) throw new Error('Member not found');
+    const targetRole = community.members[memberIndex].role;
+    const actorRole = this.getMemberRole(community, actorId);
+    if (actorRole === 'admin' && targetRole === 'admin') {
+      throw new Error('Admins cannot remove other admins');
+    }
 
     community.members.splice(memberIndex, 1);
-    this.addAuditEntry(community, 'remove_member', ownerId, targetUserId);
+    this.addAuditEntry(community, 'remove_member', actorId, targetUserId);
 
     await community.save();
+    return community;
+  }
+
+  async updateCommunity(communityId, userId, data = {}) {
+    const community = await this.getCommunity(communityId, userId);
+    const name = typeof data.name === 'string' ? data.name.trim() : undefined;
+    const description = typeof data.description === 'string' ? data.description.trim() : undefined;
+
+    if (name !== undefined) {
+      if (!name) throw new Error('Community name is required');
+      community.name = name;
+    }
+
+    if (description !== undefined) {
+      if (!this.isAdmin(community, userId)) {
+        throw new Error('Only admins can edit community details');
+      }
+      community.description = description;
+    }
+
+    this.addAuditEntry(community, 'update_community', userId, null, {
+      fields: Object.keys(data).filter(key => ['name', 'description'].includes(key)),
+    });
+    await community.save();
+    return community;
+  }
+
+  async deleteCommunity(communityId, userId) {
+    const community = await Community.findById(communityId);
+    if (!community) throw new Error('Community not found');
+    if (!this.isAdmin(community, userId)) throw new Error('Only admins can delete communities');
+
+    await Promise.all([
+      CommunityHabit.deleteMany({ communityId: community._id }),
+      CommunityMessage.deleteMany({ communityId: community._id }),
+      CommunityReflection.deleteMany({ communityId: community._id }),
+      Community.deleteOne({ _id: community._id }),
+    ]);
+
+    logger.info(`Community deleted: ${community._id} by ${userId}`);
     return community;
   }
 
@@ -566,86 +615,6 @@ class CommunityService {
     return { community, leaderboard: mapped, memberCount: userIds.length, rangeDays: safeDays };
   }
 
-  async getCommunityJournal(communityId, userId) {
-    const community = await this.getCommunity(communityId, userId);
-    const isAdmin = this.isAdmin(community, userId);
-    const query = { communityId: community._id };
-    if (!isAdmin) {
-      query.isHidden = { $ne: true };
-    }
-
-    const reflections = await CommunityReflection.find(query)
-      .populate('userId', 'username fullName profilePicUrl')
-      .sort({ isPinned: -1, date: -1 });
-    const entries = reflections.map(reflection => ({
-      ...reflection.toObject(),
-      content: decryptText(reflection.content),
-    }));
-
-    return { community, entries, canModerate: isAdmin };
-  }
-
-  async pinCommunityJournalEntry(communityId, userId, entryId, pinned) {
-    const community = await this.getCommunity(communityId, userId);
-    if (!this.isAdmin(community, userId)) throw new Error('Only admins can moderate journal entries');
-
-    const entry = await CommunityReflection.findOne({ _id: entryId, communityId: community._id });
-    if (!entry) throw new Error('Journal entry not found');
-
-    entry.isPinned = Boolean(pinned);
-    entry.pinnedAt = entry.isPinned ? new Date() : null;
-    if (entry.isPinned && entry.isHidden) {
-      entry.isHidden = false;
-      entry.hiddenAt = null;
-      entry.hiddenBy = null;
-    }
-
-    await entry.save();
-    this.addAuditEntry(community, entry.isPinned ? 'pin_entry' : 'unpin_entry', userId, entry.userId);
-    await community.save();
-
-    return entry;
-  }
-
-  async hideCommunityJournalEntry(communityId, userId, entryId, hidden) {
-    const community = await this.getCommunity(communityId, userId);
-    if (!this.isAdmin(community, userId)) throw new Error('Only admins can moderate journal entries');
-
-    const entry = await CommunityReflection.findOne({ _id: entryId, communityId: community._id });
-    if (!entry) throw new Error('Journal entry not found');
-
-    entry.isHidden = Boolean(hidden);
-    entry.hiddenAt = entry.isHidden ? new Date() : null;
-    entry.hiddenBy = entry.isHidden ? userId : null;
-    if (entry.isHidden) {
-      entry.isPinned = false;
-      entry.pinnedAt = null;
-    }
-
-    await entry.save();
-    this.addAuditEntry(community, entry.isHidden ? 'hide_entry' : 'unhide_entry', userId, entry.userId);
-    await community.save();
-
-    return entry;
-  }
-
-  async createCommunityJournalEntry(communityId, userId, data) {
-    const community = await this.getCommunity(communityId, userId);
-    const encryptedContent = encryptText(String(data.content || ''));
-    const payload = {
-      communityId: community._id,
-      userId,
-      content: encryptedContent,
-      mood: data.mood || 'okay',
-      date: data.date ? new Date(data.date) : new Date(),
-    };
-
-    const reflection = await CommunityReflection.create(payload);
-    return {
-      ...reflection.toObject(),
-      content: decryptText(reflection.content),
-    };
-  }
 }
 
 module.exports = new CommunityService();

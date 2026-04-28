@@ -6,6 +6,8 @@ const { app } = require('../app');
 const User = require('../models/User');
 
 const Community = require('../models/Community');
+const CommunityHabit = require('../models/CommunityHabit');
+const CommunityMessage = require('../models/CommunityMessage');
 
 const createToken = (userId) => jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
@@ -28,6 +30,8 @@ describe('Community approvals', () => {
   beforeEach(async () => {
     await User.deleteMany({});
     await Community.deleteMany({});
+    await CommunityHabit.deleteMany({});
+    await CommunityMessage.deleteMany({});
   });
 
   it('returns approvals for owners/admins with pending requests', async () => {
@@ -189,5 +193,37 @@ describe('Community approvals', () => {
       .expect(200);
 
     expect(removeRes.body.community.members).toHaveLength(1);
+  });
+
+  it('updates and deletes a community with admin permissions', async () => {
+    const owner = await User.create({
+      username: 'owner5',
+      fullName: 'Owner Five',
+      email: 'owner5@example.com',
+      password: 'password123',
+    });
+
+    const createRes = await request(app)
+      .post('/api/communities')
+      .set('Cookie', authCookie(owner._id))
+      .send({ name: 'Delete Club', description: 'Before' })
+      .expect(201);
+
+    const updateRes = await request(app)
+      .patch(`/api/communities/${createRes.body._id}`)
+      .set('Cookie', authCookie(owner._id))
+      .send({ name: 'Renamed Club', description: 'After' })
+      .expect(200);
+
+    expect(updateRes.body.community.name).toBe('Renamed Club');
+    expect(updateRes.body.community.description).toBe('After');
+
+    await request(app)
+      .delete(`/api/communities/${createRes.body._id}`)
+      .set('Cookie', authCookie(owner._id))
+      .expect(200);
+
+    const exists = await Community.findById(createRes.body._id);
+    expect(exists).toBeNull();
   });
 });

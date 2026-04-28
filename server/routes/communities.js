@@ -15,6 +15,12 @@ router.post('/join', protect, communityController.joinByCode.bind(communityContr
 // @route   GET /api/communities/:id
 router.get('/:id', protect, communityController.get.bind(communityController));
 
+// @route   PATCH /api/communities/:id
+router.patch('/:id', protect, communityController.update.bind(communityController));
+
+// @route   DELETE /api/communities/:id
+router.delete('/:id', protect, communityController.delete.bind(communityController));
+
 // @route   POST /api/communities/:id/approve
 router.post('/:id/approve', protect, communityController.approve.bind(communityController));
 
@@ -44,24 +50,6 @@ router.post('/:id/habits/:habitId/shield', protect, communityController.useShiel
 
 // @route   GET /api/communities/:id/leaderboard
 router.get('/:id/leaderboard', protect, communityController.leaderboard.bind(communityController));
-
-// @route   GET /api/communities/:id/journal
-router.get('/:id/journal', protect, communityController.journal.bind(communityController));
-
-// @route   POST /api/communities/:id/journal
-router.post('/:id/journal', protect, communityController.createJournal.bind(communityController));
-
-// @route   POST /api/communities/:id/journal/:entryId/pin
-router.post('/:id/journal/:entryId/pin', protect, communityController.pinJournal.bind(communityController));
-
-// @route   POST /api/communities/:id/journal/:entryId/unpin
-router.post('/:id/journal/:entryId/unpin', protect, communityController.unpinJournal.bind(communityController));
-
-// @route   POST /api/communities/:id/journal/:entryId/hide
-router.post('/:id/journal/:entryId/hide', protect, communityController.hideJournal.bind(communityController));
-
-// @route   POST /api/communities/:id/journal/:entryId/unhide
-router.post('/:id/journal/:entryId/unhide', protect, communityController.unhideJournal.bind(communityController));
 
 // @route   GET /api/communities/:id/chat
 router.get('/:id/chat', protect, communityController.chat.bind(communityController));
