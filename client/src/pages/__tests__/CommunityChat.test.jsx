@@ -94,7 +94,7 @@ describe('CommunityChat', () => {
 
     renderChat();
 
-    expect(await screen.findByText('Focus Crew Chat')).toBeInTheDocument();
+    expect(await screen.findByText('Focus Crew')).toBeInTheDocument();
     expect(screen.getByText('Hello team')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Hide' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Delete' })).toBeInTheDocument();
@@ -106,7 +106,7 @@ describe('CommunityChat', () => {
       expect(api.post).toHaveBeenCalledWith('/communities/comm-1/chat/msg-1/hide');
     });
 
-    const input = screen.getByPlaceholderText('Write a message...');
+    const input = screen.getByPlaceholderText('Message');
     await user.type(input, 'New message');
     await user.click(screen.getByRole('button', { name: /send/i }));
 

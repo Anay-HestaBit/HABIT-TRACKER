@@ -175,9 +175,16 @@ const Layout = ({ children }) => {
 
       {/* Main Content */}
       <main className="flex-1 lg:ml-0 pt-20 lg:pt-0 overflow-x-hidden min-h-screen">
-        <div className="p-6 lg:p-10 max-w-7xl mx-auto">
+        <motion.div
+          key={location.pathname}
+          initial={{ opacity: 0, y: 10, filter: 'blur(6px)' }}
+          animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+          exit={{ opacity: 0, y: -8, filter: 'blur(4px)' }}
+          transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+          className="p-6 lg:p-10 max-w-7xl mx-auto"
+        >
           {children}
-        </div>
+        </motion.div>
       </main>
     </div>
   );

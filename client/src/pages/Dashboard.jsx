@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import {
   Zap, Trophy, Flame, CheckCircle2,
-  AlertCircle, Loader2, Plus, Globe2
+  AlertCircle, BookOpen, Loader2, Plus, Globe2
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -65,6 +65,7 @@ const Dashboard = () => {
 
   const isNewUser = stats?.totalHabits === 0;
   const allDone = stats?.completionPercentage === 100 && stats?.totalHabits > 0;
+  const recentReflections = stats?.recentReflections || [];
 
   return (
     <div className="space-y-10">
@@ -151,21 +152,54 @@ const Dashboard = () => {
 
         <motion.div
           initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.6 }}
-          className="glass rounded-[2.5rem] border border-white/5 p-8"
+          className="space-y-6"
         >
-          <h2 className="text-xl font-black mb-6 flex items-center gap-2">
-            <AlertCircle className="text-primary" size={20} /> Quick Tips
-          </h2>
-          <div className="space-y-3">
-            {[
-              "🔥 A 7-day streak changes your world's season!",
-              '🌸 Reach Level 10 to unlock flowers on your tree.',
-              '🍎 Level 15 grows fruits on your branches.',
-              '✨ Level 20+ gives your tree a mystical purple glow.',
-              '🛡️ Use Streak Shields on busy days to protect progress.',
-            ].map((tip, i) => (
-              <div key={i} className="p-3 rounded-2xl bg-secondary/50 border border-white/5 text-sm font-medium">{tip}</div>
-            ))}
+          <div className="glass rounded-[2.5rem] border border-white/5 p-8">
+            <h2 className="text-xl font-black mb-6 flex items-center gap-2">
+              <AlertCircle className="text-primary" size={20} /> Quick Tips
+            </h2>
+            <div className="space-y-3">
+              {[
+                "🔥 A 7-day streak changes your world's season!",
+                '🌸 Reach Level 10 to unlock flowers on your tree.',
+                '🍎 Level 15 grows fruits on your branches.',
+                '✨ Level 20+ gives your tree a mystical purple glow.',
+                '🛡️ Use Streak Shields on busy days to protect progress.',
+              ].map((tip, i) => (
+                <div key={i} className="p-3 rounded-2xl bg-secondary/50 border border-white/5 text-sm font-medium">{tip}</div>
+              ))}
+            </div>
+          </div>
+
+          <div className="glass rounded-[2.5rem] border border-white/5 p-8">
+            <h2 className="text-xl font-black mb-6 flex items-center gap-2">
+              <BookOpen className="text-primary" size={20} /> Recent Journal
+            </h2>
+            {recentReflections.length > 0 ? (
+              <div className="space-y-3">
+                {recentReflections.map((entry) => (
+                  <motion.div
+                    key={entry._id || entry.id}
+                    whileHover={{ y: -2 }}
+                    className="rounded-2xl border border-white/5 bg-secondary/45 p-4 transition-colors hover:bg-secondary/60"
+                  >
+                    <div className="mb-2 flex items-center justify-between gap-3">
+                      <span className="text-xs font-black uppercase tracking-widest text-muted-foreground">
+                        {new Date(entry.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                      </span>
+                      <span className="rounded-full bg-primary/10 px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-primary">
+                        {entry.mood}
+                      </span>
+                    </div>
+                    <p className="line-clamp-3 text-sm font-medium leading-relaxed text-foreground/85">
+                      {entry.content}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">Your latest journal notes will appear here.</p>
+            )}
           </div>
         </motion.div>
       </div>

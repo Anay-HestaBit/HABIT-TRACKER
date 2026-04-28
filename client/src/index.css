@@ -129,6 +129,30 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+button,
+a,
+input,
+textarea,
+select {
+  transition-duration: 180ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 .font-display {
   font-family: 'Sora', 'Inter', system-ui, -apple-system, sans-serif;
 }

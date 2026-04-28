@@ -1,6 +1,8 @@
 const ProgressRepository = require('../repositories/ProgressRepository');
 const HabitRepository = require('../repositories/HabitRepository');
 const UserRepository = require('../repositories/UserRepository');
+const ReflectionRepository = require('../repositories/ReflectionRepository');
+const { decryptText } = require('../utils/journalCrypto');
 const logger = require('../utils/logger');
 
 const getUTCMidnight = () => {
@@ -17,6 +19,7 @@ class ProgressService {
 
     const progress = await ProgressRepository.findByUserAndDate(userId, today);
     const habits = await HabitRepository.findActiveByUserId(userId);
+    const recentReflections = await ReflectionRepository.findRecentByUserId(userId, 3);
 
     const totalHabits = habits.length;
     const habitsCompletedToday = progress ? progress.habitsCompleted : 0;
@@ -33,7 +36,11 @@ class ProgressService {
       completionPercentage,
       maxStreak,
       xp: user.xp,
-      level: user.level
+      level: user.level,
+      recentReflections: recentReflections.map(reflection => ({
+        ...reflection.toObject(),
+        content: decryptText(reflection.content),
+      }))
     };
   }
 
