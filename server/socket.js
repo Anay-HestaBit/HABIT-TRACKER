@@ -70,7 +70,11 @@ const initSocket = (server) => {
       });
     });
 
-    socket.on('sendMessage', async ({ communityId, content }) => {
+    socket.on('sendMessage', async ({ communityId, content }, ack) => {
+      const reply = (payload) => {
+        if (typeof ack === 'function') ack(payload);
+      };
+
       try {
         const now = Date.now();
         if (now - rateState.windowStart > RATE_LIMIT_WINDOW_MS) {
@@ -79,7 +83,9 @@ const initSocket = (server) => {
         }
         rateState.count += 1;
         if (rateState.count > RATE_LIMIT_MAX) {
-          socket.emit('errorMessage', { message: 'Slow down a bit.' });
+          const payload = { message: 'Slow down a bit.' };
+          socket.emit('errorMessage', payload);
+          reply({ ok: false, ...payload });
           return;
         }
 
@@ -87,8 +93,11 @@ const initSocket = (server) => {
         const populated = await CommunityMessage.findById(message._id)
           .populate('userId', 'username fullName profilePicUrl');
         ioInstance.to(`community:${communityId}`).emit('chatMessage', populated);
+        reply({ ok: true, message: populated });
       } catch (err) {
-        socket.emit('errorMessage', { message: err.message || 'Message failed.' });
+        const payload = { message: err.message || 'Message failed.' };
+        socket.emit('errorMessage', payload);
+        reply({ ok: false, ...payload });
       }
     });
   });

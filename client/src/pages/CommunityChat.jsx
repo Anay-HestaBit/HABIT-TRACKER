@@ -7,6 +7,15 @@ import api from '../api/axios';
 import { useToast } from '../context/ToastContext';
 import { useAuth } from '../context/AuthContext';
 
+const getSocketUrl = () => {
+  const configuredUrl = import.meta.env.VITE_SOCKET_URL || import.meta.env.VITE_API_URL;
+  if (!configuredUrl) return '/';
+
+  return configuredUrl
+    .replace(/\/api\/?$/, '')
+    .replace(/\/$/, '');
+};
+
 const CommunityChat = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -22,7 +31,11 @@ const CommunityChat = () => {
   const typingTimeoutRef = useRef(null);
   const typingUsersTimeoutsRef = useRef({});
 
-  const socket = useMemo(() => io('/', { withCredentials: true }), []);
+  const socket = useMemo(() => io(getSocketUrl(), {
+    withCredentials: true,
+    transports: ['websocket', 'polling'],
+    timeout: 8000,
+  }), []);
 
   const isAdmin = community && user
     ? community.members?.some((member) => {
@@ -108,6 +121,14 @@ const CommunityChat = () => {
       pushToast({ type: 'error', title: 'Chat error', message: payload.message });
     });
 
+    socket.on('connect_error', (err) => {
+      pushToast({
+        type: 'error',
+        title: 'Realtime offline',
+        message: err.message || 'Chat will retry in the background.',
+      });
+    });
+
     return () => {
       if (typingTimeoutRef.current) {
         clearTimeout(typingTimeoutRef.current);
@@ -169,18 +190,49 @@ const CommunityChat = () => {
 
   const handleSend = async (e) => {
     e.preventDefault();
-    if (!newMessage.trim()) return;
+    const content = newMessage.trim();
+    if (!content) return;
     setProcessing(true);
     try {
-      socket.emit('sendMessage', { communityId: id, content: newMessage });
+      await new Promise((resolve, reject) => {
+        if (!socket.connected) {
+          reject(new Error('Realtime connection is not ready.'));
+          return;
+        }
+
+        const timer = setTimeout(() => {
+          reject(new Error('Realtime send timed out.'));
+        }, 8000);
+
+        socket.emit('sendMessage', { communityId: id, content }, (response) => {
+          clearTimeout(timer);
+          if (response?.ok) {
+            resolve(response.message);
+          } else {
+            reject(new Error(response?.message || 'Message failed.'));
+          }
+        });
+      });
       setNewMessage('');
       stopTyping();
     } catch (err) {
-      pushToast({
-        type: 'error',
-        title: 'Send failed',
-        message: 'Please try again.'
-      });
+      try {
+        const { data } = await api.post(`/communities/${id}/chat`, { content });
+        setMessages((prev) => [...prev, data]);
+        setNewMessage('');
+        stopTyping();
+        pushToast({
+          type: 'warning',
+          title: 'Sent without realtime',
+          message: 'Message saved. Realtime is reconnecting.',
+        });
+      } catch (fallbackErr) {
+        pushToast({
+          type: 'error',
+          title: 'Send failed',
+          message: fallbackErr.response?.data?.message || err.message || 'Please try again.',
+        });
+      }
     } finally {
       setProcessing(false);
     }

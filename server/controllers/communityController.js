@@ -401,6 +401,7 @@ class CommunityController {
         req.user._id,
         req.body?.content
       );
+      await message.populate('userId', 'username fullName profilePicUrl');
       res.status(201).json(message);
     } catch (error) {
       logger.error('Error sending chat message:', error);

@@ -9,6 +9,7 @@ import api from '../../api/axios';
 
 const socketHandlers = {};
 const socketMock = {
+  connected: true,
   emit: vi.fn(),
   on: vi.fn((event, handler) => {
     socketHandlers[event] = handler;
@@ -48,6 +49,7 @@ describe('CommunityChat', () => {
     socketMock.emit.mockClear();
     socketMock.on.mockClear();
     socketMock.disconnect.mockClear();
+    socketMock.connected = true;
     api.get.mockReset();
     api.post.mockReset();
   });
@@ -76,6 +78,19 @@ describe('CommunityChat', () => {
       });
 
     api.post.mockResolvedValue({ data: {} });
+    socketMock.emit.mockImplementation((event, payload, ack) => {
+      if (event === 'sendMessage' && typeof ack === 'function') {
+        ack({
+          ok: true,
+          message: {
+            _id: 'msg-2',
+            content: payload.content,
+            createdAt: new Date().toISOString(),
+            userId: { _id: 'user-1', username: 'owner' },
+          },
+        });
+      }
+    });
 
     renderChat();
 
@@ -95,10 +110,14 @@ describe('CommunityChat', () => {
     await user.type(input, 'New message');
     await user.click(screen.getByRole('button', { name: /send/i }));
 
-    expect(socketMock.emit).toHaveBeenCalledWith('sendMessage', {
-      communityId: 'comm-1',
-      content: 'New message',
-    });
+    expect(socketMock.emit).toHaveBeenCalledWith(
+      'sendMessage',
+      {
+        communityId: 'comm-1',
+        content: 'New message',
+      },
+      expect.any(Function)
+    );
 
     socketHandlers.chatMessage({
       _id: 'msg-2',
